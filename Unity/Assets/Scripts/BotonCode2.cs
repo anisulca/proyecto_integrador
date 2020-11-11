@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class BotonCode2 : MonoBehaviour{
+
+   
     // Start is called before the first frame update
     [SerializeField]
     Transform[] waypoints;
@@ -15,10 +17,15 @@ public class BotonCode2 : MonoBehaviour{
     //punto de ruta hacia el que la bola está yendo actualmente
     void Start() {
        transform.position = waypoints[inicial].transform.position;
+        
     }
     
     void Update() {
-        Move() ;          
+        Move() ;  
+        //aca hice locuras para imprimir la posicion del boton
+       print(transform.position);
+       print(Time.deltaTime);
+        //hasta aca        
     }
 
     void Move()
