@@ -10,8 +10,8 @@ public class BotonCode2 : MonoBehaviour{
     Transform[] waypoints;
     //para establecer puntos de referencia en el inspector
     [SerializeField]
-    public float speed = 2f;
-    //Velocidad a la que viaja la bolita
+    private float speed = 2f;
+    //Velocidad a la que viaja la bolita, va a ser fija
     int inicial = 0;
     //variable de índice que realice un seguimiento del 
     //punto de ruta hacia el que la bola está yendo actualmente
