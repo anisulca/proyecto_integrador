@@ -9,8 +9,11 @@ EditorBuildSettings:
     path: Assets/Scenes/EscenaInicio.unity
     guid: 68ab784c69a24ff4790df7209dcd53f6
   - enabled: 1
-    path: Assets/Scenes/EscenaSeguimiento.unity
+    path: Assets/Scenes/SeOc_HV.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/SeOc_Ob.unity
+    guid: 82f7f0bb67fb5c545bed6bdf3cf467e1
   - enabled: 1
     path: Assets/Tobii/DemoScenes/01_GazePointData.unity
     guid: 25d19715294d17e429777a13a4b2af44
