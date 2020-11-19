@@ -447,7 +447,6 @@ GameObject:
   - component: {fileID: 1702462913}
   - component: {fileID: 1702462916}
   - component: {fileID: 1702462915}
-  - component: {fileID: 1702462917}
   - component: {fileID: 1702462918}
   m_Layer: 0
   m_Name: BotonRojo
@@ -514,7 +513,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1702462912}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.01, y: 1.81, z: 0}
+  m_LocalPosition: {x: 0.05, y: 0.06, z: 0}
   m_LocalScale: {x: -0.0064848857, y: -0.0064848857, z: -0.0064848857}
   m_Children: []
   m_Father: {fileID: 0}
@@ -557,26 +556,6 @@ CircleCollider2D:
   m_Offset: {x: -0.009203499, y: -0.0046017496}
   serializedVersion: 2
   m_Radius: 0.72699225
---- !u!114 &1702462917
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1702462912}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e828054d786910247815daabca8c4192, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  waypoints:
-  - {fileID: 1547760959}
-  - {fileID: 1581975769}
-  - {fileID: 1718022358}
-  - {fileID: 1297825155}
-  - {fileID: 856472601}
-  - {fileID: 1291375770}
-  speed: 4
 --- !u!114 &1702462918
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -596,10 +575,6 @@ MonoBehaviour:
   - {fileID: 1291375770}
   - {fileID: 1297825155}
   - {fileID: 856472601}
-  targetTime: 30
-  speed: 2
-  mov: 0
-  inicial: 0
 --- !u!1 &1718022357
 GameObject:
   m_ObjectHideFlags: 0
