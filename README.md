@@ -3,8 +3,8 @@ Proyecto integrador de final de carrera de Dani y Ani. Protocolo de sistema de d
 
 
 ## Estructura 
+ * Unity - Interfaces y Scripts
  * docs -  Documentos varios
  * notebooks - notebooks (jupyter)
- * script - codigos al voleo
  * src - aqui el codigo posta
  * tex - aqui latex para la tesis
