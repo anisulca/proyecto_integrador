@@ -12,21 +12,34 @@ public class SeOc_Boton_HV : MonoBehaviour
     int mov = 0; //defino bandera
     int inicial = 0;//variable de índice que realice un seguimiento del 
     //punto de ruta hacia el que la bola está yendo actualmente
+
     int fij = 0;
-    private float tiempos = 10f;
+    private float cont = 10f;
+
     void Start() {
        transform.position = waypoints[inicial].transform.position; //defino la posicion inicial en 0,0
     }
     
     void Update() {
-        
+        if (fij == 0){
+            Fijacion();
+        }
+        else{
         Tiempo() ;  
         //aca hice locuras para imprimir la posicion del boton
         print("posicion: " + transform.position);
         print("Tiempo: " + Time.deltaTime);
-        //hasta aca     
+        //hasta aca
+        }     
     }
 
+    void Fijacion() {
+        cont -= Time.deltaTime;
+        if (cont <= 0.0f){
+            cont = 10f;
+            fij=1;
+        }
+    }
     void Tiempo() {
         if (mov == 0){
             Move_1();
