@@ -24,6 +24,7 @@ public class SeOc_Boton_HV : MonoBehaviour
         if (fij == 0){
             Fijacion();
         }
+
         else{
         Tiempo() ;  
         //aca hice locuras para imprimir la posicion del boton
@@ -33,6 +34,7 @@ public class SeOc_Boton_HV : MonoBehaviour
         }     
     }
 
+
     void Fijacion() {
         cont -= Time.deltaTime;
         if (cont <= 0.0f){
@@ -40,6 +42,8 @@ public class SeOc_Boton_HV : MonoBehaviour
             fij=1;
         }
     }
+
+
     void Tiempo() {
         if (mov == 0){
             Move_1();
@@ -49,6 +53,7 @@ public class SeOc_Boton_HV : MonoBehaviour
         }
         
     }
+
 
     void Move_1() {//movimiento horizontal
 
