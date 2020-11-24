@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SeOc_Boton_HV : MonoBehaviour
 {
@@ -13,8 +14,9 @@ public class SeOc_Boton_HV : MonoBehaviour
     int inicial = 0;//variable de índice que realice un seguimiento del 
     //punto de ruta hacia el que la bola está yendo actualmente
 
-    int fij = 0;
-    private float cont = 10f;
+    int fij = 0; // bandera para el retardo
+    private float cont = 30; // tiempo de retardo inicial
+    int cambio_escena = 0; // bandera para cambio de escena
 
     void Start() {
        transform.position = waypoints[inicial].transform.position; //defino la posicion inicial en 0,0
@@ -35,11 +37,15 @@ public class SeOc_Boton_HV : MonoBehaviour
     }
 
 
-    void Fijacion() {
+    void Fijacion() { // retardo de 30 segundos al iniciar la prueba
         cont -= Time.deltaTime;
         if (cont <= 0.0f){
             cont = 10f;
             fij=1;
+            cambio_escena += 1;
+        }
+        if (cambio_escena == 2) {
+            SceneManager.LoadScene ("EscenaInicio");
         }
     }
 
@@ -53,7 +59,6 @@ public class SeOc_Boton_HV : MonoBehaviour
         }
         
     }
-
 
     void Move_1() {//movimiento horizontal
 
@@ -73,10 +78,9 @@ public class SeOc_Boton_HV : MonoBehaviour
             targetTime = 60f;
             mov = 1;
             inicial = 3;
-        }
-        
-        
+        }   
     }
+
     void Move_2() {//movimiento vertical
 
         targetTime -= Time.deltaTime;
@@ -95,6 +99,7 @@ public class SeOc_Boton_HV : MonoBehaviour
             targetTime = 60f;
             mov = 0;
             inicial=0;
+            fij = 0;
         }
         
     }

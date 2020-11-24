@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{4a6bfe3a-1cde-bb62-67b5-e1a38103d14c}</ProjectGuid>
+    <ProjectGuid>{03938ccd-4b40-8dfb-6b9b-21988d5cac0a}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -37,176 +37,12 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\BotonCode2.cs" />
-     <Compile Include="Assets\Scripts\BotonRojoCode.cs" />
-     <Compile Include="Assets\Scripts\CambioEscena.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\CleanUI.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\CleanUIForCanvas.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\CleanUIOpacityOverrideForCanvas.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\CloudPointVisualizer.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example01\PrintGazePosition.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example01\ShowNoGazeDetection.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example02\ChangeColor.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example02\ReactOnUserInput.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example03\EyeTrackerSettingsMenu.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example04-FirstPerson\ExtendedViewFirstPerson.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example04-FirstPerson\ExtendedViewSimple.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example04-FirstPerson\GunFirstPerson.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example05-ThirdPerson\ExtendedViewThirdPerson.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example05-ThirdPerson\GunThirdPerson.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example06-Strategy\MapNavigation.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example06-Strategy\MapNavigationBase.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example06-Strategy\MouseNavigation.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example07-DynamicLightAdaptation\DynamicLightAdaptation.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example07-DynamicLightAdaptation\PostProcessing\Runtime\Attributes\GetSetAttribute.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example07-DynamicLightAdaptation\PostProcessing\Runtime\Attributes\MinAttribute.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example07-DynamicLightAdaptation\PostProcessing\Runtime\Attributes\TrackballAttribute.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example07-DynamicLightAdaptation\PostProcessing\Runtime\Attributes\TrackballGroupAttribute.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example07-DynamicLightAdaptation\PostProcessing\Runtime\Components\AmbientOcclusionComponent.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example07-DynamicLightAdaptation\PostProcessing\Runtime\Components\BloomComponent.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example07-DynamicLightAdaptation\PostProcessing\Runtime\Components\BuiltinDebugViewsComponent.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example07-DynamicLightAdaptation\PostProcessing\Runtime\Components\ChromaticAberrationComponent.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example07-DynamicLightAdaptation\PostProcessing\Runtime\Components\ColorGradingComponent.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example07-DynamicLightAdaptation\PostProcessing\Runtime\Components\DepthOfFieldComponent.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example07-DynamicLightAdaptation\PostProcessing\Runtime\Components\DitheringComponent.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example07-DynamicLightAdaptation\PostProcessing\Runtime\Components\EyeAdaptationComponent.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example07-DynamicLightAdaptation\PostProcessing\Runtime\Components\FogComponent.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example07-DynamicLightAdaptation\PostProcessing\Runtime\Components\FxaaComponent.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example07-DynamicLightAdaptation\PostProcessing\Runtime\Components\GrainComponent.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example07-DynamicLightAdaptation\PostProcessing\Runtime\Components\MotionBlurComponent.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example07-DynamicLightAdaptation\PostProcessing\Runtime\Components\ScreenSpaceReflectionComponent.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example07-DynamicLightAdaptation\PostProcessing\Runtime\Components\TaaComponent.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example07-DynamicLightAdaptation\PostProcessing\Runtime\Components\UserLutComponent.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example07-DynamicLightAdaptation\PostProcessing\Runtime\Components\VignetteComponent.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example07-DynamicLightAdaptation\PostProcessing\Runtime\Models\AmbientOcclusionModel.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example07-DynamicLightAdaptation\PostProcessing\Runtime\Models\AntialiasingModel.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example07-DynamicLightAdaptation\PostProcessing\Runtime\Models\BloomModel.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example07-DynamicLightAdaptation\PostProcessing\Runtime\Models\BuiltinDebugViewsModel.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example07-DynamicLightAdaptation\PostProcessing\Runtime\Models\ChromaticAberrationModel.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example07-DynamicLightAdaptation\PostProcessing\Runtime\Models\ColorGradingModel.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example07-DynamicLightAdaptation\PostProcessing\Runtime\Models\DepthOfFieldModel.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example07-DynamicLightAdaptation\PostProcessing\Runtime\Models\DitheringModel.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example07-DynamicLightAdaptation\PostProcessing\Runtime\Models\EyeAdaptationModel.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example07-DynamicLightAdaptation\PostProcessing\Runtime\Models\FogModel.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example07-DynamicLightAdaptation\PostProcessing\Runtime\Models\GrainModel.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example07-DynamicLightAdaptation\PostProcessing\Runtime\Models\MotionBlurModel.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example07-DynamicLightAdaptation\PostProcessing\Runtime\Models\ScreenSpaceReflectionModel.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example07-DynamicLightAdaptation\PostProcessing\Runtime\Models\UserLutModel.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example07-DynamicLightAdaptation\PostProcessing\Runtime\Models\VignetteModel.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example07-DynamicLightAdaptation\PostProcessing\Runtime\PostProcessingBehaviour.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example07-DynamicLightAdaptation\PostProcessing\Runtime\PostProcessingComponent.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example07-DynamicLightAdaptation\PostProcessing\Runtime\PostProcessingContext.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example07-DynamicLightAdaptation\PostProcessing\Runtime\PostProcessingModel.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example07-DynamicLightAdaptation\PostProcessing\Runtime\PostProcessingProfile.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example07-DynamicLightAdaptation\PostProcessing\Runtime\Utils\ColorGradingCurve.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example07-DynamicLightAdaptation\PostProcessing\Runtime\Utils\GraphicsUtils.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example07-DynamicLightAdaptation\PostProcessing\Runtime\Utils\MaterialFactory.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\Example07-DynamicLightAdaptation\PostProcessing\Runtime\Utils\RenderTextureFactory.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\ExtendedView.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\ExtendedViewBase.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\FogOnPresenceLost.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\GazePlotter.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\HeadMovement.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\InteractAtGazeWithCrosshairOverride.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\MarkAtGaze.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\NotEyeTrackingReleated\CursorLocker.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\NotEyeTrackingReleated\FollowTransform.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\NotEyeTrackingReleated\Gun.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\NotEyeTrackingReleated\InputManager.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\NotEyeTrackingReleated\InteractableGazeAware.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\NotEyeTrackingReleated\LaserSight.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\NotEyeTrackingReleated\LoadScene.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\NotEyeTrackingReleated\ProgressButton.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\NotEyeTrackingReleated\QuitApplication.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\NotEyeTrackingReleated\SceneContent.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\NotEyeTrackingReleated\SceneContentController.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\NotEyeTrackingReleated\SceneProgress.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\NotEyeTrackingReleated\SetBackground.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\NotEyeTrackingReleated\SetCarCycleOffset.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\NotEyeTrackingReleated\SimpleMoveController.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\NotEyeTrackingReleated\TargetDummy.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\NotEyeTrackingReleated\ToggleCodeExample.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\NotEyeTrackingReleated\Wireframe.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\RobotFaceControl.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Scripts\WeaponController.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Shaders\Highlight\HighlightsPostEffect.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Shaders\Water\Scripts\Displace.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Shaders\Water\Scripts\GerstnerDisplace.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Shaders\Water\Scripts\MeshContainer.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Shaders\Water\Scripts\PlanarReflection.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Shaders\Water\Scripts\SpecularLighting.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Shaders\Water\Scripts\Water.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Shaders\Water\Scripts\WaterBase.cs" />
-     <Compile Include="Assets\Tobii\DemoScenes\Shaders\Water\Scripts\WaterTile.cs" />
-     <Compile Include="Assets\Tobii\Framework\DisplayInfo.cs" />
-     <Compile Include="Assets\Tobii\Framework\GazeAware.cs" />
-     <Compile Include="Assets\Tobii\Framework\GazePoint.cs" />
-     <Compile Include="Assets\Tobii\Framework\HeadPose.cs" />
-     <Compile Include="Assets\Tobii\Framework\Internal\DataProviderBase.cs" />
-     <Compile Include="Assets\Tobii\Framework\Internal\DataProviderStub.cs" />
-     <Compile Include="Assets\Tobii\Framework\Internal\FocusedObject.cs" />
-     <Compile Include="Assets\Tobii\Framework\Internal\GameViewInfo.cs" />
-     <Compile Include="Assets\Tobii\Framework\Internal\GazeFocus.cs" />
-     <Compile Include="Assets\Tobii\Framework\Internal\GazeFocusSettings.cs" />
-     <Compile Include="Assets\Tobii\Framework\Internal\GazeFocusStub.cs" />
-     <Compile Include="Assets\Tobii\Framework\Internal\GazePointDataProvider.cs" />
-     <Compile Include="Assets\Tobii\Framework\Internal\HeadPoseDataProvider.cs" />
-     <Compile Include="Assets\Tobii\Framework\Internal\HitTestFromPoint.cs" />
-     <Compile Include="Assets\Tobii\Framework\Internal\IDataProvider.cs" />
-     <Compile Include="Assets\Tobii\Framework\Internal\IGazeFocus.cs" />
-     <Compile Include="Assets\Tobii\Framework\Internal\IGazeFocusInternal.cs" />
-     <Compile Include="Assets\Tobii\Framework\Internal\IGazeFocusable.cs" />
-     <Compile Include="Assets\Tobii\Framework\Internal\IRegisterGazeFocusable.cs" />
-     <Compile Include="Assets\Tobii\Framework\Internal\IScorer.cs" />
-     <Compile Include="Assets\Tobii\Framework\Internal\ITimestamped.cs" />
-     <Compile Include="Assets\Tobii\Framework\Internal\ITobiiHost.cs" />
-     <Compile Include="Assets\Tobii\Framework\Internal\MultiRaycastHistoricHitScore.cs" />
-     <Compile Include="Assets\Tobii\Framework\Internal\ScoredObject.cs" />
-     <Compile Include="Assets\Tobii\Framework\Internal\ScreenHelpers.cs" />
-     <Compile Include="Assets\Tobii\Framework\Internal\SingleRaycastHistoricHitScore.cs" />
-     <Compile Include="Assets\Tobii\Framework\Internal\SingleRaycastNoScore.cs" />
-     <Compile Include="Assets\Tobii\Framework\Internal\TobiiEulaFile.cs" />
-     <Compile Include="Assets\Tobii\Framework\Internal\TobiiHost.cs" />
-     <Compile Include="Assets\Tobii\Framework\Internal\TobiiHostStub.cs" />
-     <Compile Include="Assets\Tobii\Framework\Internal\Win32Helpers.cs" />
-     <Compile Include="Assets\Tobii\Framework\Internal\WindowHelpers.cs" />
-     <Compile Include="Assets\Tobii\Framework\TobiiAPI.cs" />
-     <Compile Include="Assets\Tobii\Framework\UserPresence.cs" />
-     <Compile Include="Assets\Tobii\Plugins\SimpleJSON.cs" />
-     <None Include="Assets\Tobii\DemoScenes\Shaders\PostProcessing\Resources\Shaders\Blit.shader" />
-     <None Include="Assets\Tobii\DemoScenes\Shaders\PostProcessing\Resources\Shaders\LutGen.shader" />
-     <None Include="Assets\Tobii\DemoScenes\Shaders\PostProcessing\Resources\Shaders\ACES.cginc" />
-     <None Include="Assets\Tobii\DemoScenes\Shaders\PostProcessing\Resources\Shaders\ScreenSpaceReflection.shader" />
-     <None Include="Assets\Tobii\DemoScenes\Shaders\PostProcessing\Resources\Shaders\Bloom.shader" />
-     <None Include="Assets\Tobii\DemoScenes\Shaders\PostProcessing\Resources\Shaders\UberSecondPass.cginc" />
-     <None Include="Assets\Tobii\DemoScenes\Shaders\PostProcessing\Resources\Shaders\Tonemapping.cginc" />
-     <None Include="Assets\Tobii\DemoScenes\Shaders\PostProcessing\Resources\Shaders\EyeAdaptation.cginc" />
-     <None Include="Assets\Tobii\DemoScenes\Shaders\PostProcessing\Resources\Shaders\DiskKernels.cginc" />
-     <None Include="Assets\Tobii\DemoScenes\Shaders\PostProcessing\Resources\Shaders\GrainGen.shader" />
-     <None Include="Assets\Tobii\DemoScenes\Readme-DemoSceneSetup.txt" />
-     <None Include="Assets\Tobii\DemoScenes\Shaders\PostProcessing\Resources\Shaders\ScreenSpaceRaytrace.cginc" />
-     <None Include="Assets\Tobii\DemoScenes\Shaders\PostProcessing\Resources\Shaders\Bloom.cginc" />
-     <None Include="Assets\Tobii\DemoScenes\Shaders\PostProcessing\Resources\Shaders\Uber.shader" />
-     <None Include="Assets\Tobii\DemoScenes\Shaders\PostProcessing\Resources\Shaders\DepthOfField.cginc" />
-     <None Include="Assets\Tobii\DemoScenes\Shaders\PostProcessing\Resources\Shaders\Common.cginc" />
-     <None Include="Assets\Tobii\DemoScenes\Shaders\PostProcessing\Resources\Shaders\TAA.cginc" />
-     <None Include="Assets\Tobii\DemoScenes\Shaders\Highlight\MobileBlur.shader" />
-     <None Include="Assets\Tobii\DemoScenes\Shaders\PostProcessing\Resources\Shaders\AmbientOcclusion.cginc" />
-     <None Include="Assets\Tobii\DemoScenes\Shaders\PostProcessing\Resources\Shaders\BuiltinDebugViews.shader" />
-     <None Include="Assets\Tobii\DemoScenes\Shaders\Highlight\Highlight.shader" />
-     <None Include="Assets\Tobii\DemoScenes\Shaders\PostProcessing\Resources\Shaders\EyeHistogram.compute" />
-     <None Include="Assets\Tobii\DemoScenes\Shaders\PostProcessing\Resources\Shaders\FXAA3.cginc" />
-     <None Include="Assets\Tobii\DemoScenes\Shaders\PostProcessing\Resources\Shaders\MotionBlur.cginc" />
-     <None Include="Assets\Tobii\DemoScenes\Shaders\PostProcessing\Resources\Shaders\FXAA.shader" />
-     <None Include="Assets\Tobii\DemoScenes\Shaders\Water\Shaders\FXWaterPro.shader" />
-     <None Include="Assets\Tobii\DemoScenes\Shaders\PostProcessing\Resources\Shaders\MotionBlur.shader" />
-     <None Include="Assets\Tobii\DemoScenes\Shaders\PostProcessing\Resources\Shaders\ColorGrading.cginc" />
-     <None Include="Assets\Tobii\DemoScenes\Shaders\PostProcessing\Resources\Shaders\DepthOfField.shader" />
-     <None Include="Assets\Tobii\DemoScenes\Shaders\PostProcessing\Resources\Shaders\Fog.shader" />
-     <None Include="Assets\Tobii\DemoScenes\Shaders\PostProcessing\Resources\Shaders\AmbientOcclusion.shader" />
-     <None Include="Assets\Tobii\DemoScenes\Shaders\PostProcessing\Resources\Shaders\EyeAdaptation.shader" />
-     <None Include="Assets\Tobii\Readme.txt" />
-     <None Include="Assets\Tobii\DemoScenes\Fonts\LICENSE.txt" />
-     <None Include="Assets\Tobii\DemoScenes\Shaders\PostProcessing\Resources\Shaders\TAA.shader" />
+     <Compile Include="Assets\Scripts\Cambio_Escena_SO_HV.cs" />
+     <Compile Include="Assets\Scripts\Cambio_Escena_SO_Ob.cs" />
+     <Compile Include="Assets\Scripts\Cambio_Escena_Sac.cs" />
+     <Compile Include="Assets\Scripts\Sacadico_Boton.cs" />
+     <Compile Include="Assets\Scripts\SeOc_Boton_HV.cs" />
+     <Compile Include="Assets\Scripts\SeOc_Boton_Ob.cs" />
     <Reference Include="UnityEngine">
         <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
@@ -390,443 +226,431 @@
     <Reference Include="UnityEditor">
         <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/Managed/UnityEditor.dll</HintPath>
     </Reference>
-    <Reference Include="Tobii.GameIntegration.Net">
-        <HintPath>C:/Users/Terminal/Documents/unity/teste2/Assets/Tobii/Plugins/Tobii.GameIntegration.Net.dll</HintPath>
-    </Reference>
-    <Reference Include="mscorlib">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
-    </Reference>
-    <Reference Include="System">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/System.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Core">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/System.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime.Serialization">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/System.Runtime.Serialization.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xml">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/System.Xml.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Xml.Linq">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/System.Xml.Linq.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Numerics">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/System.Numerics.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Numerics.Vectors">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/System.Numerics.Vectors.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Net.Http">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/System.Net.Http.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.CSharp">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Microsoft.CSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Data">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/System.Data.dll</HintPath>
+    <Reference Include="netstandard">
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Win32.Primitives">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/Microsoft.Win32.Primitives.dll</HintPath>
-    </Reference>
-    <Reference Include="netstandard">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/netstandard.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/Microsoft.Win32.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="System.AppContext">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.AppContext.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.AppContext.dll</HintPath>
     </Reference>
     <Reference Include="System.Collections.Concurrent">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Collections.Concurrent.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Collections.Concurrent.dll</HintPath>
     </Reference>
     <Reference Include="System.Collections">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Collections.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Collections.dll</HintPath>
     </Reference>
     <Reference Include="System.Collections.NonGeneric">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Collections.NonGeneric.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Collections.NonGeneric.dll</HintPath>
     </Reference>
     <Reference Include="System.Collections.Specialized">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Collections.Specialized.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ComponentModel.Annotations">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.ComponentModel.Annotations.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Collections.Specialized.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.ComponentModel.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.ComponentModel.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.EventBasedAsync">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.ComponentModel.EventBasedAsync.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.ComponentModel.EventBasedAsync.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.Primitives">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.ComponentModel.Primitives.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.ComponentModel.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.TypeConverter">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.ComponentModel.TypeConverter.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.ComponentModel.TypeConverter.dll</HintPath>
     </Reference>
     <Reference Include="System.Console">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Console.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Console.dll</HintPath>
     </Reference>
     <Reference Include="System.Data.Common">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Data.Common.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Data.Common.dll</HintPath>
     </Reference>
     <Reference Include="System.Diagnostics.Contracts">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Diagnostics.Contracts.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Diagnostics.Contracts.dll</HintPath>
     </Reference>
     <Reference Include="System.Diagnostics.Debug">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Diagnostics.Debug.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Diagnostics.Debug.dll</HintPath>
     </Reference>
     <Reference Include="System.Diagnostics.FileVersionInfo">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Diagnostics.FileVersionInfo.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Diagnostics.FileVersionInfo.dll</HintPath>
     </Reference>
     <Reference Include="System.Diagnostics.Process">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Diagnostics.Process.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Diagnostics.Process.dll</HintPath>
     </Reference>
     <Reference Include="System.Diagnostics.StackTrace">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Diagnostics.StackTrace.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Diagnostics.StackTrace.dll</HintPath>
     </Reference>
     <Reference Include="System.Diagnostics.TextWriterTraceListener">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Diagnostics.TextWriterTraceListener.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Diagnostics.TextWriterTraceListener.dll</HintPath>
     </Reference>
     <Reference Include="System.Diagnostics.Tools">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Diagnostics.Tools.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Diagnostics.Tools.dll</HintPath>
     </Reference>
     <Reference Include="System.Diagnostics.TraceSource">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Diagnostics.TraceSource.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Diagnostics.TraceSource.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Diagnostics.Tracing">
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Diagnostics.Tracing.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing.Primitives">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Drawing.Primitives.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Drawing.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="System.Dynamic.Runtime">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Dynamic.Runtime.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Dynamic.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="System.Globalization.Calendars">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Globalization.Calendars.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Globalization.Calendars.dll</HintPath>
     </Reference>
     <Reference Include="System.Globalization">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Globalization.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Globalization.dll</HintPath>
     </Reference>
     <Reference Include="System.Globalization.Extensions">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Globalization.Extensions.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Globalization.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Compression">
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.IO.Compression.dll</HintPath>
     </Reference>
     <Reference Include="System.IO.Compression.ZipFile">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.IO.Compression.ZipFile.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.IO.Compression.ZipFile.dll</HintPath>
     </Reference>
     <Reference Include="System.IO">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.IO.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.IO.dll</HintPath>
     </Reference>
     <Reference Include="System.IO.FileSystem">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.IO.FileSystem.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.IO.FileSystem.dll</HintPath>
     </Reference>
     <Reference Include="System.IO.FileSystem.DriveInfo">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.IO.FileSystem.DriveInfo.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.IO.FileSystem.DriveInfo.dll</HintPath>
     </Reference>
     <Reference Include="System.IO.FileSystem.Primitives">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.IO.FileSystem.Primitives.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.IO.FileSystem.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="System.IO.FileSystem.Watcher">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.IO.FileSystem.Watcher.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.IO.FileSystem.Watcher.dll</HintPath>
     </Reference>
     <Reference Include="System.IO.IsolatedStorage">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.IO.IsolatedStorage.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.IO.IsolatedStorage.dll</HintPath>
     </Reference>
     <Reference Include="System.IO.MemoryMappedFiles">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.IO.MemoryMappedFiles.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.IO.MemoryMappedFiles.dll</HintPath>
     </Reference>
     <Reference Include="System.IO.Pipes">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.IO.Pipes.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.IO.Pipes.dll</HintPath>
     </Reference>
     <Reference Include="System.IO.UnmanagedMemoryStream">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.IO.UnmanagedMemoryStream.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.IO.UnmanagedMemoryStream.dll</HintPath>
     </Reference>
     <Reference Include="System.Linq">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Linq.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Linq.dll</HintPath>
     </Reference>
     <Reference Include="System.Linq.Expressions">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Linq.Expressions.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Linq.Expressions.dll</HintPath>
     </Reference>
     <Reference Include="System.Linq.Parallel">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Linq.Parallel.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Linq.Parallel.dll</HintPath>
     </Reference>
     <Reference Include="System.Linq.Queryable">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Linq.Queryable.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Linq.Queryable.dll</HintPath>
     </Reference>
-    <Reference Include="System.Net.Http.Rtc">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Net.Http.Rtc.dll</HintPath>
+    <Reference Include="System.Net.Http">
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Net.Http.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.NameResolution">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Net.NameResolution.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Net.NameResolution.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.NetworkInformation">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Net.NetworkInformation.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Net.NetworkInformation.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Ping">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Net.Ping.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Net.Ping.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Primitives">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Net.Primitives.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Net.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Requests">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Net.Requests.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Net.Requests.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Security">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Net.Security.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Net.Security.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.Sockets">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Net.Sockets.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Net.Sockets.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.WebHeaderCollection">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Net.WebHeaderCollection.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Net.WebHeaderCollection.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.WebSockets.Client">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Net.WebSockets.Client.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Net.WebSockets.Client.dll</HintPath>
     </Reference>
     <Reference Include="System.Net.WebSockets">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Net.WebSockets.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Net.WebSockets.dll</HintPath>
     </Reference>
     <Reference Include="System.ObjectModel">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.ObjectModel.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.ObjectModel.dll</HintPath>
     </Reference>
     <Reference Include="System.Reflection">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Reflection.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reflection.Emit">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Reflection.Emit.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reflection.Emit.ILGeneration">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Reflection.Emit.ILGeneration.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Reflection.Emit.Lightweight">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Reflection.Emit.Lightweight.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Reflection.dll</HintPath>
     </Reference>
     <Reference Include="System.Reflection.Extensions">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Reflection.Extensions.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Reflection.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System.Reflection.Primitives">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Reflection.Primitives.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Reflection.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="System.Resources.Reader">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Resources.Reader.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Resources.Reader.dll</HintPath>
     </Reference>
     <Reference Include="System.Resources.ResourceManager">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Resources.ResourceManager.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Resources.ResourceManager.dll</HintPath>
     </Reference>
     <Reference Include="System.Resources.Writer">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Resources.Writer.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Resources.Writer.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.CompilerServices.VisualC">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Runtime.CompilerServices.VisualC.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Runtime.CompilerServices.VisualC.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Runtime.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Extensions">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Runtime.Extensions.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Runtime.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Handles">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Runtime.Handles.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Runtime.Handles.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.InteropServices">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Runtime.InteropServices.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Runtime.InteropServices.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.InteropServices.RuntimeInformation">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Runtime.InteropServices.WindowsRuntime">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Runtime.InteropServices.WindowsRuntime.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Numerics">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Runtime.Numerics.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Runtime.Numerics.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization.Formatters">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Runtime.Serialization.Formatters.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Runtime.Serialization.Formatters.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization.Json">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Runtime.Serialization.Json.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Runtime.Serialization.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization.Primitives">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Runtime.Serialization.Primitives.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Runtime.Serialization.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.Serialization.Xml">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Runtime.Serialization.Xml.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Runtime.Serialization.Xml.dll</HintPath>
     </Reference>
     <Reference Include="System.Security.Claims">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Security.Claims.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Security.Claims.dll</HintPath>
     </Reference>
     <Reference Include="System.Security.Cryptography.Algorithms">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Security.Cryptography.Algorithms.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Security.Cryptography.Algorithms.dll</HintPath>
     </Reference>
     <Reference Include="System.Security.Cryptography.Csp">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Security.Cryptography.Csp.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Security.Cryptography.Csp.dll</HintPath>
     </Reference>
     <Reference Include="System.Security.Cryptography.Encoding">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Security.Cryptography.Encoding.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Security.Cryptography.Encoding.dll</HintPath>
     </Reference>
     <Reference Include="System.Security.Cryptography.Primitives">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Security.Cryptography.Primitives.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Security.Cryptography.Primitives.dll</HintPath>
     </Reference>
     <Reference Include="System.Security.Cryptography.X509Certificates">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Security.Cryptography.X509Certificates.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Security.Cryptography.X509Certificates.dll</HintPath>
     </Reference>
     <Reference Include="System.Security.Principal">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Security.Principal.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Security.Principal.dll</HintPath>
     </Reference>
     <Reference Include="System.Security.SecureString">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Security.SecureString.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ServiceModel.Duplex">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.ServiceModel.Duplex.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ServiceModel.Http">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.ServiceModel.Http.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ServiceModel.NetTcp">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.ServiceModel.NetTcp.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ServiceModel.Primitives">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.ServiceModel.Primitives.dll</HintPath>
-    </Reference>
-    <Reference Include="System.ServiceModel.Security">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.ServiceModel.Security.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Security.SecureString.dll</HintPath>
     </Reference>
     <Reference Include="System.Text.Encoding">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Text.Encoding.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Text.Encoding.dll</HintPath>
     </Reference>
     <Reference Include="System.Text.Encoding.Extensions">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Text.Encoding.Extensions.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Text.Encoding.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="System.Text.RegularExpressions">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Text.RegularExpressions.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Text.RegularExpressions.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Threading.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Threading.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading.Overlapped">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Threading.Overlapped.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Threading.Overlapped.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading.Tasks">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Threading.Tasks.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Threading.Tasks.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading.Tasks.Parallel">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Threading.Tasks.Parallel.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Threading.Tasks.Parallel.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading.Thread">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Threading.Thread.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Threading.Thread.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading.ThreadPool">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Threading.ThreadPool.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Threading.ThreadPool.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading.Timer">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Threading.Timer.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Threading.Timer.dll</HintPath>
     </Reference>
     <Reference Include="System.ValueTuple">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.ValueTuple.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.ValueTuple.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.ReaderWriter">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Xml.ReaderWriter.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Xml.ReaderWriter.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.XDocument">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Xml.XDocument.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Xml.XDocument.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.XmlDocument">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Xml.XmlDocument.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Xml.XmlDocument.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.XmlSerializer">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Xml.XmlSerializer.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Xml.XmlSerializer.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.XPath">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Xml.XPath.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Xml.XPath.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml.XPath.XDocument">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/Facades/System.Xml.XPath.XDocument.dll</HintPath>
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netstandard/System.Xml.XPath.XDocument.dll</HintPath>
     </Reference>
-    <Reference Include="UnityScript">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/unityscript/UnityScript.dll</HintPath>
+    <Reference Include="System.Numerics.Vectors">
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/Extensions/2.0.0/System.Numerics.Vectors.dll</HintPath>
     </Reference>
-    <Reference Include="UnityScript.Lang">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/unityscript/UnityScript.Lang.dll</HintPath>
+    <Reference Include="System.Runtime.InteropServices.WindowsRuntime">
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/Extensions/2.0.0/System.Runtime.InteropServices.WindowsRuntime.dll</HintPath>
     </Reference>
-    <Reference Include="Boo.Lang">
-        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/MonoBleedingEdge/lib/mono/unityscript/Boo.Lang.dll</HintPath>
+    <Reference Include="mscorlib">
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/mscorlib.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition">
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.ComponentModel.Composition.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Core">
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data">
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System">
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing">
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Drawing.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.Compression.FileSystem">
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.IO.Compression.FileSystem.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net">
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics">
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Numerics.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization">
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Runtime.Serialization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceModel.Web">
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.ServiceModel.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Transactions">
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Transactions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web">
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows">
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml">
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Xml.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Xml.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Serialization">
+        <HintPath>C:/Program Files/2019.4.13f1/Editor/Data/NetStandard/compat/2.0.0/shims/netfx/System.Xml.Serialization.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline.Editor">
-        <HintPath>C:/Users/Terminal/Documents/unity/teste2/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+        <HintPath>C:/Users/Terminal/Documents/proyecto_integrador/Unity/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Animation.Runtime">
-        <HintPath>C:/Users/Terminal/Documents/unity/teste2/Library/ScriptAssemblies/Unity.2D.Animation.Runtime.dll</HintPath>
+        <HintPath>C:/Users/Terminal/Documents/proyecto_integrador/Unity/Library/ScriptAssemblies/Unity.2D.Animation.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.PixelPerfect.Editor">
-        <HintPath>C:/Users/Terminal/Documents/unity/teste2/Library/ScriptAssemblies/Unity.2D.PixelPerfect.Editor.dll</HintPath>
+        <HintPath>C:/Users/Terminal/Documents/proyecto_integrador/Unity/Library/ScriptAssemblies/Unity.2D.PixelPerfect.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VSCode.Editor">
-        <HintPath>C:/Users/Terminal/Documents/unity/teste2/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+        <HintPath>C:/Users/Terminal/Documents/proyecto_integrador/Unity/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.SpriteShape.Editor">
-        <HintPath>C:/Users/Terminal/Documents/unity/teste2/Library/ScriptAssemblies/Unity.2D.SpriteShape.Editor.dll</HintPath>
+        <HintPath>C:/Users/Terminal/Documents/proyecto_integrador/Unity/Library/ScriptAssemblies/Unity.2D.SpriteShape.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-        <HintPath>C:/Users/Terminal/Documents/unity/teste2/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+        <HintPath>C:/Users/Terminal/Documents/proyecto_integrador/Unity/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Path.Editor">
-        <HintPath>C:/Users/Terminal/Documents/unity/teste2/Library/ScriptAssemblies/Unity.2D.Path.Editor.dll</HintPath>
+        <HintPath>C:/Users/Terminal/Documents/proyecto_integrador/Unity/Library/ScriptAssemblies/Unity.2D.Path.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-        <HintPath>C:/Users/Terminal/Documents/unity/teste2/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+        <HintPath>C:/Users/Terminal/Documents/proyecto_integrador/Unity/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline">
-        <HintPath>C:/Users/Terminal/Documents/unity/teste2/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+        <HintPath>C:/Users/Terminal/Documents/proyecto_integrador/Unity/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Animation.Triangle.Runtime">
-        <HintPath>C:/Users/Terminal/Documents/unity/teste2/Library/ScriptAssemblies/Unity.2D.Animation.Triangle.Runtime.dll</HintPath>
+        <HintPath>C:/Users/Terminal/Documents/proyecto_integrador/Unity/Library/ScriptAssemblies/Unity.2D.Animation.Triangle.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="PsdPlugin">
-        <HintPath>C:/Users/Terminal/Documents/unity/teste2/Library/ScriptAssemblies/PsdPlugin.dll</HintPath>
+        <HintPath>C:/Users/Terminal/Documents/proyecto_integrador/Unity/Library/ScriptAssemblies/PsdPlugin.dll</HintPath>
     </Reference>
     <Reference Include="Unity.CollabProxy.Editor">
-        <HintPath>C:/Users/Terminal/Documents/unity/teste2/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+        <HintPath>C:/Users/Terminal/Documents/proyecto_integrador/Unity/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Rider.Editor">
-        <HintPath>C:/Users/Terminal/Documents/unity/teste2/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+        <HintPath>C:/Users/Terminal/Documents/proyecto_integrador/Unity/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Mathematics">
-        <HintPath>C:/Users/Terminal/Documents/unity/teste2/Library/ScriptAssemblies/Unity.Mathematics.dll</HintPath>
+        <HintPath>C:/Users/Terminal/Documents/proyecto_integrador/Unity/Library/ScriptAssemblies/Unity.Mathematics.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Psdimporter.Editor">
-        <HintPath>C:/Users/Terminal/Documents/unity/teste2/Library/ScriptAssemblies/Unity.2D.Psdimporter.Editor.dll</HintPath>
+        <HintPath>C:/Users/Terminal/Documents/proyecto_integrador/Unity/Library/ScriptAssemblies/Unity.2D.Psdimporter.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.InternalAPIEngineBridge.001">
-        <HintPath>C:/Users/Terminal/Documents/unity/teste2/Library/ScriptAssemblies/Unity.InternalAPIEngineBridge.001.dll</HintPath>
+        <HintPath>C:/Users/Terminal/Documents/proyecto_integrador/Unity/Library/ScriptAssemblies/Unity.InternalAPIEngineBridge.001.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Sprite.Editor">
-        <HintPath>C:/Users/Terminal/Documents/unity/teste2/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
+        <HintPath>C:/Users/Terminal/Documents/proyecto_integrador/Unity/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Common.Runtime">
-        <HintPath>C:/Users/Terminal/Documents/unity/teste2/Library/ScriptAssemblies/Unity.2D.Common.Runtime.dll</HintPath>
+        <HintPath>C:/Users/Terminal/Documents/proyecto_integrador/Unity/Library/ScriptAssemblies/Unity.2D.Common.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Tilemap.Editor">
-        <HintPath>C:/Users/Terminal/Documents/unity/teste2/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
+        <HintPath>C:/Users/Terminal/Documents/proyecto_integrador/Unity/Library/ScriptAssemblies/Unity.2D.Tilemap.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.SpriteShape.Runtime">
-        <HintPath>C:/Users/Terminal/Documents/unity/teste2/Library/ScriptAssemblies/Unity.2D.SpriteShape.Runtime.dll</HintPath>
+        <HintPath>C:/Users/Terminal/Documents/proyecto_integrador/Unity/Library/ScriptAssemblies/Unity.2D.SpriteShape.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.PixelPerfect">
-        <HintPath>C:/Users/Terminal/Documents/unity/teste2/Library/ScriptAssemblies/Unity.2D.PixelPerfect.dll</HintPath>
+        <HintPath>C:/Users/Terminal/Documents/proyecto_integrador/Unity/Library/ScriptAssemblies/Unity.2D.PixelPerfect.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Animation.Editor">
-        <HintPath>C:/Users/Terminal/Documents/unity/teste2/Library/ScriptAssemblies/Unity.2D.Animation.Editor.dll</HintPath>
+        <HintPath>C:/Users/Terminal/Documents/proyecto_integrador/Unity/Library/ScriptAssemblies/Unity.2D.Animation.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Mathematics.Editor">
-        <HintPath>C:/Users/Terminal/Documents/unity/teste2/Library/ScriptAssemblies/Unity.Mathematics.Editor.dll</HintPath>
+        <HintPath>C:/Users/Terminal/Documents/proyecto_integrador/Unity/Library/ScriptAssemblies/Unity.Mathematics.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-        <HintPath>C:/Users/Terminal/Documents/unity/teste2/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+        <HintPath>C:/Users/Terminal/Documents/proyecto_integrador/Unity/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Common.Editor">
-        <HintPath>C:/Users/Terminal/Documents/unity/teste2/Library/ScriptAssemblies/Unity.2D.Common.Editor.dll</HintPath>
+        <HintPath>C:/Users/Terminal/Documents/proyecto_integrador/Unity/Library/ScriptAssemblies/Unity.2D.Common.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.InternalAPIEditorBridge.001">
-        <HintPath>C:/Users/Terminal/Documents/unity/teste2/Library/ScriptAssemblies/Unity.InternalAPIEditorBridge.001.dll</HintPath>
+        <HintPath>C:/Users/Terminal/Documents/proyecto_integrador/Unity/Library/ScriptAssemblies/Unity.InternalAPIEditorBridge.001.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
-        <HintPath>C:/Users/Terminal/Documents/unity/teste2/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+        <HintPath>C:/Users/Terminal/Documents/proyecto_integrador/Unity/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
