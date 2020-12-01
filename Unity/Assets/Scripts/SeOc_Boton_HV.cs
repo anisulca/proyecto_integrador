@@ -2,13 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System;
+using System.IO;
+using System.Runtime.InteropServices;
+using System.Threading;
 
 public class SeOc_Boton_HV : MonoBehaviour
 {
    // Start is called before the first frame update
     [SerializeField]
     Transform[] waypoints;
-    private float targetTime = 60f; //defino mi cronometro de 30 seg
+    private float targetTime = 60f; //defino mi cronometro de 60 seg
     private float speed = 2f; //defino velocidad fija
     int mov = 0; //defino bandera
     int inicial = 0;//variable de índice que realice un seguimiento del 
@@ -18,21 +22,27 @@ public class SeOc_Boton_HV : MonoBehaviour
     private float cont = 30; // tiempo de retardo inicial
     int cambio_escena = 0; // bandera para cambio de escena
 
+
     void Start() {
        transform.position = waypoints[inicial].transform.position; //defino la posicion inicial en 0,0
     }
     
     void Update() {
+        ///
+        Thread.Sleep(1);//Espera un ms antes de ejecutarse
+        String timeStamp = DateTime.Now.ToString("yyyyMMddHHmmssffff"); // tiempo en ese formato
+        print(timeStamp);
+
+        //aca hice locuras para imprimir la posicion del boton
+        print("posicion: " + transform.position);
+        //hasta aca
         if (fij == 0){
             Fijacion();
         }
 
         else{
         Tiempo() ;  
-        //aca hice locuras para imprimir la posicion del boton
-        print("posicion: " + transform.position);
-        print("Tiempo: " + Time.deltaTime);
-        //hasta aca
+        
         }     
     }
 
