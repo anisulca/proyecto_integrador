@@ -2,20 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System;
+using System.Threading;
 
 public class SeOc_Boton_Ob : MonoBehaviour
 {
    // Start is called before the first frame update
     [SerializeField]
     Transform[] waypoints;
-    private float targetTime = 60f; //defino mi cronometro de 30 seg
+    private float targetTime = 40f; //defino mi cronometro de 30 seg
     private float speed = 2f; //defino velocidad fija
     int mov = 0; //defino bandera
     int inicial = 0;//variable de índice que realice un seguimiento del 
     //punto de ruta hacia el que la bola está yendo actualmente
 
     int fijar = 0; // bandera para el retardo
-    private float cont = 30; // tiempo de retardo inicial
+    private float cont = 15; // tiempo de retardo inicial
     int cambio_es = 0; // bandera para cambio de escena
 
     void Start() {
@@ -23,16 +25,18 @@ public class SeOc_Boton_Ob : MonoBehaviour
     }
     
     void Update() {
+
+        Thread.Sleep(1);//Espera un ms antes de ejecutarse
+        String timeStamp = DateTime.Now.ToString("yyyyMMddHHmmssffff"); // tiempo de maquina en ese formato
+        print(timeStamp); //imprime tiempo
+        print("posicion: " + transform.position);//imprime posicion
+
         if (fijar == 0){
             Retardo();
         }
 
         else{
-        Tiempo_ob() ;  
-        //aca hice locuras para imprimir la posicion del boton
-        print("posicion: " + transform.position);
-        print("Tiempo: " + Time.deltaTime);
-        //hasta aca
+        Tiempo_ob();  
         }     
     }
 
@@ -75,7 +79,7 @@ public class SeOc_Boton_Ob : MonoBehaviour
         inicial = 0;
         
         if (targetTime <= 0.0f){ //reestablesco valores
-            targetTime = 60f;
+            targetTime = 40f;
             mov = 1;
             inicial = 3;
         }   
@@ -96,7 +100,7 @@ public class SeOc_Boton_Ob : MonoBehaviour
         inicial = 3;
 
         if (targetTime <= 0.0f){
-            targetTime = 60f;
+            targetTime = 40f;
             mov = 0;
             inicial=0;
             fijar = 0;
