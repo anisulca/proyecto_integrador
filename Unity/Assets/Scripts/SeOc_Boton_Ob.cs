@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
-using System.Threading;
+using Tobii.Gaming;
 
 public class SeOc_Boton_Ob : MonoBehaviour
 {
@@ -20,16 +20,22 @@ public class SeOc_Boton_Ob : MonoBehaviour
     private float cont = 15; // tiempo de retardo inicial
     int cambio_es = 0; // bandera para cambio de escena
 
+    private GazePoint lastGazePoint = GazePoint.Invalid; //Se fija como valor del primer gaze point como Invalido
+
     void Start() {
        transform.position = waypoints[inicial].transform.position; //defino la posicion inicial en 0,0
     }
     
-    void Update() {
-
-        Thread.Sleep(1);//Espera un ms antes de ejecutarse
+    void Update() 
+    {
         String timeStamp = DateTime.Now.ToString("yyyyMMddHHmmssffff"); // tiempo de maquina en ese formato
+        GazePoint gazeData = GetGazeData(); //En cada actualizacion del frame se toma un gaze point
+
+        //Se imprimen todos los datos en la consola
         print(timeStamp); //imprime tiempo
         print("posicion: " + transform.position);//imprime posicion
+        Debug.Log("Coordenadas gaze point: " + gazeData.Screen);
+        Debug.Log("Timestamp gaze point: " + gazeData.Timestamp);
 
         if (fijar == 0){
             Retardo();
@@ -107,5 +113,19 @@ public class SeOc_Boton_Ob : MonoBehaviour
 
         }
         
+    }
+
+    public GazePoint GetGazeData() //Función que toma un gaze point, lo valida y lo devuelve a Update
+    {
+        GazePoint gazePoint = TobiiAPI.GetGazePoint();
+
+        if (gazePoint.IsRecent() && (gazePoint.Timestamp > (lastGazePoint.Timestamp - float.Epsilon)))
+        {
+            return gazePoint;
+        }
+        else
+        {
+            return GazePoint.Invalid;
+        }
     }
 }

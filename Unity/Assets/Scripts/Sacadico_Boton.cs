@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Tobii.Gaming;
 
 public class Sacadico_Boton : MonoBehaviour
 {
@@ -9,6 +11,8 @@ public class Sacadico_Boton : MonoBehaviour
     public int i = 1;
     float[] coordenada;
     Rigidbody boton_rojo;
+    private GazePoint lastGazePoint = GazePoint.Invalid;
+    private Vector3 coordEstimulo;
 
     // Start is called before the first frame update
     void Start()
@@ -22,13 +26,14 @@ public class Sacadico_Boton : MonoBehaviour
     void Update()
     {
         targetTime -= Time.deltaTime;
-        Debug.Log(targetTime);
+        GazePoint gazeData = GetGazeData();
+        
 
         if (targetTime <= 0.0f)
         {
             if (i < 10)
             {
-                timerEnded(i);
+                coordEstimulo = TimerEnded(i);
                 i += 1;
             }
             else
@@ -39,9 +44,14 @@ public class Sacadico_Boton : MonoBehaviour
 
         }
 
+        Debug.Log("Coordenadas gaze point: " + gazeData.Screen);
+        Debug.Log("Timestamp gaze point: " + gazeData.Timestamp);
+        Debug.Log("Tiempo real:" + DateTime.Now.ToString("HHmmssffff"));
+        Debug.Log("Posicion estimulo: " + coordEstimulo);
+
     }
 
-    void timerEnded(int i)
+    private Vector3 TimerEnded(int i)
     {
         switch (i)
         {
@@ -75,7 +85,22 @@ public class Sacadico_Boton : MonoBehaviour
         }
         
         targetTime = 10.0f;
+        return boton_rojo.position;
 
+    }
+
+    public GazePoint GetGazeData()
+    {
+        GazePoint gazePoint = TobiiAPI.GetGazePoint();
+
+        if (gazePoint.IsRecent() && (gazePoint.Timestamp > (lastGazePoint.Timestamp - float.Epsilon)))
+        {
+            return gazePoint;
+        }
+        else
+        {
+            return GazePoint.Invalid;
+        }
     }
 
 }
