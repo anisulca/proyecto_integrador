@@ -1,45 +1,60 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using System;
+using System.Threading;
 
 public class SeOc_Boton_HV : MonoBehaviour
 {
    // Start is called before the first frame update
     [SerializeField]
-    Transform[] waypoints;
-    private float targetTime = 60f; //defino mi cronometro de 30 seg
+    Transform[] waypoints; //puntos de referencia
+    private float targetTime = 40f; //defino mi cronometro de 40 seg
     private float speed = 2f; //defino velocidad fija
     int mov = 0; //defino bandera
     int inicial = 0;//variable de índice que realice un seguimiento del 
     //punto de ruta hacia el que la bola está yendo actualmente
 
-    int fij = 0;
-    private float cont = 10f;
+    int fij = 0; // bandera para el retardo
+    private float cont = 15; // tiempo de retardo inicial en segundos
+    int cambio_escena = 0; // bandera para cambio de escena
+
 
     void Start() {
        transform.position = waypoints[inicial].transform.position; //defino la posicion inicial en 0,0
+       //abrir - open
     }
     
     void Update() {
+
+        Thread.Sleep(1);//Espera un ms antes de ejecutarse
+        String timeStamp = DateTime.Now.ToString("HHmmssffff"); // tiempo de maquina en ese formato
+        //hora,minuto,segundos,milisegundos
+        print(timeStamp); //imprime tiempo
+        print("posicion: " + transform.position);//imprime posicion
+        //escribir
         if (fij == 0){
             Fijacion();
         }
 
         else{
         Tiempo() ;  
-        //aca hice locuras para imprimir la posicion del boton
-        print("posicion: " + transform.position);
-        print("Tiempo: " + Time.deltaTime);
-        //hasta aca
+        
         }     
     }
 
 
-    void Fijacion() {
+    void Fijacion() { // retardo de 15 segundos al iniciar la prueba y de 10 seg antes de volver a pantalla inicial
         cont -= Time.deltaTime;
         if (cont <= 0.0f){
             cont = 10f;
             fij=1;
+            cambio_escena += 1;
+        }
+        if (cambio_escena == 2) {
+            //close
+            SceneManager.LoadScene ("EscenaInicio");
         }
     }
 
@@ -53,7 +68,6 @@ public class SeOc_Boton_HV : MonoBehaviour
         }
         
     }
-
 
     void Move_1() {//movimiento horizontal
 
@@ -70,13 +84,12 @@ public class SeOc_Boton_HV : MonoBehaviour
         inicial = 0;
         
         if (targetTime <= 0.0f){ //reestablesco valores
-            targetTime = 60f;
+            targetTime = 40f;
             mov = 1;
             inicial = 3;
-        }
-        
-        
+        }   
     }
+
     void Move_2() {//movimiento vertical
 
         targetTime -= Time.deltaTime;
@@ -92,9 +105,10 @@ public class SeOc_Boton_HV : MonoBehaviour
         inicial = 3;
 
         if (targetTime <= 0.0f){
-            targetTime = 60f;
+            targetTime = 40f;
             mov = 0;
             inicial=0;
+            fij = 0;
         }
         
     }
