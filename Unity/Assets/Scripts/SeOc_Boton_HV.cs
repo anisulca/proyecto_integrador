@@ -3,19 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
-<<<<<<< HEAD
 using Tobii.Gaming;
-=======
 using System.Threading;
 //bibliotecas necesarias para crear/escribir un archivo
 using System.Xml.Linq;
 using System.IO;
 using System.Text;
->>>>>>> 978ce8f0516a3bc42acb839cf917fc7b983285b8
+
 
 public class SeOc_Boton_HV : MonoBehaviour
 {
-    // Start is called before the first frame update
+    //Variables relacionadas al movimiento de la pelotita
     [SerializeField]
     Transform[] waypoints; //defino puntos de referencia
     private float targetTime = 40f; //contador de 40
@@ -28,38 +26,28 @@ public class SeOc_Boton_HV : MonoBehaviour
     private float cont = 15; // tiempo aprox de retardo inicial en segundos
     int cambio_escena = 0; // bandera para cambio de escena
 
-<<<<<<< HEAD
+    //Variable relacionada a la captura de datos con Tobii
     private GazePoint lastGazePoint = GazePoint.Invalid;
+
+    //Variables relacionadas a la escritura del csv
+    StringBuilder csvcontent = new StringBuilder();//crear archivo
+    string csvpath = @"C:\Users\Gabriela\Documents\PROYECTO INTEGRADOR\CSV_Pruebas\Prueba1.csv";//direccion del archivo
 
     void Start()
     {
+
         transform.position = waypoints[inicial].transform.position; //defino la posicion inicial en 0,0
-                                                                    //abrir - open
-=======
-    //csv
-    StringBuilder csvcontent = new StringBuilder();//crear archivo
-    string csvpath = @"C:\Users\Terminal\Documents\PI\CSV\prueba_1.csv";//direccion del archivo
-    
-    void Start() {
-       transform.position = waypoints[inicial].transform.position; //defino la posicion inicial en 0,0
-       //abrir - open-- encabezado
-       csvcontent.AppendLine("Posicion, Tiempo");
-       File.WriteAllText(csvpath, csvcontent.ToString());
->>>>>>> 978ce8f0516a3bc42acb839cf917fc7b983285b8
+        //abrir - open-- encabezado
+        csvcontent.AppendLine("TiemporReal, Coord_Estim, Coord_GazePoint, TimeStamp_GP");
+        File.WriteAllText(csvpath, csvcontent.ToString());
     }
 
-<<<<<<< HEAD
     void Update()
     {
-        String timeStamp = DateTime.Now.ToString("HHmmssffff"); // tiempo de maquina en ese formato hora,minuto,segundos,milisegundos
+        //Obtener gazepoint
         GazePoint gazeData = GetGazeData();
 
-        print(timeStamp); //imprime tiempo
-        print("posicion: " + transform.position);//imprime posicion
-        Debug.Log("Coordenadas gaze point: " + gazeData.Screen);
-        Debug.Log("Timestamp gaze point: " + gazeData.Timestamp);
-
-        //escribir
+        //comportamiento del estimulo (pelota)
         if (fij == 0)
         {
             Fijacion();
@@ -70,28 +58,31 @@ public class SeOc_Boton_HV : MonoBehaviour
             Tiempo();
 
         }
-=======
-        Thread.Sleep(1);//Espera un ms antes de ejecutarse
-        String timeStamp = DateTime.Now.ToString("HHmmssffff"); // tiempo de maquina
-        print(timeStamp); //imprime tiempo
-        print("posicion: " + transform.position);//imprime posicion
+
+        //Obtener tiempo de maquina
+        String timeStampReal = DateTime.Now.ToString("HHmmssffff"); // tiempo de maquina
+        var coordEstimulo = transform.position;
+        var coordGazePoint = gazeData.Screen;
+        var timeStampGazePoint = gazeData.Timestamp;
+
+        //Imprimir por consola los datos
+        print("Tiempo real: " + timeStampReal); //imprime tiempo
+        print("Coordenadas estimulo: " + coordEstimulo);//imprime posicion
+        Debug.Log("Coordenadas gaze point: " + coordGazePoint);
+        Debug.Log("Timestamp gaze point: " + timeStampGazePoint);
 
 
         //escribir csv        
-        csvcontent.Append(transform.position);
+        csvcontent.Append(timeStampReal);
+        csvcontent.Append(",");
+        csvcontent.Append(coordEstimulo);
+        csvcontent.Append(",");
+        csvcontent.Append(coordGazePoint);
         csvcontent.Append(",");
         ////csvcontent.Append(transform.position.y);
         //csvcontent.Append(",");
-        csvcontent.AppendLine(timeStamp);
+        csvcontent.AppendLine(timeStampGazePoint.ToString());
         File.WriteAllText(csvpath, csvcontent.ToString());
-
-        if (fij == 0){
-            Fijacion();
-        }
-        else{
-        Tiempo() ;  
-        }     
->>>>>>> 978ce8f0516a3bc42acb839cf917fc7b983285b8
     }
 
 
@@ -122,18 +113,11 @@ public class SeOc_Boton_HV : MonoBehaviour
         {
             Move_2();
         }
-<<<<<<< HEAD
-
     }
 
     void Move_1()
     {//movimiento horizontal
 
-=======
-    }
-
-    void Move_1() {//movimiento horizontal
->>>>>>> 978ce8f0516a3bc42acb839cf917fc7b983285b8
         targetTime -= Time.deltaTime;
         transform.position = Vector2.MoveTowards(transform.position,
                                                 waypoints[inicial].transform.position,
@@ -169,7 +153,9 @@ public class SeOc_Boton_HV : MonoBehaviour
         }
 
         if (inicial == waypoints.Length)
+        {
             inicial = 3;
+        }
 
         if (targetTime <= 0.0f)
         {
@@ -177,11 +163,11 @@ public class SeOc_Boton_HV : MonoBehaviour
             mov = 0;
             inicial = 0;
             fij = 0;
-<<<<<<< HEAD
         }
     }
 
-    public GazePoint GetGazeData()
+
+    private GazePoint GetGazeData()
     {
         GazePoint gazePoint = TobiiAPI.GetGazePoint();
 
@@ -193,8 +179,6 @@ public class SeOc_Boton_HV : MonoBehaviour
         {
             return GazePoint.Invalid;
         }
-=======
-        }        
->>>>>>> 978ce8f0516a3bc42acb839cf917fc7b983285b8
     }
+
 }
