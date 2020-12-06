@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
-using Tobii.Gaming;
+using Tobii.Gaming; //Tobii SDK
 
 public class SeOc_Boton_Ob : MonoBehaviour
 {
-   // Start is called before the first frame update
     [SerializeField]
     Transform[] waypoints;
     private float targetTime = 40f; //defino mi cronometro de 30 seg
@@ -22,12 +21,14 @@ public class SeOc_Boton_Ob : MonoBehaviour
 
     private GazePoint lastGazePoint = GazePoint.Invalid; //Se fija como valor del primer gaze point como Invalido
 
-    void Start() {
+    void Start() 
+    {
        transform.position = waypoints[inicial].transform.position; //defino la posicion inicial en 0,0
     }
     
     void Update() 
     {
+        //Obtiene los datos
         String timeStamp = DateTime.Now.ToString("yyyyMMddHHmmssffff"); // tiempo de maquina en ese formato
         GazePoint gazeData = GetGazeData(); //En cada actualizacion del frame se toma un gaze point
 
@@ -37,6 +38,7 @@ public class SeOc_Boton_Ob : MonoBehaviour
         Debug.Log("Coordenadas gaze point: " + gazeData.Screen);
         Debug.Log("Timestamp gaze point: " + gazeData.Timestamp);
 
+        //Movimeinto del estimulo
         if (fijar == 0){
             Retardo();
         }
@@ -115,6 +117,7 @@ public class SeOc_Boton_Ob : MonoBehaviour
         
     }
 
+    //Función que toma gaze points
     public GazePoint GetGazeData() //Función que toma un gaze point, lo valida y lo devuelve a Update
     {
         GazePoint gazePoint = TobiiAPI.GetGazePoint();

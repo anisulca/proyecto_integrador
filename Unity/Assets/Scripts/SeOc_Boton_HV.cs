@@ -167,6 +167,7 @@ public class SeOc_Boton_HV : MonoBehaviour
     }
 
 
+    //Funcion que toma gaze points
     private GazePoint GetGazeData()
     {
         GazePoint gazePoint = TobiiAPI.GetGazePoint();
