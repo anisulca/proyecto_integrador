@@ -37,8 +37,9 @@ public class SeOc_Boton_HV : MonoBehaviour
     {
 
         transform.position = waypoints[inicial].transform.position; //defino la posicion inicial en 0,0
-        //abrir - open-- encabezado
-        csvcontent.AppendLine("TiemporReal, Coord_Estim, Coord_GazePoint, TimeStamp_GP");
+        //Escribir encabezado del archivo csv
+        csvcontent.AppendLine("PRUEBA DE SEGUIMIENTO SUAVE - MOVIMIENTO HORIZONTAL-VERTICAL");
+        csvcontent.AppendLine("TiemporReal; Coord_Estim; Coord_GazePoint; TimeStamp_GP");
         File.WriteAllText(csvpath, csvcontent.ToString());
     }
 

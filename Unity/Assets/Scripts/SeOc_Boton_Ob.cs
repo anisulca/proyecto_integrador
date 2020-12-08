@@ -4,6 +4,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
 using Tobii.Gaming; //Tobii SDK
+using System.Xml.Linq;
+using System.IO;
+using System.Text;
 
 public class SeOc_Boton_Ob : MonoBehaviour
 {
@@ -21,31 +24,54 @@ public class SeOc_Boton_Ob : MonoBehaviour
 
     private GazePoint lastGazePoint = GazePoint.Invalid; //Se fija como valor del primer gaze point como Invalido
 
+    //Variables relacionadas a la escritura del csv
+    StringBuilder csvcontent = new StringBuilder();//crear archivo
+    string csvpath = @"C:\Users\Gabriela\Documents\PROYECTO INTEGRADOR\CSV_Pruebas\Prueba1.csv";//direccion del archivo
+
     void Start() 
     {
        transform.position = waypoints[inicial].transform.position; //defino la posicion inicial en 0,0
+       //Escribir encabezado del archivo csv
+       csvcontent.AppendLine("PRUEBA DE SEGUIMIENTO SUAVE - MOVIMIENTO OBLICUO");
+       csvcontent.AppendLine("TiemporReal; Coord_Estim; Coord_GazePoint; TimeStamp_GP");
+       File.WriteAllText(csvpath, csvcontent.ToString());
     }
     
     void Update() 
     {
-        //Obtiene los datos
-        String timeStamp = DateTime.Now.ToString("yyyyMMddHHmmssffff"); // tiempo de maquina en ese formato
         GazePoint gazeData = GetGazeData(); //En cada actualizacion del frame se toma un gaze point
 
-        //Se imprimen todos los datos en la consola
-        print(timeStamp); //imprime tiempo
-        print("posicion: " + transform.position);//imprime posicion
-        Debug.Log("Coordenadas gaze point: " + gazeData.Screen);
-        Debug.Log("Timestamp gaze point: " + gazeData.Timestamp);
-
-        //Movimeinto del estimulo
+        //Movimiento del estimulo
         if (fijar == 0){
             Retardo();
         }
 
         else{
         Tiempo_ob();  
-        }     
+        }
+
+        //Obtener datos
+        String timeStampReal = DateTime.Now.ToString("HHmmssffff"); // tiempo de maquina
+        var coordEstimulo = transform.position;
+        var coordGazePoint = gazeData.Screen;
+        var timeStampGazePoint = gazeData.Timestamp;
+
+        //Imprimir por consola los datos
+        print("Tiempo real: " + timeStampReal); //imprime tiempo
+        print("Coordenadas estimulo: " + coordEstimulo);//imprime posicion
+        Debug.Log("Coordenadas gaze point: " + coordGazePoint);
+        Debug.Log("Timestamp gaze point: " + timeStampGazePoint);
+
+
+        //escribir csv        
+        csvcontent.Append(timeStampReal);
+        csvcontent.Append(";");
+        csvcontent.Append(coordEstimulo);
+        csvcontent.Append(";");
+        csvcontent.Append(coordGazePoint);
+        csvcontent.Append(";");
+        csvcontent.AppendLine(timeStampGazePoint.ToString());
+        File.WriteAllText(csvpath, csvcontent.ToString());
     }
 
 
