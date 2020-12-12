@@ -24,7 +24,7 @@ public class SeOc_Boton_Ob : MonoBehaviour
 
     private GazePoint lastGazePoint = GazePoint.Invalid; //Se fija como valor del primer gaze point como Invalido
 
-    //Variables relacionadas a la escritura del csv
+    //Variables relacionadas a la escritura del csv estimulo
     StringBuilder csvcontent = new StringBuilder();//crear archivo
     string csvpath = @"C:\Users\Gabriela\Documents\PROYECTO INTEGRADOR\CSV_Pruebas\Prueba1.csv";//direccion del archivo
 

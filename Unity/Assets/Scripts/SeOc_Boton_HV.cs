@@ -13,7 +13,7 @@ using System.Text;
 
 public class SeOc_Boton_HV : MonoBehaviour
 {
-    //Variables relacionadas al movimiento de la pelotita
+    //Variables relacionadas al movimiento de la pelotita estimulo
     [SerializeField]
     Transform[] waypoints; //defino puntos de referencia
     private float targetTime = 40f; //contador de 40

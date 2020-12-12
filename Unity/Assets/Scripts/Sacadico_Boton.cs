@@ -18,7 +18,7 @@ public class Sacadico_Boton : MonoBehaviour
     private GazePoint lastGazePoint = GazePoint.Invalid;
     private Vector3 coordEstimulo;
 
-    //Variables relacionadas a la escritura del csv
+    //Variables relacionadas a la escritura del csv estimulo
     StringBuilder csvcontent = new StringBuilder();//crear archivo
     string csvpath = @"C:\Users\Gabriela\Documents\PROYECTO INTEGRADOR\CSV_Pruebas\Prueba1.csv";//direccion del archivo
 
