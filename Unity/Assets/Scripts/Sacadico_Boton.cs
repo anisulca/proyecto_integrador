@@ -11,28 +11,60 @@ using System.Text;
 public class Sacadico_Boton : MonoBehaviour
 {
     //Variables relacionadas al movimiento del estimulo
-    private float targetTime = 20.0f; //Tiempo límite de fijación
-    public int i = 1;
-    float[] coordenada;
+    public float targetTimeInicial; //Tiempo límite de fijación que se fija por consola
+    private float targetTime;
+    private int caso = 0;
     Rigidbody boton_rojo;
+
+    //lista de casos posibles de posiciones del estímulo
+    int[] valores = { 1, 2, 3, 4, 5, 6, 7, 8};
+    List<int> listaCasos = new List<int>();
+    System.Random rnd = new System.Random();
+
+    //se declara cámara para consirerar las coordenadas de screen
+    public Camera cam;
+    public GameObject boton;
+
+    //Variables relacionadas a la coordenada de mirada
     private GazePoint lastGazePoint = GazePoint.Invalid;
     private Vector3 coordEstimulo;
 
     //Variables relacionadas a la escritura del csv estimulo
     StringBuilder csvcontent = new StringBuilder();//crear archivo
-    string csvpath = @"C:\Users\Gabriela\Documents\PROYECTO INTEGRADOR\CSV_Pruebas\Prueba1.csv";//direccion del archivo
+    string csvpath = @"C:\Users\Dani\Documents\PROYECTO INTEGRADOR\CSV_Pruebas\Prueba_MS.csv";//direccion del archivo
 
     // Start is called before the first frame update
     void Start()
     {
-        //coordenada = 
+        //coordenada inicial del estímulo siempre al centro
         boton_rojo = GetComponent<Rigidbody>();
         boton_rojo.position = new Vector3(0.0f, 0.0f, 0.0f);
+        targetTime = targetTimeInicial;
+
+        //mezclar array con valores de posiciones del estímulo
+        listaCasos.AddRange(valores);
+
+        var count = listaCasos.Count;
+        var last = count - 1;
+        for(var num = 0; num < last; ++num)
+        {
+            var r = rnd.Next(num, count);
+            var tmp = listaCasos[num];
+            listaCasos[num] = listaCasos[r];
+            listaCasos[r] = tmp;
+        }
+
+        foreach(var x in listaCasos)
+        {
+            Debug.Log("lista de posiciones" + x);
+        }
+
+        
 
         //Escribir encabezado del archivo csv
         csvcontent.AppendLine("PRUEBA DE MOVIMIENTOS SACADICOS");
-        csvcontent.AppendLine("TiemporReal; Coord_Estim; Coord_GazePoint; TimeStamp_GP");
-        File.WriteAllText(csvpath, csvcontent.ToString());
+        csvcontent.AppendLine("TiempoReal; Coord_Estim_X; Coord_Estim_Y; Coord_Estim_Z; Coord_Estim_px_X; Coord_Estim_px_Y; Coord_GazePoint_X; Coord_GazePoint_Y; TimeStamp_GP");
+
     }
 
     // Update is called once per frame
@@ -42,15 +74,19 @@ public class Sacadico_Boton : MonoBehaviour
         GazePoint gazeData = GetGazeData();
         
 
-        if (targetTime <= 0.0f)
+        if (targetTime <= 0.0f) //Al terminar el tiempo de fijación se cambia la posición del estímulo
         {
-            if (i < 9)
+            if (caso < 8)
             {
-                coordEstimulo = TimerEnded(i);
-                i += 1;
+                coordEstimulo = TimerEnded(listaCasos[caso]); //Se elige el caso desde la lista con el número de caso 
+                caso += 1;
             }
             else
             {
+                //Se pasan todos los datos recolectados al archivo csv
+                File.WriteAllText(csvpath, csvcontent.ToString());
+                
+                //Se cambia de escena al menú
                 SceneManager.LoadScene("EscenaInicio");
             }
 
@@ -58,7 +94,12 @@ public class Sacadico_Boton : MonoBehaviour
         }
 
         //Obtener tiempo de maquina
-        String timeStampReal = DateTime.Now.ToString("HHmmssffff"); // tiempo de maquina
+        String timeStampReal = DateTime.Now.ToString("HHmmssffff");
+
+        //Obtener coordenadas con píxeles
+        Vector2 coordEstimulo_screen = cam.WorldToScreenPoint(boton.transform.position);
+
+        //Obtener coordenadas de mirada
         var coordGazePoint = gazeData.Screen;
         var timeStampGazePoint = gazeData.Timestamp;
 
@@ -67,21 +108,32 @@ public class Sacadico_Boton : MonoBehaviour
         Debug.Log("Timestamp gaze point: " + gazeData.Timestamp);
         Debug.Log("Tiempo real:" + timeStampReal);
         Debug.Log("Posicion estimulo: " + coordEstimulo);
+        Debug.Log("Tiempo de fijación: "+ targetTime);
 
         //escribir csv        
         csvcontent.Append(timeStampReal);
         csvcontent.Append(";");
-        csvcontent.Append(coordEstimulo);
+        csvcontent.Append(coordEstimulo.x);
         csvcontent.Append(";");
-        csvcontent.Append(coordGazePoint);
+        csvcontent.Append(coordEstimulo.y);
+        csvcontent.Append(";");
+        csvcontent.Append(coordEstimulo.z);
+        csvcontent.Append(";");
+        csvcontent.Append(coordEstimulo_screen.x);
+        csvcontent.Append(";");
+        csvcontent.Append(coordEstimulo_screen.y);
+        csvcontent.Append(";");
+        csvcontent.Append(coordGazePoint.x);
+        csvcontent.Append(";");
+        csvcontent.Append(coordGazePoint.y);
         csvcontent.Append(";");
         csvcontent.AppendLine(timeStampGazePoint.ToString());
-        File.WriteAllText(csvpath, csvcontent.ToString());
+
     }
 
-    private Vector3 TimerEnded(int i)
+    private Vector3 TimerEnded(int caso)
     {
-        switch (i)
+        switch (caso)
         {
             case 1:
                 boton_rojo.position = new Vector3(6.5f, -3.5f, 0.0f);
@@ -109,7 +161,7 @@ public class Sacadico_Boton : MonoBehaviour
                 break;
         }
         
-        targetTime = 20.0f;
+        targetTime = targetTimeInicial;
         return boton_rojo.position;
 
     }

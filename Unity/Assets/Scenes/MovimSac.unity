@@ -216,7 +216,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b8e0b26f2f1e604cb8d4e11cf95d6f1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  i: 1
+  targetTimeInicial: 5
+  cam: {fileID: 835251125}
+  boton: {fileID: 295251231}
 --- !u!54 &295251235
 Rigidbody:
   m_ObjectHideFlags: 0

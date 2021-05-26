@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/Scenes/MovimSac.unity
+- path: Assets/Scenes/EscenaInicio.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0
