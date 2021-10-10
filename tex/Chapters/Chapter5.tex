@@ -1,0 +1,370 @@
+% Chapter Template
+% cSpell:words parencite onfwhitepaper includegraphics resizebox sdncomponents
+% linewidth comparqui redireccionar enrutamiento subfigure toposdn Nicira toposinsdn
+\chapter{Aplicación de filtrado del tráfico} % Main chapter title 
+
+\label{sec:Chapter5} % Change X to a consecutive number; for referencing this
+                     % chapter elsewhere, use \ref{ChapterX}
+
+En el presente capítulo se explicará el diseño y la implementación de la
+aplicación ubicada en el núcleo del controlador y encargada de mitigar y filtrar
+el tráfico que proviene de ataques DoS y DDoS.
+
+Para ello se describe la motivación de la aplicación, sus requerimientos, las
+etapas constituyentes y la mencionada implementación de sus funciones más
+importantes.
+
+\section {Motivación}
+
+Una vez realizada la duplicación de tráfico mencionada en el Capítulo
+\ref{sec:Chapter4}, los dispositivos IDSs deben realizar la inspección de dicho
+tráfico en búsqueda de aspectos maliciosos, en base a reglas predefinidas. De
+acuerdo a la Sección \ref{sec:herramienta_snort}, la herramienta encargada de
+realizar esta tarea es Snort.
+
+Teniendo en cuenta su descripción, en el caso de la detección de tráfico
+sospechoso el mismo puede enviar las alertas a través de \textit{sockets}. Una
+limitación que se presenta es que éstos son de tipo \textit{Unix}, por lo tanto
+para poder enviarlas al controlador se debió implementar un retransmisor a
+\textit{sockets} TCP.
+
+La aplicación que se describe en este capítulo es la que recibe estas alertas en
+el controlador SDN y, en base a ellas, decide la acción a tomar, como por ejemplo,
+filtrar el tráfico. Una vez definida esta acción, es necesario determinar los
+dispositivos en donde se instalarán las reglas correspondientes, pudiendo ser el
+más cercano a la fuente si ésta puede ser determinada o, en caso contrario, en
+todos los dispositivos de borde o de la red, dependiendo la potencia del ataque.
+
+En base a lo descrito anteriormente surgen los requerimientos detallados a
+continuación.
+
+%-----------------------------bitext comileArquitectura del protocolo--------------------
+%	SECTION 1
+%----------------------------------------------------------------------------------------
+\section{Requerimientos} \label{sec:reqs_app_2}
+
+Los requerimientos funcionales de la aplicación son los siguientes:
+
+\paragraph{RF06.} La aplicación en el controlador ONOS debe aceptar alertas a
+través de \textit{sockets}, provenientes de múltiples IDSs. Además, la
+aplicación debe interactuar por lo menos con 4 IDSs al mismo tiempo.
+
+\paragraph{RF07.} La aplicación debe ir procesando y descomponiendo las alertas
+en sus partes constituyentes a medida que van llegando desde los
+\textit{sockets}. Además, debe reconocer dichas alertas enviadas por Snort en
+función del identificador \textit{sid} (ver Apéndice \ref{AppendixC} para
+más información) a partir de una base de datos interna de la aplicación que
+señala aquellas que son válidas. Para las que no lo sean, la aplicación
+solamente debe registrar el mensaje que contiene de manera informativa.
+
+\paragraph{RF08.} La aplicación, al recibir las alertas correspondientes, debe
+detener el tráfico de los ataques DoS o DDoS de tipo \textit{\textbf{TCP SYN
+    flood}}, \textit{\textbf{TCP PUSH-ACK flood}},\textit{ \textbf{TCP SYN-FIN
+    flood}}, \textit{\textbf{TCP FIN flood}} y \textit{\textbf{TCP RESET
+    flood}}, instalando las reglas OpenFlow del tipo \textit{drop} en los
+dispositivos de borde desde donde provenga el respectivo ataque dirigido a
+cualquier cliente del ISP.
+
+\paragraph{RF09.} La aplicación, al recibir las alertas correspondientes, debe
+detener el tráfico de los ataques DoS o DDoS de tipo \textit{\textbf{UDP
+    flood}}, instalando las reglas OpenFlow de \textit{drop} en los dispositivos
+de borde desde donde provenga el ataque dirigido a cualquier cliente del ISP.
+
+\paragraph{RF10.} La aplicación, al recibir las alertas correspondientes, debe
+detener el tráfico de los ataques DDoS de tipo \textbf{\textit{Smurf}} dirigidos
+a cualquier cliente del ISP. Debe además instalar las reglas OpenFlow de
+\textit{drop} en todos los dispositivos.
+
+\paragraph{RF11.} Las reglas de \textit{drop} que se deben instalar según el
+conjunto de requerimientos que va desde \textbf{RF08} hasta \textbf{RF10} deben
+ser eliminadas de los dispositivos a los 30 segundos de inactividad de las
+mismas, ya que se considera el ataque como mitigado. La inactividad hace
+referencia al hecho de que en un intervalo de tiempo dado, ningún paquete de
+ningún flujo genera una coincidencia (\textit{match}) con dicha regla.
+
+\section{Principios de funcionamiento}
+
+A continuación, el comportamiento de la aplicación de filtrado y su relación con
+la Sección \ref{sec:Chapter4} se puede observar en el diagrama de la Figura
+\ref{fig:diagram_flujo_filtrado}.
+
+\begin{figure}[H]
+	\centering 
+	\includegraphics[width=0.95\textwidth]{activity_2}
+	\caption{Diagrama de actividades de la aplicación de filtrado de tráfico.}
+	\label{fig:diagram_flujo_filtrado}
+\end{figure}
+
+
+\subsection {Reconocimiento de la alerta}
+
+En primer lugar, para resolver los requerimientos antes mencionados Snort debe
+enviar las alertas a la aplicación que se describe en este capítulo, la cual
+presenta un \textit{socket} servidor que escucha peticiones de apertura de
+sesión por parte de los distintos IDSs. A medida que la aplicación acepta
+conexiones, genera \textit{sockets} independientes para poder recibir las
+alertas de los distintos detectores (\textbf{RF06}). Por ende, para este
+requerimiento se necesita de un entorno multihilo.
+
+Por otra parte, para que dicha aplicación pueda reconocer las alertas de Snort
+(\textbf{RF07}), es imprescindible conocer la estructura de las mismas. Esta
+estructura es conocida como \verb|Alertpkt Struct| y es dependiente de la
+versión del detector. En este proyecto se emplea la 2.9.11 y su formato se puede
+ver en el Código Fuente \ref{lst:alert_struct} \parencite{alerpkt}.
+
+\begin{lstlisting} [label=lst:alert_struct, caption=Estructura Alertpkt, captionpos=b, language=C]
+  #define ALERTMSG_LENGTH 256
+  #define SNAPLEN         65535 
+  typedef struct _Alertpkt
+  {
+    uint8_t alertmsg[ALERTMSG_LENGTH];
+    struct pcap_pkthdr32 pkth;
+    uint32_t dlthdr;    /* Desplazamiento cabecera de capa de enlace */
+    uint32_t nethdr;    /* Desplazamiento cabecera de capa de red */
+    uint32_t transhdr;  /* Desplazamiento cabecera de capa de transporte */
+    uint32_t data;
+    uint32_t val;
+    uint8_t pkt[SNAPLEN];
+    Event event; /* Total bytes Event: 36 */
+  } Alertpkt;
+\end{lstlisting}
+
+De acuerdo al Código Fuente \ref{lst:alert_struct}, uno de los campos más
+destacados es \verb|alertmsg|, el cual representa el mensaje de la alerta. Por
+otro lado, \verb|pkt| contiene el paquete que produjo el suceso, es decir, aquel
+que fue interceptado por el IDS y dio origen a la mencionada alerta. Luego, la
+estructura \verb|Event| (ver Código Fuente \ref{lst:event_struct}), contiene
+toda la información relevante sobre el evento, tales como la identificación de
+la regla de Snort que lo detectó (\verb|sid| ó \verb|sig_id|), la clasificación
+(\verb|classification|), revisión (\verb|sig_rev|) y prioridad (\verb|priority|)
+de dicha regla, etc. Todos las demás varaibles de ambas estructuras no presentan
+relevancia para este proyecto.
+
+\begin{lstlisting} [label=lst:event_struct, caption=Estructura Event, captionpos=b, language=C]
+  typedef struct _Event
+  {
+    uint32_t sig_generator;   /* ID del IDS */
+    uint32_t sig_id;          /* ID de la regla detectora */
+    uint32_t sig_rev;         /* Revision de la regla detectora */
+    uint32_t classification;  /* Clasificacion del evento */
+    uint32_t priority;        /* Prioridad del evento */
+    uint32_t event_id;        /* ID del evento */
+    uint32_t event_reference; /* Referencia a otros eventos */
+    struct sf_timeval32 ref_time; /* Tiempo de referencia para el evento */
+  } Event;
+  typedef struct sf_timeval32
+  {
+    uint32_t tv_sec;      /* Segundos */
+    uint32_t tv_usec;     /* Microsegundos */
+  };
+\end{lstlisting}
+
+Además de todo lo explicado hasta el momento, una vez que se obtiene el
+\verb|sig_id| de la alerta, se lo debe comparar con los valores considerados
+como válidos por parte de la aplicación. La Sección \ref{sec:install_rules} se
+llevará a cabo solamente si dichas alertas son válidas, de lo contrario no se
+realizará nada más que la impresión del contenido del campo \verb|alertmsg|.
+
+\subsection{Instalación de reglas} \label {sec:install_rules}
+
+Con todo lo descrito anteriormente es posible procesar una alerta en el
+controlador. Luego, mediante OpenFlow se definen reglas de filtrado utilizando
+la acción de desechar el paquete (\textit{drop}) (ver Figura
+\ref{fig:openflow_2}).
+
+Una vez construidas estas reglas, la pregunta es en dónde se instalan. Esto
+depende si el origen del ataque se puede identificar dentro de la red o no. Si
+resulta el primer caso, entonces se aplican en las tablas de flujo del
+dispositivo más cercano a la fuente, tal como se observa en la Figura
+\ref{fig:filtrado_trafico_1}. En caso contrario se aplican en todos los
+dispositivos de borde, tal y como se observa en la Figura
+\ref{fig:filtrado_trafico_2}.
+
+\begin{figure}[H]
+	\centering 
+	\begin{subfigure}[b]{0.49\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{aislar_1}
+		\caption{Origen del ataque identificado.}
+		\label{fig:filtrado_trafico_1}
+	\end{subfigure}
+	\begin{subfigure}[b]{0.49\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{aislar_2}
+		\caption{Origen del ataque sin identificar.}
+		\label{fig:filtrado_trafico_2}
+	\end{subfigure}
+	\caption{Filtrado del tráfico.}
+	\label{fig:filtrado_trafico_1_2}
+\end{figure}
+
+Los requerimientos \textbf{RF08}, \textbf{RF09} y \textbf{RF10} realizan una
+separación y clasificación en cuanto a la mitigación de los ataques debido a que
+difieren en la regla de \textit{drop} a instalar en los dispositivos. El primero
+y el segundo tratan sobre las inundaciones TCP y UDP, respectivamente, mientras
+que el tercero sobre Smurf. Todos los ataques que generen una falsificación de
+la dirección IP de origen dificultan la localización de la fuente, como por
+ejemplo, el mencionado Smurf. Para detener este potente ataque se hace
+indispensable instalar las reglas no solo en los de borde, sino también en todos
+los dispositivos afectados de la red.
+
+Por otro lado, estas reglas deben ser temporales debido a los recursos limitados
+en almacenamiento que presentan tales dispositivos. Es por ello que el
+requerimiento \textbf{RF11} expresa que se eliminarán aquellas reglas en
+los conmutadores en donde cumplan con 30 segundos de inactividad.
+
+\section {Detalles de la implementación}
+
+Para la implementación, tal como se mencionó anteriormente, es necesario
+configurar Snort para enviar las alertas a través de un \textit{socket}. Para
+lograr esto, se debe modificar su archivo de configuración \verb|snort.conf|. El
+mismo habilita el envío a través de \textit{UNIX sockets}, tal como lo
+especifica la documentación \parencite{snort_manual}, por lo que se debió
+implementar en Python un nodo retransmisor que utilice \textit{sockets TCP} para
+que el controlador pueda recibir dichas alertas. (Ver Figura
+\ref{fig:bloques_relay}).
+
+\begin{figure}[htbp]
+	\centering 
+	\includegraphics[width=0.75\textwidth]{unix_sock}
+	\caption{Comunicación Snort-ONOS.}
+	\label{fig:bloques_relay}
+\end{figure}
+
+Abriendo un puerto TCP en el controlador, el siguiente paso es reconocer el
+mensaje enviado por Snort siguiendo el formato de las estructuras
+\ref{lst:alert_struct} y \ref{lst:event_struct}. Utilizando la clase
+\verb|DataInputStream| de Java 8 se recibe la información y se la almacena en un
+objeto para su posterior uso. Antes de seguir con la explicación, es importante
+mencionar que una visión estática y global de lo explicado en este capítulo se
+observa en la Figura \ref{fig:diagrama_de_clases_2}.
+
+\begin{figure}[th]
+	\centering 
+	\includegraphics[width=\textwidth]{Clases3}
+	\caption{Diagrama de clases de la aplicación de filtrado del tráfico.}
+	\label{fig:diagrama_de_clases_2}
+\end{figure}
+
+Para el armado del campo \verb|pkt| de la estructura de la alerta (ver Código Fuente
+\ref{lst:alert_struct}), se utiliza el paquete \verb|org.onlab.packet|, el cual
+contiene clases por cada protocolo de la pila TCP/IP, tales como IP, TCP, ICMP,
+etc. Esto es de utilidad ya que permite almacenar la información completa en
+objetos, ayudando a resolver el \textbf{RF07}.
+
+Por otra parte, para la implementación de \textbf{RF06} se sigue el patrón de
+cliente-servidor, creando un hilo nuevo por cada conexión aceptada o IDS.
+Además, utilizando el servicio \verb|ExecutorService| y la clase
+\verb|Executors| de Java 8, se puede limitar la cantidad de hilos que puede
+crear un proceso.
+
+Una vez reconocida la alerta, en base al \verb|sig_id| ó \verb|sid| de la regla
+que la generó, se debe decidir si la misma forma o no parte de un ataque. En el
+caso de tratarse de un ataque, se la debe clasificar en función de si el ataque
+que representa pertenece al requerimiento \textbf{RF08}, \textbf{RF09} ó
+\textbf{RF10}.
+
+Si la alerta no es válida o no forma parte de un ataque, solamente se registra
+un mensaje en el \verb|logger| del controlador. En caso contrario, se debe
+mitigar dicho ataque. Para aplicar una regla de filtrado a través de OpenFlow,
+se hace uso de la interfaz \verb|TrafficSelector|. Esta API de ONOS permite
+definir un criterio de selección para un tipo particular de tráfico, usando los
+bits de las cabeceras de Ethernet, IPv4, TCP, UDP, etc. Por otro lado, para
+definir acciones sobre un paquete de dicho tráfico seleccionado se utiliza la
+interfaz \verb|TrafficTreatment|.
+
+De este modo, se conforman las reglas OpenFlow como se definió en la Sección
+\ref{sec:opflow} con los campos \verb|match| (\verb|TrafficSelector|) y
+\verb|action| (\verb|TrafficTreatment|). Ejemplos de la implementación de éstos
+se puede observar en los Bloques de Código \ref{lst:traffic_selector} y
+\ref{lst:traffic_treatment}, respectivamente.\\ \\
+% En este caso, como se intenta implementar un \textit{firewall}, las acciones
+% son siempre de \textit{drop}. \\
+
+\begin{lstlisting} [label=lst:traffic_selector, caption= Ejemplo de un selector
+  de tráfico., captionpos=b, language= Java]
+/**
+ * Selector de trafico TCP en IPv4 que se emite desde la direccion de
+ * origen DireccionIpOrigen con destino hacia DireccionIpDestino 
+ * al puerto port.
+*/
+selector = DefaultTrafficSelector.builder()
+                   .matchEthType    (Ethernet.TYPE_IPV4)
+                   .matchIPSrc      (DireccionIpOrigen)
+                   .matchIPDst      (DireccionIpDestino)
+                   .matchIPProtocol (IPv4.PROTOCOL_TCP)
+                   .matchTcpDst     (port).build();
+\end{lstlisting}
+
+\begin{lstlisting} [label=lst:traffic_treatment, caption= Ejemplo del
+  tratamiento \textit{drop} del tráfico., captionpos=b, language= Java]
+/**
+* 	Tratamiento de drop del trafico.
+*/
+TrafficTreatment drop = DefaultTrafficTreatment.builder().drop().build();
+
+\end{lstlisting}
+
+Luego, se aplican las reglas sobre los dispositivos. Si la fuente del ataque se
+puede aislar, entonces la dirección de origen se obtene del campo \verb|pkt| (ver Código
+Fuente \ref{lst:alert_struct}) de la alerta enviada por Snort. Utilizando el
+servicio \verb|hostService| de ONOS se obtiene el dispositivo SDN que mantiene
+conexión directa con el origen del mencionado ataque. Para el caso en el que no
+se pueda identificar la fuente, entonces se necesita encontrar más de un
+dispositivo de red, por lo que se usa el servicio \verb|deviceService|.
+
+Finalmente, es importante aclarar más en detalle como se efectuó la
+implementación de los requerimientos \textbf{RF08}, \textbf{RF09}, \textbf{RF10}
+y \textbf{RF11}.
+
+Para los primeros dos, se busca el dispositivo SDN directamente conectado al
+\textit{host} de donde proviene el ataque o, en su defecto, se localizan todos
+los \textit{switches} de la subcapa de acceso, con el fin de insertarles las
+reglas OpenFlow. Mientras que para el tercero, dada la potencia del ataque que
+describe, dichas reglas se escribirán en todos los conmutadores SDN de la red,
+incluidos los del núcleo.
+ 
+
+Por otra parte, a la hora de escribir las reglas OpenFlow y darles una
+característica temporal (\textbf{RF11}), se utilizó el servicio de ONOS
+\verb|flowObjectiveService|, tal como se visualiza en el Código Fuente
+\ref{lst:write_rule}.\\
+
+\begin{lstlisting} [label=lst:write_rule, caption= Escritura de las reglas
+  OpenFlow mediante el servicio \textit{flowObjectiveService}., captionpos=b, language= Java]
+  /** * Creacion de la regla OpenFlow e insercion en el dispositivo SDN con
+  identificacion switchId. */
+
+flowObjectiveService.forward (switchId, DefaultForwardingObjective.builder()
+          .fromApp       (appId)
+          .withSelector  (selectorDelTrafico)
+          .withTreatment (tratamientoDelTrafico)
+          .withPriority  (prioridadDeLaRegla)
+          .makeTemporary (timeoutDeLaRegla)
+          .add ());
+\end{lstlisting}
+
+
+En el caso del requerimiento \textbf{RF08}, el tráfico a filtrar en los OVS es
+teniendo en cuenta el Código Fuente \ref{lst:traffic_selector}, es decir, aquel
+de tipo TCP en IPv4 que se emite desde una dirección IP de origen hacia otra de
+destino a un puerto específico. Lo mismo abarca a \textbf{RF09}, con la única
+diferencia de que el protocolo de capa de transporte es UDP y no TCP. En cambio,
+para \textbf{RF10}, el tráfico es ICMP de tipo 8 desde la dirección IP de la
+víctima hacia aquella de difusión utilizada por el ataque Smurf.
+
+
+\subsection *{Observación}
+
+Ante la presencia de ataques en los que se pretenda falsificar la dirección IP
+de origen y cuyas direcciones de destino no sean las de difusión, el controlador
+encuentra errores al intentar armar el camino del flujo correspondiente a través
+del plano de datos. Esto se debe a que el punto de conexión del origen del
+tráfico difiere con el destino de las respuestas, por lo que ONOS se encarga de
+entregar por su cuenta los respectivos paquetes.
+
+La problemática de lo anterior se traduce en una posible denegación de servicio
+al controlador, debido a la inundación con dichos paquetes. Para evitar esto, se
+instalan automáticamente reglas de \textit{drop} en los dispositivos por los que
+ingresa el tráfico, de manera tal que estos flujos se descartan en el plano de
+datos.

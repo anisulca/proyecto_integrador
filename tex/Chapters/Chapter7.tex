@@ -1,0 +1,325 @@
+% Chapter Template cSpell:words parencite onfwhitepaper includegraphics
+% resizebox sdncomponents linewidth comparqui redireccionar enrutamiento
+% subfigure toposdn Nicira toposinsdn
+\chapter{Diseño e implementación del entorno de emulación}
+\label{Chapter7} % Change X to a consecutive number; for referencing this
+                 % chapter elsewhere, use \ref{ChapterX}
+
+En el presente capítulo se detalla el entorno de emulación utilizado como
+vehículo de prueba para validar y evaluar las aplicaciones desarrolladas. Se
+describen sus requerimientos, la topología empleada con sus respectivos agentes,
+el escenario de generación de tráfico legítimo y las reglas del IDS utilizadas
+para detectar los ataques.
+
+Este entorno se llevó a cabo en una plataforma con las siguientes
+características:
+
+\begin{itemize}
+	\item{Sistema operativo:} Ubuntu 18.04 (64 bits).
+	\item{Procesador:} Intel® Core™ i7-3770 CPU @ 3.40GHz × 8.
+	\item{Memoria RAM:} DDR3 con capacidad igual a 15,6 GiB.
+\end{itemize}
+
+
+\section {Requerimientos}
+
+Como se mencionó anteriormente se realizó una emulación con una arquitectura
+característica de un ISP, tal como se define en la Sección \ref{sec:isp}.
+Partiendo de esta topología, los requerimientos funcionales del entorno de
+emulación son los siguientes:
+
+\paragraph{RF20.} Cuando la red se ecuentre bajo un determinado ataque generado por la herramienta \verb|hping3|, los usuarios legítimos no podrán interactuar con los servidores HTTP de la topología.
+
+\paragraph{RF21.} Los servidores no deben perder su disponibilidad frente al
+escenario de tráfico legítimo, explicado en la Sección
+\ref{sec:traffic_legitim}.
+
+\paragraph{RF22.} La topología debe poseer IDSs Snort conectados directamente a
+los dispositivos SDN \textit{distribution}, de acuerdo al enfoque explicado en
+la Sección \ref{sec:motivacion_app_4}.
+
+\paragraph{RF23.} Los IDSs deben contener las reglas para detectar los ataques
+que se generan con los comandos que figuran en el Apéndice \ref{AppendixA}. \\
+
+\section {Topología SDN}
+
+La topología utilizada en el presente proyecto es la que se observa en la Figura
+\ref{fig:topologia_final}. Controlada por ONOS y administrada por ContainerNet, contiene conmutadores OVS y
+\textit{hosts} emulados por contenedores de Docker.\\ %Figure
+
+\begin{figure}[H]
+	\centering 
+	\includegraphics[width=\textwidth]{topo_h}
+	\caption{Topología utilizada con la clasificación de los distintos tipos de
+    \textit{hosts}.}
+	\label{fig:topologia_final}
+\end{figure}
+
+En dicha topología se utiliza una distribución y clasificación de los
+conmutadores SDN de manera similar a la de las arquitecturas actuales de los
+ISP, tal como se muestra en la Figura \ref{fig:ovs_classif}. \\
+
+\begin{figure}[H]
+	\centering 
+	\includegraphics[width=0.5\textwidth]{topo_s}
+	\caption{Clasificación y distribución de los conmutadores SDN teniendo en
+    cuenta la arquitectura de un ISP.}
+	\label{fig:ovs_classif}
+\end{figure}
+
+A su vez, en la Sección \ref{sec:agentes_emulacion} se muestran las
+características de los \textit{hosts} que forman parte de esta topología y, en
+la Tabla \ref{tab:bw_links}, lo que se observa son los anchos de banda de los
+diferentes enlaces.
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|c|c|c|}
+		\hline
+		\cellcolor[HTML]{EFEFEF}\textbf{Extremo A del enlace}  & \cellcolor[HTML]{EFEFEF}\textbf{Extremo B del enlace}  & \cellcolor[HTML]{EFEFEF}\textbf{Ancho de banda [Mbits/s]}  \\ \hline
+		OVS del núcleo      & OVS del núcleo         & 1000 \\ \hline
+		OVS del núcleo      & OVS de distribución    & 500  \\ \hline
+		OVS de distribución & OVS de acceso          & 300  \\ \hline
+		OVS de acceso       & \textit{Host} servidor & 100  \\ \hline
+		OVS de acceso       & \textit{Host} cliente  & 12   \\ \hline
+		OVS de distribución & IDS                    & 300  \\ \hline
+		OVS de distribución & OVS de distribución    & 500  \\ \hline
+	\end{tabular}
+	\caption{Anchos de banda de los diferentes enlaces de la topología.}
+	\label{tab:bw_links}
+\end{table}
+
+
+Los valores elegidos en la Tabla \ref{tab:bw_links} presentan una explicación. A medida que nos acercamos más al núcleo del ISP, mayor es el ancho de banda necesario en los enlaces debido a que contienen paquetes de múltiples sectores de la red. En cambio, en capas cercanas a las de borde, el tráfico a manejar es de muy pocos \textit{hosts}. Además, los servidores van a requerir un mayor ancho de banda que sus clientes, para poder responderles de manera adecuada. A su vez, cabe destacar que para el caso de los IDSs, sus enlaces deben presentar un elevado ancho de banda debido a que se conectan directamente a los OVS de distribución, los cuales manipulan tráfico de distintos dispositivos de acceso. 
+
+
+\section {Agentes del entorno de emulación} \label{sec:agentes_emulacion}
+
+En la Figura \ref{fig:topologia_final} se observan referencias que indican
+distintos comportamientos de los \textit{hosts} que integran la topología. A
+continuación se comenzarán a explicar en detalle cada uno de ellos.
+
+\paragraph{IDS.} Los contenedores que actúan como detectores están basados en la
+imagen de Docker \textit{ubuntu}. A dicha imagen se le agrega el software
+Snort (versión 2.9.11.1), su archivo de configuración y las reglas para detectar
+los ataques (ver Sección \ref{sec:snort_reglas}). Además, se encuentran
+conectados directamente a los OVS de distribución, tal como menciona el enfoque
+elegido en el Capítulo \ref{sec:Chapter4}.
+
+\paragraph{Usuario legítimo.} Estos agentes también están basados en la imagen
+de Docker \textit{ubuntu}. Participan en el escenario de generación de tráfico
+legítimo por medio de consultas HTTP GET a los servidores vía las herramientas
+Siege o Curl. También se utilizan para funciones de monitoreo y recolección de
+datos con el fin de confeccionar determinados gráficos. Se encuentran conectados
+a los OVS de la subcapa de acceso.
+
+\paragraph{Bot.} Estos contenedores presentan la misma imagen base que
+los usuarios legítimos. Además, al igual que ellos, están conectados a los OVS de la subcapa de acceso y participan en el escenario de generación de tráfico mencionado anteriormente. Sin
+embargo, llevan en su sistema de archivos los \textit{scripts} necesarios para ejecutar
+los comandos con los cuales se generan los ataques (ver Apéndice
+\ref{AppendixA}).
+
+
+\paragraph{Servidor HTTP.} Basados en la imagen \textit{httpd}, permiten poner
+en marcha un servidor web Apache (versión 2.4) que contiene una página web la
+cual, por cada consulta HTTP GET, realiza un cálculo de la serie de Fibonacci para incrementar el procesamiento en el servidor y dar mayor efectividad a los ataques. Se ubican detrás de los dispositivos de la subcapa de servicio.
+
+\paragraph{Servidor DNS.} En base a la imagen de Docker \textit{sameersbn/bind}, se construyen los \textit{hosts} que permiten levantar este tipo de servidores, los cuales son utilizados en el presente proyecto únicamente para la resolución de nombres de dominio. Sus ubicaciones en la red son idénticas a la de los otros servidores explicados anteriormente.
+
+\section {Escenario de generación de tráfico
+  legítimo} \label{sec:traffic_legitim}
+
+Para detectar comportamientos sospechosos primero hace falta tener el modelo de
+un comportamiento esperado. Pero antes de comenzar con la explicación de esta
+sección, es necesario introducir conceptos del área de probabilidad y
+estadística útiles para los tiempos entre consultas dirigidas a los servidores.
+Uno de ellos es la distribución de Poisson, que se utiliza para fenómenos
+discretos, como por ejemplo, la cantidad de consultas a un servidor web por
+minuto. Esta distribución, de acuerdo a \parencite{poisson}, permite conseguir
+la probabilidad de ocurrencia de una determinada cantidad de eventos discretos
+en cierto intervalo de tiempo o región específica, a partir de una frecuencia de
+ocurrencia media de dicho evento. Por otra parte, la extensión del intervalo
+entre la ocurrencia de dos eventos sucesivos discretos distribuidos en base a
+Poisson se modela a través de la distribución exponencial
+\parencite{distribucion_exponencial}. Entonces, para el tiempo entre las
+consultas hacia un servidor web se tendría que utilizar esta última
+distribución, la cual presenta las siguientes características, de acuerdo a
+\parencite{distribucion_exponencial}:
+
+\begin{itemize}
+\item{Distribución continua de probabilidad.}
+\item{Parámetro \(\lambda\) mayor a cero.}
+\item{Valor esperado igual a la inversa de \(\lambda\).}
+\item{Varianza igual al valor esperado al cuadrado.}  
+\end{itemize}
+
+Los conceptos anteriores son útiles a la hora de diseñar y construir un
+escenario de generación de tráfico legítimo. Cabe destacar que dicho escenario puede ser cualquiera, no necesariamente el que se propone en esta sección. Esto es debido a que la aplicación de detección de anomalías se adapta a diferentes modelos de comportamiento esperado.
+
+El escenario propuesto en este trabajo hace hincapié en un ISP cuyos servicios son otorgados a una ciudad con jornada laboral que va desde las 8 hasta las 12 horas y luego desde las 16 hasta las 20 hs. El tráfico es efectuado por 18 usuarios (6 empresas y 12 clientes domésticos) y la duración de la emulación es de 1 hora, en donde cada intervalo de 2,5 minutos equivale a una hora de un día
+hábil (ver correspondencia en Tabla \ref{tab:minutos_horas}). En ese tiempo, se efectuarán consultas HTTP GET a los servidores
+utilizando la distribución exponencial para definir el tiempo entre las mismas.
+
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|c|c|c|c|c|}
+		\hline
+		\cellcolor[HTML]{EFEFEF}\textbf{Etapa} & \cellcolor[HTML]{EFEFEF}\textbf{\begin{tabular}[c]{@{}c@{}}Inicio del intervalo\\ de emulación\end{tabular}} & \cellcolor[HTML]{EFEFEF}\textbf{\begin{tabular}[c]{@{}c@{}}Fin del intervalo\\ de emulación\end{tabular}} & \cellcolor[HTML]{EFEFEF}\textbf{\begin{tabular}[c]{@{}c@{}}Hora de inicio\\ en día hábil\end{tabular}} & \cellcolor[HTML]{EFEFEF}\textbf{\begin{tabular}[c]{@{}c@{}}Hora de fin\\ en día hábil\end{tabular}}\\ \hline
+        1 & 0 minutos & 10 minutos & 00:00 hs & 04:00 hs\\ \hline		
+        2 & 10 minutos & 20 minutos & 04:00 hs & 08:00 hs\\ \hline		
+        3 & 20 minutos & 30 minutos & 08:00 hs & 12:00 hs\\ \hline		
+        4 & 30 minutos & 40 minutos & 12:00 hs & 16:00 hs\\ \hline		
+        5 & 40 minutos & 50 minutos & 16:00 hs & 20:00 hs\\ \hline		
+        6 & 50 minutos & 60 minutos & 20:00 hs & 00:00 hs\\ \hline		
+	\end{tabular}
+	\caption{Conversión de los minutos de la emulación a horas de un día hábil.}
+	\label{tab:minutos_horas}
+\end{table}
+
+Por otra parte, los comportamientos de los distintos tipos de usuarios en los
+diferentes intervalos anteriormente definidos se muestran en la Tabla
+\ref{tab:comportamientos}. Esto se lo efectúa para dotar de mayor realidad al
+escenario, ya que se tienen en cuenta las horas pico de consumo por parte de las
+empresas y las correspondientes a la de los usuarios domésticos.
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|c|c|c|c|}
+		\hline
+        \cellcolor[HTML]{EFEFEF}\textbf{Etapa} & \cellcolor[HTML]{EFEFEF}\textbf{Intervalo [min, min)} & \cellcolor[HTML]{EFEFEF}\textbf{Clientes domésticos} & \cellcolor[HTML]{EFEFEF}\textbf{Empresas}\\ \hline
+        1 & [0, 10)  & Modo inactivo & Modo inactivo \\ \hline
+        2 & [10, 20) & Modo inactivo & Modo inactivo \\ \hline
+        3 & [20, 30) & Modo inactivo & Modo activo   \\ \hline
+        4 & [30, 40) & Modo activo   & Modo inactivo \\ \hline
+        5 & [40, 50) & Modo inactivo & Modo activo   \\ \hline
+        6 & [50, 60) & Modo activo   & Modo inactivo \\ \hline
+						
+	\end{tabular}
+	\caption{Comportamientos de los distintos tipos de usuarios 
+en los diferentes intervalos de la emulación.}
+	\label{tab:comportamientos}
+\end{table}
+
+Cabe destacar que los dos tipos de comportamiento para cada \textit{host}
+cliente se definen a continuación:
+
+\begin{itemize}
+\item{\textbf{Modo activo:}} la decisión de enviar (80\% de probabilidad) o no
+  (20\% de probabilidad) una consulta HTTP GET al servidor se toma cada una
+  fracción de tiempo que sigue un comportamiento de una distribución exponencial
+  con un valor esperado igual a 5 segundos.
+\item{\textbf{Modo inactivo:}} la decisión de enviar (20\% de probabilidad) o no
+  (80\% de probabilidad) una consulta HTTP GET al servidor se toma cada una
+  fracción de tiempo que sigue un comportamiento de una distribución exponencial
+  con un valor esperado igual a 30 segundos.
+\end{itemize}
+
+
+Una vez diseñado este escenario de generación de tráfico legítimo, se lo debió
+implementar. Para ello se utilizó el lenguaje de programación Python, con el
+cual se efectuó un \textit{script} maestro que comanda mediante hilos los comportamientos
+de los diferentes clientes utilizados a través de \textit{scripts} esclavos, presentes en
+el sistema de archivos de los mismos. Para explicar mejor lo anterior se muestra
+el diagrama de actividad \ref{fig:diagrama_escenario_legitimo_1}. \\
+
+\begin{figure}[H]
+	\centering 
+	\includegraphics[width=0.9\textwidth]{sim_etapa}
+	\caption{Diagrama de actividad de la administración de los comportamientos de
+    los distintos clientes.}
+	\label{fig:diagrama_escenario_legitimo_1}
+\end{figure}
+
+Por otra parte, la Figura \ref{fig:diagrama_escenario_legitimo_2} permite
+visualizar la ejecución del modo inactivo de la primera etapa en un \textit{bot}
+o cliente doméstico. \\
+
+\begin{figure}[H]
+	\centering 
+	\includegraphics[width=\textwidth]{sim_atack}
+	\caption{Diagrama del flujo de ejecución de la primera etapa (modo inactivo)
+    de un bot o un cliente doméstico.}
+	\label{fig:diagrama_escenario_legitimo_2}
+\end{figure}
+
+
+Además, es importante mencionar que este escenario posibilitó la obtención, para
+la aplicación de detección de anomalías, de los valores del modelo de
+comportamiento esperado de la red, en cuanto a la cantidad de paquetes y de
+bytes en los conmutadores de distribución SDN, los cuales deben ser ingresados a
+la GUI (para más información ver la Sección \ref{sec:reqs_gui}).
+
+Por último, a la hora de validar el sistema desarrollado en este proyecto (ver Capítulo \ref{sec:Resultados}),
+a la mencionada aplicación de detección de anomalías se le debió modificar el tiempo durante el cual almacena métricas globales. Es decir, en vez de ser un día ese intervalo, se lo tomó como una hora, con el fin de agilizar el proceso de prueba. A su vez, comparado con 10 segundos y si se considera el tiempo entre consultas, una hora sigue siendo, estadísticamente, una cantidad bastante grande.
+
+\section {Reglas de Snort utilizadas}\label{sec:snort_reglas}
+
+Las reglas que se insertaron en los IDSs de la topología instanciada son las que
+se presentan en el Código Fuente \ref{lst:snort_rules}, en función de los
+distintos ataques utilizados (\textbf{RF23}).
+
+
+\begin{lstlisting} [label=lst:snort_rules, caption= Reglas de Snort utilizadas.,
+  captionpos=b]
+// TCP SYN flood.
+alert tcp any any -> any 80 (msg: "TCP: SYN flood track by src"; flags: S; flow: stateless; threshold: type both, track by_src, count 1000, seconds 30; sid: 1000041; rev: 1;)
+
+// UDP flood.
+alert udp any any -> any any (msg: "UDP: UDP flood track by src"; flow: stateless; threshold: type both, track by_src, count 5000, seconds 30; classtype: attempted-dos; sid: 1000040; rev: 1;)
+
+// Smurf.
+alert icmp any any -> any any (msg: "ICMP: SMURF Attack"; itype: 8; threshold: type both, track by_src, count 40, seconds 30; sid: 1000005; rev: 1;) 
+
+// TCP RESET flood.
+alert tcp any any -> any any (msg: "TCP: RESET flood track by src"; flags: R;  threshold: type both, track by_src, count 1000, seconds 30; sid: 1000048; rev: 1;)
+
+// TCP FIN flood.
+alert tcp any any -> any any (msg: "TCP: FIN flood track by src"; flags: F; threshold: type both, track by_src, count 1000, seconds 30; sid: 1000044; rev: 1;)
+
+// TCP SYN FIN flood.
+alert tcp any any -> any any (msg: "TCP: SYN FIN flood track by src"; flags: SF; threshold: type both, track by_src, count 1000, seconds 30; sid: 1000047; rev: 1;)
+
+// TCP PUSH ACK flood.
+alert tcp any any -> any any (msg: "TCP: PUSH ACK flood track by src"; flags: PA; threshold: type both, track by_src, count 1000, seconds 30; sid: 1000046; rev: 1;)
+\end{lstlisting}
+
+A continuación se explicarán algunas de las reglas más representativas de esta
+sección:
+
+\begin{itemize}
+\item {\textbf{Regla de ataque TCP SYN flood.}} Hace referencia a que se
+  generará una alerta con una frecuencia de 30 segundos, si durante ese
+  intervalo de tiempo se cuentan 1000 paquetes TCP con el \textit{flag} SYN
+  activado que se envían desde alguna red y puerto hacia cualquier red destino
+  al puerto 80. En dichas alertas se imprimirá el mensaje \textit{TCP: SYN flood
+    track by src}. Por otra parte, la regla tendrá un identificador de Snort
+  igual a 1000041, un número de revisión de 1 y será aplicada a cualquier tipo
+  de tráfico. Cabe destacar además que se lleva un conteo de paquetes por cada
+  dirección de red de origen.
+\item {\textbf{Regla de ataque UDP flood.}} Se expresa que se generará una
+  alerta con una frecuencia de 30 segundos, si durante ese intervalo de tiempo
+  se cuentan 5000 paquetes UDP que se envían desde alguna red y puerto hacia
+  cualquier red destino y puerto. En dichas alertas se imprimirá el mensaje
+  \textit{UDP: UDP flood}. Por otra parte, la regla tendrá un identificador de
+  Snort igual a 1000040, un número de revisión de 1, será aplicada a cualquier
+  tipo de tráfico y pertenece a la categoría \textit{attempted-dos}. Cabe
+  destacar además que se lleva un conteo de paquetes por cada dirección de red
+  de origen.
+\item {\textbf{Regla de ataque Smurf.}} Indica que se generará una alerta con
+  una frecuencia de 30 segundos, si durante ese intervalo de tiempo se cuentan
+  40 paquetes ICMP de tipo 8 que se envían desde alguna red y puerto hacia
+  cualquier red destino y puerto. En dichas alertas se imprimirá el mensaje
+  \textit{ICMP: SMURF Attack}. Por otra parte, la regla tendrá un identificador
+  de Snort igual a 1000005 y un número de revisión de 1. Cabe destacar además
+  que se lleva un conteo de paquetes por cada dirección de red de origen.
+
+\end{itemize}
+
+Si se observan en detalle las reglas, se podrán visualizar diferentes límites en
+los conteos de los paquetes que podrían indicar indicios de ataques. Esto se
+debe a la diferencia de potencia en los distintos tipos de estos ataques, además de
+que algunos tardan más que otros en perjudicar al sistema.
+
+A su vez, es necesario explicar el origen de estos límites o el proceso de su obtención. Los mismos están basados en un umbral de detección del ataque en un tiempo inferior a 5 segundos desde que el IDS lo analiza. Para esto se construyó en los inicios del proyecto una topología simple con un \textit{host} atacante, un IDS y un \textit{switch} OVS que los unía. Desde dicho IDS, por cada uno de los ataques mencionados en el Apéndice \ref{AppendixA}, se colocaban reglas con diferentes umbrales. Se escogía aquella con baja probabilidad de producir un falso positivo y cuya detección sea en un tiempo de unos pocos segundos, tal y como se mencionó anteriormente.
+

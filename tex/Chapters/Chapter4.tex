@@ -1,0 +1,389 @@
+% Chapter Template
+% cSpell:words parencite onfwhitepaper includegraphics resizebox sdncomponents
+% linewidth comparqui redireccionar enrutamiento subfigure toposdn Nicira toposinsdn
+\chapter{Aplicación de detección de anomalías} % Main chapter title 
+
+\label{sec:Chapter4} % Change X to a consecutive number; for referencing this
+                     % chapter elsewhere, use \ref{ChapterX}
+
+En el presente capítulo se explicará el diseño y la implementación de la
+aplicación que se situará en el núcleo de ONOS (ver Figura
+\ref{fig:arquitectura_onos}) y que estará encargada de detectar comportamientos
+sospechosos en la red y de disminuir la sobrecarga de tráfico en los sistemas de
+detección de intrusos.
+
+Para ello, en primer lugar, se describen los motivos que desencadenan la
+necesidad del desarrollo de esta aplicación. En segundo lugar, se detallan los
+requerimientos de la misma. Y en tercer lugar, el principio de funcionamiento de
+dicha aplicación se desglosa y se explica etapa por etapa, realizando el
+correcto mapeo de las explicaciones con los requerimientos correspondientes. Por
+último, se detalla la implementación llevada a cabo, en donde se hace foco en
+las funciones más importantes.
+
+\section{Motivación} \label{sec:motivacion_app_4}
+
+Por lo discutido en la Sección \ref{sec:state_art}, una parte de los objetivos
+principales del proyecto consiste en reducir el procesamiento de los
+dispositivos de detección.
+
+Uno de los factores más importantes es la cantidad de tráfico que analizan estos
+dispositivos, debido a que existen reglas que no solo inspeccionan las cabeceras
+de los paquetes sino también la carga útil de los mismos. De este modo, cuanto
+mayor sea el tráfico mayor es el procesamiento que éstos realizan. A su vez,
+dicha cantidad de tráfico es dependiente, entre otras cosas, de la ubicación de
+los IDSs dentro de la topología.
+
+
+\paragraph{Enfoques de emplazamiento del IDS.}
+De acuerdo a \parencite{ddos_kumar}, cuanto más cerca esté el detector a la
+posición del servicio objetivo, mayor será la cantidad de tráfico que analiza.
+Tal enfoque es capaz de proporcionar una mejor precisión de detección, debido a
+que posee un gran dominio para analizar el tráfico. Sin embargo, este enfoque
+solamente detecta el ataque después de que llega a la víctima. Además, si bien
+se puede cortar el tráfico malicioso en el enrutador más cercano a ella, el
+legítimo aún no puede viajar a través de la red y llegar a su destino, debido a
+que el ancho de banda está afectado. Por otro lado, si el emplazamiento es más
+cercano a los dispositivos de borde directamente conectados a los \textit{hosts}
+maliciosos, se puede evitar la congestión no solo del lado de la víctima, sino
+también de la red, sin afectar a los demás usuarios legítimos. Sin embargo,
+durante un ataque, generalmente el tráfico no proviene de una sola fuente, sino
+de manera distribuida por múltiples puntos de acceso. Esto dificulta la
+detección debido a la ubicación de los detectores de intrusos. Para resolver los
+problemas de precisión a la hora de percibir dichos ataques y evitar el consumo
+de ancho de banda por parte de éstos, se encuentra la defensa de red que ubica a
+los IDSs en una zona intermedia \parencite{ddos_kumar}. Este último es el
+enfoque que se utilizará en el presente proyecto.
+
+\paragraph{Problemas de procesamiento frente a la escalabilidad de la red.} A
+medida que la red escala se imposibilita que los sistemas de detección de
+intrusiones analicen todo el tráfico que atraviesa a ciertos dispositivos de
+red, independientemente de su ubicación. Para evitar la sobrecarga, se puede
+plantear que los análisis en los IDSs sean temporales y solamente en aquellos
+casos en donde se detecten comportamientos sospechosos, en base a uno esperado.
+Para esto último se requiere un análisis estadístico llevado a cabo por el
+controlador, el cual posee información global de la red y decide si existe o no
+una anomalía.
+
+\paragraph{} En base a lo descrito anteriormente y a lo mencionado en la Sección
+\ref{sec:segnetsdn} surgen los requerimientos explicados en la siguiente
+sección.
+
+%---------------------bitext comileArquitectura del protocolo--------------------
+%	SECTION 1
+%---------------------------------------------------------------------------------
+\section{Requerimientos} 
+
+Los requerimientos funcionales de la aplicación son los siguientes:
+
+\paragraph{RF01.} La aplicación debe recopilar métricas cada 10 segundos del
+tráfico entrante a la zona intermedia (dispositivos de distribución) de la red.
+\paragraph{RF02.} La aplicación debe almacenar las métricas totales por día y
+debe mantener una ventana con los últimos 7 días.
+\paragraph{RF03.} La aplicación, usando dichas métricas, debe detectar
+comportamientos sospechosos en base a uno esperado.
+\paragraph{RF04.} La aplicación debe identificar a los dispositivos de la
+subcapa de acceso que presenten un comportamiento sospechoso.
+\paragraph{RF05.} La aplicación, ante la presencia de tráfico potencialmente
+malicioso, debe replicarlo temporalmente hacia los IDSs más cercanos a los
+dispositivos detectados en RF04, al menos el tiempo mínimo necesario para que
+Snort pueda reconocer si se está en presencia de un ataque o no.
+
+\section{Principios de funcionamiento}
+
+A continuación, se desarrolla una introducción a la lógica detrás de la
+aplicación de detección de anomalías, para facilitar la futura comprensión de la
+estructura y el funcionamiento de la misma. De manera resumida, el
+comportamiento de esta aplicación se puede observar en el diagrama de la Figura
+\ref{fig:diagram1}.
+
+\begin{figure}[H]
+	\centering 
+	\includegraphics[scale=0.7]{activity_1}
+	\caption{Diagrama de actividades de la aplicación.}
+	\label{fig:diagram1}
+\end{figure}
+
+\subsection{Recolección de métricas}
+
+De acuerdo a lo descrito en la Sección \ref{sec:control_layer}, la interfaz
+SOUTHBOUND permite a los dispositivos informar el estado de los mismos usando
+OpenFlow. Esto le posibilita al controlador obtener métricas de los puertos,
+tales como la cantidad de paquetes y la cantidad de bytes que los atraviesan,
+mediante \textbf{contadores} en el plano de datos \parencite{opf151}.
+
+Por otro lado, basándonos en el sistema propuesto por \parencite{estado_arte_2}
+para la detección de ataques distribuidos, se plantea uno propio aplicando a una
+topología de red ISP la gestión SDN. Para ello, es necesario identificar los
+dispositivos (de la red ISP) que proporcionan las métricas y, en conjunto con el
+enfoque de emplazamiento de los sistemas de detección explicado al inicio de
+esta sección, se propone la recolección de dichas métricas desde los conmutadores
+identificados como \textit{distribution}, tal como se muestra en la Figura
+\ref{fig:ISP}. Estos dispositivos se encuentran en una ubicación intermedia al
+mantener conexiones tanto con las capas de acceso como con las capas del núcleo.
+
+Como se mencionó anteriormente, gracias a OpenFlow se pueden obtener desde el
+plano de datos las métricas de todos los dispositivos y de todos sus puertos
+(\textbf{RF01}). No obstante, todas ellas no son necesarias para el análisis
+posterior. Sólo son indispensables aquellas pertenecientes a los puertos de los
+conmutadores SDN de distribución cuyos enlaces se conecten a los dispositivos de
+borde de la subcapa de acceso. Así sólo se deben obtener métricas del tráfico
+entrante a la red, tal como se observa en la Figura \ref{fig:trafico_entrante}.
+
+
+\begin{figure}[H]
+	\centering 
+	\includegraphics[scale=1.5]{intraffic_1}
+	\caption{Tráfico entrante desde los dispositivos de acceso a los de
+    distribución.}
+	\label{fig:trafico_entrante}
+\end{figure}
+
+
+\subsection{Detección de  anomalías}
+
+La detección de anomalías se resuelve realizando un análisis estadístico basado
+en la prueba de bondad de ajuste chi-cuadrado. Ésta se utiliza para comprobar si
+una muestra de datos sigue una distribución determinada. La manera de definirlo
+es realizando una prueba de hipótesis para verificar si dicha muestra difiere de
+una población de datos esperada. La forma de cuantificar las diferencias es
+usando (\ref{eq:chi_cuadrado}).
+
+\begin{equation}\label{eq:chi_cuadrado}
+\chi^2={\sum_{i=0}^{k} \left [ \frac{(O_{i} - E_{i})^2}{E_{i}} \right ]}
+\end{equation}\\
+
+En donde \(O_{i}\) representa los datos observados y \(E_{i}\) es el valor
+esperado para cada observación.
+
+Para nuestro proyecto estas variables están definidas por la cantidad de
+paquetes y la cantidad de bytes pertenecientes al tráfico que ingresa a la red.
+El primero se utiliza para saber si un ataque afecta a los recursos de los
+dispositivos de la red, mientras que el segundo se usa para determinar si existe
+un impacto en el ancho de banda \parencite{estado_arte_2}. Los datos anteriores
+se comparan con valores esperados. Si éstos difieren estadísticamente, se
+considera un tráfico con un comportamiento sospechoso (\textbf{RF03}).
+
+Por otro lado, los valores esperados no pueden ser estáticos. De ser así, no se
+considerarían las variaciones del tráfico legítimo a largo plazo y se podría
+estar etiquetando a dicho tráfico legítimo como sospechoso, dando lugar a las
+detecciones conocidas como \textbf{falsos positivos}. Esto explica el por qué
+del requerimiento \textbf{RF02}, ya que es necesario conocer la cantidad de
+tráfico que circulaba en la red anteriormente.
+
+Finalmente, una vez considerado el tráfico sospechoso, el diseño del
+\textbf{RF04} se basa en identificar los dispositivos de distribución que
+superan una cierta diferencia estadística con respecto a sus valores esperados.
+Luego, se deben determinar cuáles de los conmutadores de la subcapa de acceso
+conectados a dichos \textit{distribution} presentan un porcentaje de tráfico que
+compromete a la red.
+
+\subsection{Duplicación del tráfico}
+
+Una vez que se clasifica el tráfico entrante como sospechoso, es necesario
+enviarlo a un IDS para su inspección.
+
+Una primera solución sería desviar el tráfico completamente hacia el detector de
+ataques, pero como el marcado es sobre los puertos del dispositivo
+\textit{distribution}, el tráfico proveniente de éstos también incluye tráfico
+legítimo. En este caso, si se realiza el completo redireccionamiento, se estaría
+cortando el servicio a clientes legítimos.
+
+Otra solución es la duplicación temporal del tráfico, usando las directivas de
+la interfaz SOUTHBOUND para aplicar reglas con el fin de enviar este tráfico
+tanto a su destino original como al IDS, tal como se observa en la Figura
+\ref{fig:dupl_trafico}. Finalmente, ésta es la solución elegida para el
+\textbf{RF05}.
+
+\begin{figure}[H]
+	\centering 
+	\includegraphics[scale=1.5]{intraffic_2}
+	\caption{Duplicación de tráfico sospechoso.}
+	\label{fig:dupl_trafico}
+\end{figure}
+
+Un aspecto importante a tener en cuenta es que si se duplica todo el tráfico
+entrante a un dispositivo \textit{distribution}, se estaría enviando información
+innecesaria al sistema de detección de intrusos. Es por ello que solo se debe
+reproducir aquel tráfico proveniente de los puertos con comportamientos que
+difieren en una cierta proporción a lo esperado y cuyos enlaces se conecten a
+conmutadores de la subcapa de acceso, tal y como se mencionó anteriormente.
+
+\section {Detalles de la implementación}
+
+En esta sección se hace hincapié en los detalles de la implementación haciendo
+foco en las funciones más importantes con el fin de cumplir con los
+requerimientos funcionales. Para ello se tiene en cuenta y se adapta lo
+propuesto en \parencite{estado_arte_2}. A su vez, una visión estática y global
+de lo efectuado se encuentra en las Figuras \ref{fig:diagrama_clases_1} y
+\ref{fig:diagrama_clases_1_2}.
+
+\begin{figure}[H]
+	\centering 
+	\includegraphics[width=0.9\textwidth]{Clases1}
+	\caption{Diagrama de clases para la detección de anomalías.}
+	\label{fig:diagrama_clases_1}
+\end{figure}
+
+Para la recolección de las métricas (\textbf{RF01}), el controlador ONOS
+mediante la capa Proveedores (ver Figura \ref{fig:arquitectura_onos}) ofrece
+estadísticas de los puertos de los conmutadores SDN mediante el servicio
+\verb|deviceService|. Éste brinda dos métodos importantes:
+
+\begin{itemize}
+\item \verb|getPortDeltaStatistics (DeviceId deviceId)|. Obtiene una lista con
+  todas las estadísticas de un dispositivo en un intervalo de tiempo, cuyo valor
+  por defecto es de 10 segundos.
+\item \verb|getPortStatistics (DeviceId deviceId)|. Obtiene una lista con el
+  total de las estadísticas de cada puerto de un dispositivo desde que empieza a
+  enviar y recibir tráfico.
+\end{itemize}
+
+El primer método permite obtener métricas de los dispositivos cada 10 segundos.
+El segundo facilita el diseño e implementación del \textbf{RF02}, ya que basta
+con almacenar el valor dado por este método al inicio y al final del día para
+luego realizar una diferencia. Luego se conforma una cola con estas diferencias
+en donde también se almacenan los valores obtenidos de los 7 días anteriores.
+
+Para la implementación del \textbf{RF03}, primero se obtienen los valores
+estadísticos esperados bajo circunstancias normales para el tráfico entrante a
+un dispositivo \textit{distribution} \(i\), desde la subcapa de acceso, para un
+intervalo de tiempo de 10 segundos (\textbf{\(G_i\)}), a partir de las colas
+mencionadas anteriormente. Esto se realiza tanto para la cantidad de paquetes
+como para la cantidad de bytes, tal y como se observa en (\ref{eq:gicount}) y
+(\ref{eq:gisize}).
+
+\begin{equation}
+	cant\_paquetes\_semana_i={\sum_{j=1}^7 cant\_paquetes\_dia_{j}}
+\end{equation}
+
+\begin{equation}\label{eq:gicount}
+    G_{i\_paquetes}={\frac{cant\_paquetes\_semana_i}{\frac{7*24*60*60}{10}}}
+\end{equation}
+
+\begin{equation}
+	cant\_bytes\_semana_i={\sum_{j=1}^7 cant\_bytes\_dia_{j}}
+\end{equation}
+
+\begin{equation}\label{eq:gisize}
+	G_{i\_bytes}={\frac{cant\_bytes\_semana_i}{cant\_intervalos}}
+\end{equation}
+
+\begin{equation}\label{eq:intervalo}
+  cant\_intervalos=\frac{7\ dias * 24\frac{horas}{dia} * 60\frac{minutos}{hora} * 60\frac{segundos}{minuto}}{10 \ segundos}
+\end{equation} \\
+
+Luego se ejecuta la prueba de bondad de ajuste chi-cuadrado, la cual está dada
+por (\ref{eq:Xcount}) y (\ref{eq:Scount}) y se calcula cada vez que se obtienen
+métricas nuevas cada 10 segundos.
+
+\begin{equation}\label{eq:Xcount}
+	\chi^2 = {\sum_{i=1}^{n}   \frac{N_{i\_paquetes}-G_{i\_paquetes}}{G_{i\_paquetes}}}
+\end{equation}
+
+\begin{equation}\label{eq:Scount}
+	\chi^2 = {\sum_{i=1}^{n}   \frac{N_{i\_bytes}-G_{i\_bytes}}{G_{i\_bytes}}}
+\end{equation}\\
+
+
+En donde \(N_{i}\) son los datos recolectados de los últimos 10 segundos por el
+dispositivo \textit{distribution}. Luego, los resultados se comparan con los
+valores de la tabla de distribución chi cuadrado usando \textbf{\(n\)} grados de
+libertad, que representan la cantidad de estos dispositivos de distribución, y
+un nivel de significancia (denotado como \(\alpha\)) de 0.05. (Un nivel de
+significancia de 0.05 indica un riesgo del 5\% de concluir que existe tráfico
+sospechoso cuando no lo hay). Si alguna de las comparaciones arroja que el valor
+de la tabla es menor, se considera que en la red existe un potencial ataque de
+denegación de servicio. El comportamiento del algoritmo se puede observar en el
+diagrama de la Figura \ref{fig:diagram2}.
+
+\begin{figure}[H]
+	\centering 
+	\includegraphics[width=\textwidth]{sequence_1}
+	\caption{Diagrama de secuencia para la detección de anomalías.}
+	\label{fig:diagram2}
+\end{figure}
+
+Una vez detectada la anomalía en la red se deben determinar los dispositivos de
+borde comprometidos (\textbf{RF04}). Para ello primero es necesario encontrar
+los dispositivos de distribución que superen un umbral en cuanto a la diferencia
+entre el comportamiento observado y el esperado correspondiente. Esto se hace
+mediante (\ref{eq:ineq_1}) y (\ref{eq:ineq_2}).
+
+\begin{equation}\label{eq:ineq_1}
+	{\frac{(N_{i\_paquetes}-G_{i\_paquetes})^2}{G_{i\_paquetes}}} > umbral_{paquetes}
+\end{equation}
+
+\begin{equation}\label{eq:ineq_2}
+	{\frac{(N_{i\_bytes}-G_{i\_bytes})^2}{G_{i\_bytes}}} > umbral_{bytes}
+\end{equation}\\
+
+En donde el valor del umbral se toma igual a 3.5, de acuerdo a
+\parencite{ddos_amir}, con el objetivo de tener un balance entre la cantidad de
+falsos positivos y falsos negativos en la detección.
+
+Determinados los dispositivos de distribución se deben buscar cuáles de sus
+\(k\) enlaces entrantes desde la subcapa de acceso presentan un nivel de tráfico
+mayor o igual al 80\% \parencite{estado_arte_2} en relación a todo el que
+ingresa a dicho dispositivo, tal y como se muestra en (\ref{eq:ineq_3}) y
+(\ref{eq:ineq_4}). En caso de que ningún enlace cumpla con alguna de estas
+condiciones planteadas en las inecuaciones, se los considera a todos
+sospechosos.
+
+\begin{equation}\label{eq:ineq_3}
+	{\frac{cant\_paquetes\_ultimos\_10\_segundos\_enlace_i}{\sum_{i=1}^{k}
+      cant\_paquetes\_ultimos\_10\_segundos\_enlace_i}} \geq 0.8
+\end{equation}
+
+\begin{equation}\label{eq:ineq_4}
+  {\frac{cant\_bytes\_ultimos\_10\_segundos\_enlace_i}{\sum_{i=1}^{k}
+      cant\_bytes\_ultimos\_10\_segundos\_enlace_i}} \geq 0.8
+\end{equation}\\
+
+Luego, a partir de los mencionados enlaces se obtienen los dispositivos de borde
+solicitados por \textbf{RF04}. Un diagrama para este requerimiento se puede
+observar en la Figura \ref{fig:diagram2.1}.
+
+\begin{figure}[H]
+	\centering 
+	\includegraphics[width=\textwidth]{sequence_2_1}
+	\caption{Diagrama de secuencia para RF04.}
+	\label{fig:diagram2.1}
+\end{figure}
+
+Un aspecto importante a aclarar es que los términos negativos no son tenidos en
+cuenta en (\ref{eq:Xcount}), (\ref{eq:Scount}), (\ref{eq:ineq_1}) y
+(\ref{eq:ineq_2}), ya que no se busca detectar anomalías ante niveles de
+tráfico por debajo de lo esperado.
+
+\begin{figure}[H]
+	\centering 
+	\includegraphics[width=\textwidth]{Clases2}
+	\caption{Diagrama de clases para la detección de anomalías.}
+	\label{fig:diagrama_clases_1_2}
+\end{figure}
+
+
+Por otra parte, para implementar \textbf{RF05} se usa el servicio de ONOS llamado
+\verb|IntentService|, el cual permite conectar dos puntos en la red a alto
+nivel. Cuando llega un paquete nuevo a la red, si las tablas OpenFlow (ver
+Figura \ref{fig:openflow_2}) en los dispositivos no tienen reglas establecidas
+para tomar acciones sobre el mismo, se envían al plano de control. El
+controlador, mediante una aplicación de enrutamiento que usa el servicio antes
+mencionado, se encarga de instalar las reglas OpenFlow en los dispositivos
+intermedios estableciendo la comunicación entre los puntos.
+
+La clase \verb|SinglePointToMultiPointIntent| permite conectar un punto
+de conexión de entrada a dos o más puntos de salida. Llegado el momento de
+realizar la duplicación de tráfico se obtienen todas las conexiones hechas por
+el servicio \verb|IntentService| y se agrega como nuevo destino el IDS, a
+aquellas que provengan del dispositivo de borde detectado como sospechoso,
+tal y como se mencionó en párrafos anteriores. Así se logra el comportamiento
+deseado de la Figura \ref{fig:dupl_trafico}.
+
+En cuanto al aspecto del \textbf{RF05} que solicita el envío del tráfico al IDS
+más cercano, previamente se debe poseer una lista con todos los detectores de la
+red. Luego, ONOS provee el servicio \verb|topologyService| para obtener todos
+los caminos entre dos puntos de conexión. Se usa este servicio para adquirir las
+rutas más cortas entre los dispositivos de la subcapa de acceso devueltos por el
+\textbf{RF04} y los IDSs más cercanos.
+

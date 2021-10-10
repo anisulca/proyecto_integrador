@@ -1,0 +1,599 @@
+% Chapter Template
+% cSpell:words parencite onfwhitepaper includegraphics resizebox sdncomponents
+% linewidth comparqui redireccionar enrutamiento subfigure toposdn Nicira toposinsdn
+\chapter{Resultados} % Main chapter title 
+
+\label{sec:Resultados} % Change X to a consecutive number; for referencing this chapter elsewhere, use \ref{ChapterX}
+
+En el presente capítulo se verificará que los resultados obtenidos por las soluciones brindadas en este proyecto cumplan con los requerimientos enunciados a lo largo del mismo.
+
+Se detallarán las matrices de trazabilidad que relacionan dichos requerimientos con los diferentes casos de \textit{tests} y la documentación de estos últimos aparecerá al final de este capítulo.
+
+A su vez, la nomenclatura utilizada para identificar los diferentes casos de prueba es la siguiente, considerando a \textit{n} igual a un número natural:
+
+\begin{itemize}
+\item{\textbf{T-E-n:} \textit{tests} del entorno de emulación.}
+\item{\textbf{T-A-n:} casos de prueba solamente de la aplicación de detección de anomalías sin el uso de la interfaz gráfica de usuario.}
+\item{\textbf{T-F-n:} \textit{tests} solamente de la aplicación de filtrado de
+    tráfico o de la combinación de ésta y la de detección de
+    anomalías, pero sin el uso de la GUI en ninguno de los casos.}
+\item{\textbf{T-G-n:} hace referencia a aquellos casos de prueba en los cuales se utiliza la interfaz gráfica de usuario.}
+\end{itemize}
+
+\section {Matrices de trazabilidad}
+
+En esta sección se detallan distintas matrices de trazabilidad. Una de ellas
+corresponde a la que relaciona los requerimientos detallados en el Capítulo
+\ref{sec:Chapter4} con los casos de \textit{tests} de la Sección
+\ref{sec:Tests}, tal como se observa en las Tablas
+\ref{tab:matriz_trazabilidad_4_a} y \ref{tab:matriz_trazabilidad_4_b}.
+
+Otra de las matrices es la que tiene en cuenta los requerimientos de la
+aplicación de filtrado de tráfico que puede verse en la Tabla
+\ref{tab:matriz_trazabilidad_5}.
+
+Luego, en la Matriz que se puede ver en la Tabla \ref{tab:matriz_trazabilidad_6}
+los casos de \textit{tests} se contrastan con los requerimientos de la Sección
+\ref{sec:reqs_gui}.
+
+Por último, en la Tabla \ref{tab:matriz_trazabilidad_emulacion} se hace hincapié
+en la matriz que presenta como requerimientos los detallados en el Capítulo
+\ref{Chapter7}.
+
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+        \hline
+		\cellcolor[HTML]{EFEFEF}\textbf{\begin{tabular}[c]{@{}c@{}}\backslashbox {Reque-\\rimien-\\tos}{Casos \\de \\prueba}\end{tabular}} & \cellcolor[HTML]{EFEFEF}\textbf{T-A-1} & \cellcolor[HTML]{EFEFEF}\textbf{T-A-2} & \cellcolor[HTML]{EFEFEF}\textbf{T-F-3} & \cellcolor[HTML]{EFEFEF}\textbf{T-F-4} & \cellcolor[HTML]{EFEFEF}\textbf{T-F-5} & \cellcolor[HTML]{EFEFEF}\textbf{T-F-6} &\cellcolor[HTML]{EFEFEF}\textbf{T-F-7} & \cellcolor[HTML]{EFEFEF}\textbf{T-F-8} \\ \hline
+		\textbf{RF01}  & X  &  &   &    & & & &  \\ \hline
+\textbf{RF02}                                                      & X   &   &   &   & & & &  \\ \hline
+\textbf{RF03}                                                      &   &  & X  & X  & X& X&X &X  \\ \hline
+\textbf{RF04}                                                      &   & X  &   &   &  & X & &  \\ \hline
+\textbf{RF05}                                                      &   &   & X  &   &  & & &  \\ \hline
+	\end{tabular}
+	\caption{Matriz de trazabilidad de la aplicación de detección de anomalías.}
+	\label{tab:matriz_trazabilidad_4_a}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|c|c|}
+		\hline
+		\cellcolor[HTML]{EFEFEF}\textbf{\begin{tabular}[c]{@{}c@{}}\backslashbox {Requerimientos}{Casos de prueba}\end{tabular}} & \cellcolor[HTML]{EFEFEF}\textbf{T-G-2}\\ \hline
+		\textbf{RF01}                                            &     \\ \hline
+		\textbf{RF02}                                            &     \\ \hline
+		\textbf{RF03}                                            & X \\ \hline
+		\textbf{RF04}                                            &    \\ \hline
+		\textbf{RF05}                                            &    \\ \hline
+	\end{tabular}
+	\caption{Matriz de trazabilidad de la aplicación de detección de anomalías.}
+	\label{tab:matriz_trazabilidad_4_b}
+\end{table}
+
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+		\hline
+		\cellcolor[HTML]{EFEFEF}\textbf{\begin{tabular}[c]{@{}c@{}}\backslashbox{Reque-\\rimien-\\tos}{Casos \\de \\prueba}\end{tabular}} & \cellcolor[HTML]{EFEFEF}\textbf{T-F-1} & \cellcolor[HTML]{EFEFEF}\textbf{T-F-2} & \cellcolor[HTML]{EFEFEF}\textbf{T-F-3} & \cellcolor[HTML]{EFEFEF}\textbf{T-F-4} & \cellcolor[HTML]{EFEFEF}\textbf{T-F-5} &\cellcolor[HTML]{EFEFEF} \textbf{T-F-6} & \cellcolor[HTML]{EFEFEF}\textbf{T-F-7} & \cellcolor[HTML]{EFEFEF}\textbf{T-F-8} \\ \hline
+		\textbf{RF06}                                                      &  X  &   &   &   &  & & & \\ \hline
+		\textbf{RF07}                                                      &   & X &   &   &  & & & \\ \hline
+		\textbf{RF08}                                                      &   &   & X  &   &  & X  &  X & X\\ \hline
+		\textbf{RF09}                                                      &   &   &   & X  &   & X & X & X\\ \hline
+        \textbf{RF10}                                                      &   &   &   &   & X & X  &  X & X \\ \hline
+        \textbf{RF11}                                                      &   &   & X  & X   & X &    & & \\ \hline
+	\end{tabular}
+	\caption{Matriz de trazabilidad de la aplicación de filtrado de tráfico.}
+	\label{tab:matriz_trazabilidad_5}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|c|c|c|}
+		\hline
+		\cellcolor[HTML]{EFEFEF}\textbf{\begin{tabular}[c]{@{}c@{}}\backslashbox{Requerimientos}{Casos de prueba}\end{tabular}} & \cellcolor[HTML]{EFEFEF}\textbf{T-G-1} & \cellcolor[HTML]{EFEFEF}\textbf{T-G-2} \\ \hline
+		
+		\textbf{RF12}                                           & X  &   \\ \hline
+		\textbf{RF13}                                           & X  &  \\ \hline
+		\textbf{RF14}                                           & X  & X \\ \hline
+		\textbf{RF15}                                           & X  & \\ \hline
+		\textbf{RF16}                                           & X  & \\ \hline
+		\textbf{RF17}                                           & X  & \\ \hline
+		\textbf{RF18}                                           & X  & \\ \hline
+		\textbf{RF19}                                           & X  & \\ \hline
+	\end{tabular}
+	\caption{Matriz de trazabilidad de la interfaz gráfica de usuario.}
+	\label{tab:matriz_trazabilidad_6}
+\end{table}
+
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|c|c|c|c|}
+		\hline
+		\cellcolor[HTML]{EFEFEF}\textbf{\begin{tabular}[c]{@{}c@{}}\backslashbox{Requerimientos}{Casos de prueba}\end{tabular}} & \cellcolor[HTML]{EFEFEF}\textbf{T-E-1} & \cellcolor[HTML]{EFEFEF}\textbf{T-E-2} & \cellcolor[HTML]{EFEFEF}\textbf{T-E-3} \\ \hline
+		\textbf{RF20}                                                      & X &   &   \\ \hline
+		\textbf{RF21}                                                      &  & X  &   \\ \hline
+		\textbf{RF22}                                                      &   &   & X \\ \hline
+		\textbf{RF23}                                                      &   &   & X \\ \hline
+	\end{tabular}
+	\caption{Matriz de trazabilidad del entorno de emulación.}
+	\label{tab:matriz_trazabilidad_emulacion}
+\end{table}
+
+
+\section {Casos de prueba} \label{sec:Tests}
+
+Los \textit{tests} que se efectuaron sobre el sistema, se encuentran documentados a continuación en las siguientes subsecciones.
+Además, tal y como se mencionó anteriormente, para este proceso de verificación de los resultados obtenidos se debió modificar la aplicación de detección de anomalías.
+
+\subsection {Casos de prueba del entorno de emulación}
+
+Los casos de \textit{tests} referidos a los requerimientos del entorno de
+emulación se describen en las Tablas \ref{tab:test_E_1}, \ref{tab:test_E_2} y
+\ref{tab:test_E_3}.
+
+En dichos Tablas, en la entrada denominada \textit{Aplicaciones a instalar en el
+  controlador ONOS} se hace referencia a \texttt{\textbf{OpenFlow Provider Suite}}. Esta
+aplicación se encuentra de manera predeterminada en el mencionado controlador y
+es la que le permite comunicarse con los dispositivos OVS utilizando el
+protocolo OpenFlow.
+
+\subsection {Casos de prueba de la aplicación de detección de anomalías}
+
+Por otra parte, los casos de prueba para la aplicación de detección de anomalías
+se describen en las Tablas \ref{tab:test_A_1}, \ref{tab:test_A_2},
+\ref{tab:test_F_3}, \ref{tab:test_F_4}, \ref{tab:test_F_5}, \ref{tab:test_F_6},
+\ref{tab:test_F_7}, \ref{tab:test_F_8} y \ref{tab:test_G_2}.
+
+
+\subsection {Casos de prueba de la aplicación de filtrado del tráfico}
+
+Los casos de \textit{tests} que involucran y permiten verificar el cumplimiento de los requerimientos de la aplicación de filtrado de tráfico (ver Capítulo \ref{sec:Chapter5}) se describen en las Tablas \ref{tab:test_F_1}, \ref{tab:test_F_2}, \ref{tab:test_F_3}, \ref{tab:test_F_4}, \ref{tab:test_F_5}, \ref{tab:test_F_6}, \ref{tab:test_F_7} y \ref{tab:test_F_8}.
+
+
+\subsection {Casos de prueba de la API NORTHBOUND del controlador y de la interfaz gráfica de usuario}
+
+Los casos de prueba que involucran y permiten verificar el cumplimiento de los requerimientos mencionados en el Capítulo \ref{Chapter6} se describen en los Tablas \ref{tab:test_G_1} y \ref{tab:test_G_2}.
+
+
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|c|l|}
+		\hline
+		\rowcolor[HTML]{EFEFEF} 
+		\textbf{\begin{tabular}[c]{@{}c@{}}Identificador                          \\ del test\end{tabular}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{T-E-1}} \\ \hline
+		\rowcolor[HTML]{FFFFFF} 
+		\textbf{Título}                                                          & \begin{tabular}[c]{@{}l@{}} DDoS de tipo Smurf anula disponibilidad de los enlaces del ISP. \end{tabular}  \\ \hline
+		\rowcolor[HTML]{EFEFEF} 
+		\textbf{Objetivo} & \begin{tabular}[c]{@{}l@{}}Utilizando la herramienta HPING3 realizar un ataque DDoS de\\ tipo Smurf a algún servidor web Apache de la topología, con el\\ fin de saturar los enlaces de la red. \end{tabular} \\ \hline
+		\rowcolor[HTML]{FFFFFF} 
+		\textbf{\begin{tabular}[c]{@{}c@{}}Aplicaciones a \\ instalar en el\\ controlador\\ ONOS\end{tabular}} & \begin{tabular}[c]{@{}l@{}}Openflow Provider Suite  (\texttt{org.onosproject.openflow}).\\ Aplicación de detección de anomalías.\end{tabular} \\ \hline
+		\rowcolor[HTML]{EFEFEF} 
+		\textbf{Pasos previos}                                                    &                                                                                            -             \\ \hline
+		\rowcolor[HTML]{FFFFFF} 
+		\textbf{Procedimiento} & \begin{tabular}[c]{@{}l@{}}
+			\textbf{1.} Se debe poner en marcha el controlador.\\\hline  
+			\textbf{2.} Se debe instanciar la topología del ISP descrita en el Capítulo \\ \ref{Chapter7} con la herramienta ContainerNet. Dicha topología cuenta con\\ 15 dispositivos Open vSwitch y 28 \textit{hosts}.\\\hline 
+			\textbf{3.} Se debe ejecutar el comando de ContainerNet \texttt{pingall} para \\verificar la conectividad entre todos los \textit{hosts}.\\\hline 
+			\textbf{4.} Se debe configurar el tiempo máximo que el controlador\\ ONOS verifica el estado de los enlaces.\\\hline 
+			\textbf{5.} Se debe ingresar a la CLI del controlador vía el comando \texttt{ssh}\\ \texttt{-p 8101 \textless{}nombre\_host\_controlador\textgreater @\textless{}ip\_controlador\textgreater{}}. \\ Dentro de la CLI, con los comandos \textit{devices} y \textit{hosts} deben \\figurar todos los dispositivos de la red que se instanciaron y\\ que reconoce dicho controlador.\\\hline 
+			\textbf{6.} Ingresar a la interfaz web del controlador ONOS a través\\ del ingreso de la URL:\\ \url{http://[IP_controlador]:8181/onos/ui/index.html}. \\ Observar la topología que allí figura. \\\hline 
+			\textbf{7.} Levantar el servidor web Apache con el comando\\ \texttt{httpd-foreground}.\\\hline 
+			\textbf{8.} Ejecutar en un \textit{bot} el comando \texttt{hping3 -{}-icmp -{}-flood} \\ \texttt{-d 36 -{}-spoof <ip\_servidor>~ <ip\_broadcast>}. (Ataque \\ Smurf). \\\hline 
+			\textbf{9.} Desde un usuario legítimo realizar iterativamente \textit{tests} de \\conectividad.
+			\end{tabular} \\ \hline
+
+		\rowcolor[HTML]{EFEFEF}
+		\textbf{\begin{tabular}[c]{@{}c@{}}Resultado \\ esperado\end{tabular}} & \begin{tabular}[c]{@{}l@{}}El resultado que se espera es que el usuario legítimo no tenga\\ conectividad con el servidor, debido a la saturación de los\\ enlaces.
+		\end{tabular} \\ \hline
+
+		\textbf{\begin{tabular}[c]{@{}c@{}}Resultado \\ obtenido\end{tabular}} & \multicolumn{1}{c|}{\textbf{{\color[HTML]{036400} APROBADO}}} \\ \hline 
+	\end{tabular}
+	\caption{Test T-E-1.}
+	\label{tab:test_E_1}
+\end{table}
+
+
+
+
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
+\begin{table}[th]
+	\centering
+	\begin{tabular}{|c|l|}
+        \hline
+        \rowcolor[HTML]{EFEFEF}
+		\textbf{\begin{tabular}[c]{@{}c@{}}Identificador \\ del test\end{tabular}} & \multicolumn{1}{c|}{\textbf{T-E-2}} \\ \hline
+		 
+        \textbf{Título}   & \begin{tabular}[c]{@{}l@{}} Escenario de tráfico legítimo no anula disponibilidad del\\ servidor del ISP.\end{tabular} \\ \hline
+        \rowcolor[HTML]{EFEFEF}
+		\textbf{Objetivo} & \begin{tabular}[c]{@{}l@{}}Utilizando el escenario de la Sección \ref{sec:traffic_legitim} para generar \\tráfico legítimo, verificar que el servidor web Apache \\que lo recibe no pierde su disponibilidad.\end{tabular} \\ \hline
+      
+        \textbf{\begin{tabular}[c]{@{}c@{}}Aplicaciones a\\ instalar en el\\ controlador\\ ONOS\end{tabular}} & \begin{tabular}[c]{@{}l@{}}Openflow Provider Suite  (\texttt{org.onosproject.openflow}).\\ Aplicación de detección de anomalías.\end{tabular} \\ \hline 
+        \rowcolor[HTML]{EFEFEF}
+        \textbf{Pasos previos} & Pasos 1 a 4 del procedimiento de T-E-1. \\ \hline
+         
+        \textbf{Procedimiento} & \begin{tabular}[c]{@{}l@{}}\textbf{1.} Levantar el servidor web Apache con el comando\\ \texttt{httpd-foreground}.\\\hline \textbf{2.} Generar con la ayuda de los scripts correspondientes \\el escenario de  tráfico legítimo descrito en la Sección \ref{sec:traffic_legitim}. \\\hline \textbf{3.} Visualizar el estado del proceso del servidor web.\\ \hline \textbf{4.} Desde 1 usuario legítimo realizar iterativamente \textit{tests}\\ de conectividad.\end{tabular} \\ \hline
+		\rowcolor[HTML]{EFEFEF}
+		\textbf{\begin{tabular}[c]{@{}c@{}}Resultado \\ esperado\end{tabular}} & \begin{tabular}[c]{@{}l@{}}El resultado que se espera es que el servidor no pierda \\ la disponibilidad en ningún momento (proceso caído) \\y pueda prestarle normalmente servicio a todos los \\usuarios legítimos (100\% de disponibilidad en \textit{tests} de\\ conectividad).\end{tabular} \\ \hline
+        \textbf{\begin{tabular}[c]{@{}c@{}}Resultado \\ obtenido\end{tabular}} & \multicolumn{1}{c|}{\textbf{{\color[HTML]{036400} APROBADO}}} \\ \hline 
+      
+
+	\end{tabular}
+	\caption{Test T-E-2.}
+	\label{tab:test_E_2}
+\end{table}
+
+\begin{table}[th]
+	\centering
+	\begin{tabular}{|c|l|}
+				\hline
+		\rowcolor[HTML]{EFEFEF}
+		\textbf{\begin{tabular}[c]{@{}c@{}}Identificador \\ del test\end{tabular}} & \multicolumn{1}{c|}{\textbf{T-E-3}} \\ \hline
+				
+		\textbf{Título}   & \begin{tabular}[c]{@{}l@{}} Ubicación y alertas del IDS.\end{tabular} \\ \hline
+		\rowcolor[HTML]{EFEFEF}
+		\textbf{Objetivo} & \begin{tabular}[c]{@{}l@{}}Verificar que los IDSs se encuentren conectados directamente a\\ los dispositivos SDN de distribución y que produzcan las\\ alertas en base a los ataques generados por los comandos del \\Apéndice \ref{AppendixA}.\end{tabular} \\ \hline
+			
+		\textbf{\begin{tabular}[c]{@{}c@{}}Aplicaciones a\\ instalar en el\\ controlador\\ ONOS\end{tabular}} & \begin{tabular}[c]{@{}l@{}}Openflow Provider Suite  (\texttt{org.onosproject.openflow}).\\ Aplicación de detección de anomalías. \end{tabular} \\ \hline 
+		\rowcolor[HTML]{EFEFEF}
+		\textbf{Pasos previos} & Pasos 1 a 6 del procedimiento de T-E-1. \\ \hline
+				
+		\textbf{Procedimiento} & \begin{tabular}[c]{@{}l@{}}\textbf{1.} Asegurar que los IDSs tengan en sus archivos de\\ configuración las reglas correspondientes para detectar los\\ ataques que se generan con los comandos del Apéndice \ref{AppendixA}.\\\hline \textbf{2.} Poner en marcha los procesos de Snort en los diferentes \\IDSs. Colocar la salida de dichos IDSs a sus respectivas \\consolas.\\\hline \textbf{3.} Pasos 1 a 2 del procedimiento de T-E-2.\\\hline \textbf{4.} Realizar los distintos ataques mencionados anteriormente \\desde un solo \textit{bot}.\\ \end{tabular} \\ \hline
+		\rowcolor[HTML]{EFEFEF}
+		\textbf{\begin{tabular}[c]{@{}c@{}}Resultado \\ esperado\end{tabular}} & \begin{tabular}[c]{@{}l@{}}En la topología observada, los IDSs deben estar directamente\\ conectados a los dispositivos SDN de distribución. A su vez,\\ en la consola del proceso de Snort que capte el tráfico\\ malicioso deben figurar los mensajes indicativos de las alertas\\ correspondientes.\end{tabular} \\ \hline
+		\textbf{\begin{tabular}[c]{@{}c@{}}Resultado \\ obtenido\end{tabular}} & \multicolumn{1}{c|}{\textbf{{\color[HTML]{036400} APROBADO}}} \\ \hline 
+	\end{tabular}
+	\caption{Test T-E-3.}
+	\label{tab:test_E_3}
+\end{table}
+
+
+
+
+
+\begin{table}[th]
+	\centering
+	\begin{tabular}{|c|l|}
+		\hline
+		\rowcolor[HTML]{EFEFEF}
+		\textbf{\begin{tabular}[c]{@{}c@{}}Identificador \\ del test\end{tabular}} & \multicolumn{1}{c|}{\textbf{T-A-1}} \\ \hline
+		\textbf{Título}   & \begin{tabular}[c]{@{}l@{}} Recolección de métricas.\end{tabular} \\ \hline
+
+\rowcolor[HTML]{EFEFEF}
+\textbf{Objetivo} & \begin{tabular}[c]{@{}l@{}}Verificar que la recolección de las métricas de la cantidad de\\ paquetes y de la cantidad de bytes para detectar\\ comportamientos sospechosos se haga cada 10 segundos.\\ También corroborar que se mantengan aquellas globales de\\ los últimos 7 días.\\\end{tabular} \\ \hline
+					
+\textbf{\begin{tabular}[c]{@{}c@{}}Aplicaciones a\\ instalar en el\\ controlador\\ ONOS\end{tabular}} & \begin{tabular}[c]{@{}l@{}}Openflow Provider Suite  (\texttt{org.onosproject.openflow}).\\Aplicación de detección de anomalías. \end{tabular} \\ \hline 
+\rowcolor[HTML]{EFEFEF}
+\textbf{Pasos previos} & Pasos 1 a 2 del procedimiento de T-E-2. \\ \hline
+						
+\textbf{Procedimiento} & \begin{tabular}[c]{@{}l@{}}\textbf{1.} A los 70 segundos, ejecutar en un bot un ataque DoS del\\ tipo \textit{TCP SYN flood} hacia el puerto 80 del servidor.\\ \hline \textbf{2.} Observar los \textit{logs} de ONOS.\\ \end{tabular} \\ \hline
+\rowcolor[HTML]{EFEFEF}
+\textbf{\begin{tabular}[c]{@{}c@{}}Resultado \\ esperado\end{tabular}} & \begin{tabular}[c]{@{}l@{}} En los \textit{logs} de ONOS debe figurar que en un tiempo como\\ máximo de 10 segundos, dado por el intervalo de\\ recolección de métricas, se debe haber detectado el ataque y \\generado la duplicación de tráfico hacia el IDS\\ correspondiente. Por otra parte, a los 120 segundos, los\\ contadores diarios de la cantidad de paquetes y de bytes\\ deben haber modificado su valor ya que pasados los 70\\ segundos el tráfico aumenta gracias al ataque.\\ \end{tabular} \\ \hline
+\textbf{\begin{tabular}[c]{@{}c@{}}Resultado \\ obtenido\end{tabular}} & \multicolumn{1}{c|}{\textbf{{\color[HTML]{036400} APROBADO}}} \\ \hline 												 
+								
+								
+	\end{tabular}
+	\caption{Test T-A-1.}
+	\label{tab:test_A_1}
+\end{table}
+
+\begin{table}[th]
+	\centering
+	
+	\begin{tabular}{|c|l|}
+		\hline
+		\rowcolor[HTML]{EFEFEF}
+		\textbf{\begin{tabular}[c]{@{}c@{}}Identificador \\ del test\end{tabular}} & \multicolumn{1}{c|}{\textbf{T-A-2}} \\ \hline
+		\textbf{Título}   & \begin{tabular}[c]{@{}l@{}} Identificación del dispositivo de la subcapa de acceso de\\ donde proviene el ataque.\end{tabular} \\ \hline
+
+\rowcolor[HTML]{EFEFEF}
+\textbf{Objetivo} & \begin{tabular}[c]{@{}l@{}}Verificar que la detección del dispositivo OVS de la subcapa\\ de acceso de donde proviene el ataque se haga de forma\\ correcta.\\\end{tabular} \\ \hline
+					
+\textbf{\begin{tabular}[c]{@{}c@{}}Aplicaciones a\\ instalar en el\\ controlador\\ ONOS\end{tabular}} & \begin{tabular}[c]{@{}l@{}}Openflow Provider Suite  (\texttt{org.onosproject.openflow}).\\Aplicación de detección de anomalías. \end{tabular} \\ \hline 
+\rowcolor[HTML]{EFEFEF}
+\textbf{Pasos previos} & Pasos 1 a 2 del procedimiento de T-E-2. \\ \hline
+						
+\textbf{Procedimiento} & \begin{tabular}[c]{@{}l@{}}\textbf{1.} Ejecutar en un \textit{bot} un ataque DoS del tipo \textit{TCP SYN flood}\\ hacia el puerto 80 del servidor.\\ \hline \textbf{2.} Observar los \textit{logs} de ONOS.\\ \hline \textbf{3.} Observar la interfaz web de ONOS.\\ \end{tabular} \\ \hline
+\rowcolor[HTML]{EFEFEF}
+\textbf{\begin{tabular}[c]{@{}c@{}}Resultado \\ esperado\end{tabular}} & \begin{tabular}[c]{@{}l@{}}\textbf{1.} En el \textit{log} de ONOS debe figurar un mensaje en donde se\\ exprese el ID del dispositivo EDGE de donde proviene el\\ ataque.\\\hline\textbf{2.} En la GUI de ONOS el ID del dispositivo obtenido debe\\ concordar con el OVS directamente conectado al \textit{host}\\ atacante.\\ \end{tabular} \\ \hline
+\textbf{\begin{tabular}[c]{@{}c@{}}Resultado \\ obtenido\end{tabular}} & \multicolumn{1}{c|}{\textbf{{\color[HTML]{036400} APROBADO}}} \\ \hline 										 
+								
+								
+	\end{tabular}
+	\caption{Test T-A-2.}
+	\label{tab:test_A_2}
+\end{table}
+
+
+\begin{table}[th]
+	\centering
+	\begin{tabular}{|c|l|}
+		\hline
+		\rowcolor[HTML]{EFEFEF}
+		\textbf{\begin{tabular}[c]{@{}c@{}}Identificador  \\ del test\end{tabular}} & \multicolumn{1}{c|}{\textbf{T-F-1}} \\ \hline
+		\textbf{Título}   & \begin{tabular}[c]{@{}l@{}} Conexión de IDSs al controlador mediante \textit{sockets}.\end{tabular} \\ \hline
+
+		\rowcolor[HTML]{EFEFEF}
+		\textbf{Objetivo} & \begin{tabular}[c]{@{}l@{}}Verificar que por lo menos 4 IDSs puedan abrir una conexión\\ \textit{socket} TCP con el controlador ONOS.\end{tabular} \\ \hline
+					
+		\textbf{\begin{tabular}[c]{@{}c@{}}Aplicaciones a\\ instalar en el\\ controlador\\ ONOS\end{tabular}} & \begin{tabular}[c]{@{}l@{}}Openflow Provider Suite  (\texttt{org.onosproject.openflow}).\\ Aplicación de filtrado del tráfico. \end{tabular} \\ \hline 
+		\rowcolor[HTML]{EFEFEF}
+		\textbf{Pasos previos} & Pasos 1 a 4 del procedimiento de T-E-1. \\ \hline
+						
+		\textbf{Procedimiento} & \begin{tabular}[c]{@{}l@{}}\textbf{1.} Poner en marcha los procesos de Snort en los diferentes \\IDSs. Colocar la salida de dichos IDSs a sus \textit{sockets} Unix.\\\hline \textbf{2.} En cada IDS, ejecutar el \textit{script} de Python que realiza la\\ retransmisión a un \textit{socket} TCP conectado al controlador.\\ \end{tabular} \\ \hline
+		\rowcolor[HTML]{EFEFEF}
+		\textbf{\begin{tabular}[c]{@{}c@{}}Resultado \\ esperado\end{tabular}} & \begin{tabular}[c]{@{}l@{}}El controlador ONOS debe mostrar en sus \textit{logs} la apertura \\de las 4 conexiones vía \textit{sockets} TCP.\end{tabular} \\ \hline
+		\textbf{\begin{tabular}[c]{@{}c@{}}Resultado \\ obtenido\end{tabular}} & \multicolumn{1}{c|}{\textbf{{\color[HTML]{036400} APROBADO}}} \\ \hline 		 
+		
+		
+	\end{tabular}
+	\caption{Test T-F-1.}
+	\label{tab:test_F_1}
+\end{table}
+
+\begin{table}[th]
+	\centering
+	\begin{tabular}{|c|l|}
+		\hline
+		\rowcolor[HTML]{EFEFEF}
+		\textbf{\begin{tabular}[c]{@{}c@{}}Identificador \\ del test\end{tabular}} & \multicolumn{1}{c|}{\textbf{T-F-2}} \\ \hline
+		\textbf{Título}   & \begin{tabular}[c]{@{}l@{}} Procesamiento de las alertas de los IDSs en el controlador ONOS.\end{tabular} \\ \hline
+
+\rowcolor[HTML]{EFEFEF}
+\textbf{Objetivo} & \begin{tabular}[c]{@{}l@{}}Verificar que el controlador ONOS procesa de manera correcta\\ las alertas generadas por los IDSs.\end{tabular} \\ \hline
+					
+\textbf{\begin{tabular}[c]{@{}c@{}}Aplicaciones a\\ instalar en el\\ controlador\\ ONOS\end{tabular}} & \begin{tabular}[c]{@{}l@{}}Openflow Provider Suite  (\texttt{org.onosproject.openflow}).\\ Aplicación de detección de anomalías. \\Aplicación de filtrado del tráfico. \end{tabular} \\ \hline 
+\rowcolor[HTML]{EFEFEF}
+\textbf{Pasos previos} & Pasos 1 a 4 del procedimiento de T-E-1. \\ \hline
+						
+\textbf{Procedimiento} & \begin{tabular}[c]{@{}l@{}}\textbf{1.} Asegurar que los IDSs tengan en sus archivos de\\ configuración la regla para detectar ataques \textit{TCP SYN flood}.\\\hline\textbf{2.} Poner en marcha los procesos de Snort en los diferentes \\IDSs. Colocar la salida de dichos IDSs a sus \textit{sockets} Unix.\\\hline \textbf{3.} En cada IDS, ejecutar el \textit{script} de Python que realiza la \\retransmisión a un \textit{socket} TCP conectado al controlador.\\\hline \textbf{4.} Pasos 1 a 2 del procedimiento de T-E-2.\\ \hline \textbf{5.} Ejecutar en un bot un ataque DoS del tipo \textit{TCP SYN flood}\\ hacia el puerto 80 del servidor.\\ \end{tabular} \\ \hline
+\rowcolor[HTML]{EFEFEF}
+\textbf{\begin{tabular}[c]{@{}c@{}}Resultado \\ esperado\end{tabular}} & \begin{tabular}[c]{@{}l@{}}El controlador ONOS debe mostrar en su \textit{log} un mensaje de \\reconocimiento de la alerta generada por el IDS \\correspondiente. A su vez, se deben poder visualizar campos\\ importantes de la misma, como el \texttt{sid}, la dirección IP origen\\ del paquete que provocó el evento, el mensaje de la alerta, etc.\end{tabular} \\ \hline
+\textbf{\begin{tabular}[c]{@{}c@{}}Resultado \\ obtenido\end{tabular}} & \multicolumn{1}{c|}{\textbf{{\color[HTML]{036400} APROBADO}}} \\ \hline 		 				 
+				
+				
+	\end{tabular}
+	\caption{Test T-F-2.}
+	\label{tab:test_F_2}
+\end{table}
+
+
+\begin{table}[th]
+	\centering
+	\begin{tabular}{|c|l|}
+		\hline
+		\rowcolor[HTML]{EFEFEF}
+		\textbf{\begin{tabular}[c]{@{}c@{}}Identificador \\ del test\end{tabular}} & \multicolumn{1}{c|}{\textbf{T-F-3}} \\ \hline
+		\textbf{Título}   & \begin{tabular}[c]{@{}l@{}} Detección y detención de ataques DoS por inundación TCP.\end{tabular} \\ \hline
+
+\rowcolor[HTML]{EFEFEF}
+\textbf{Objetivo} & \begin{tabular}[c]{@{}l@{}}Verificar la detección y detención de ataques DoS por\\ inundación TCP al servidor como, por ejemplo, \textit{TCP SYN} \\\textit{flood}, \textit{TCP FIN flood}, \textit{TCP SYN FIN flood}, \textit{TCP RESET flood} y\\ \textit{TCP PUSH ACK flood}.\end{tabular} \\ \hline
+					
+\textbf{\begin{tabular}[c]{@{}c@{}}Aplicaciones a\\ instalar en el\\ controlador\\ ONOS\end{tabular}} & \begin{tabular}[c]{@{}l@{}}Openflow Provider Suite  (\texttt{org.onosproject.openflow}).\\ Aplicación de detección de anomalías. \\Aplicación de filtrado del tráfico. \end{tabular} \\ \hline 
+\rowcolor[HTML]{EFEFEF}
+\textbf{Pasos previos} & Pasos 1 a 4 del procedimiento de T-F-2. \\ \hline
+						
+\textbf{Procedimiento} & \begin{tabular}[c]{@{}l@{}}\textbf{1.} Ejecutar en un \textit{bot} un ataque DoS por inundación TCP\\ hacia el puerto 80 del servidor.\\\hline\textbf{2.} Lanzar desde el mismo \textit{bot} atacante una consulta HTTP\\ GET hacia el \textit{host} víctima.\\\hline \textbf{3.} Después de 20 segundos, cortar el ataque.\\\hline \textbf{4.} Esperar 40 segundos y volver a lanzar otro tipo de ataque\\ por inundación TCP.\\ \hline \textbf{5.} Repetir los pasos 2 a 4. \end{tabular} \\ \hline
+\rowcolor[HTML]{EFEFEF}
+\textbf{\begin{tabular}[c]{@{}c@{}}Resultado \\ esperado\end{tabular}} & \begin{tabular}[c]{@{}l@{}}El controlador ONOS detecta el ataque por medio del control\\ de las estadísticas de tráfico y genera un bloqueo de los\\ paquetes TCP provenientes del \textit{host} atacante con destino\\ hacia un puerto específico del \textit{host} víctima. Este bloqueo\\ impide las consultas GET desde el mencionado atacante\\ hacia la correspondiente víctima. Luego de 30 segundos de\\ haberse cortado el ataque, la regla OpenFlow de \textit{drop} debe\\ ser eliminada del OVS y la replicación de tráfico hacia el IDS\\ debe detenerse. Esto se puede observar desde los \textit{logs} de\\ ONOS o desde la interfaz web del controlador.\end{tabular} \\ \hline
+\textbf{\begin{tabular}[c]{@{}c@{}}Resultado \\ obtenido\end{tabular}} & \multicolumn{1}{c|}{\textbf{{\color[HTML]{036400} APROBADO}}} \\ \hline 		 				 
+				
+								 
+				
+				
+	\end{tabular}
+	\caption{Test T-F-3.}
+	\label{tab:test_F_3}
+\end{table}
+
+\begin{table}[th]
+	\centering
+	\begin{tabular}{|c|l|}
+		\hline
+		\rowcolor[HTML]{EFEFEF}
+		\textbf{\begin{tabular}[c]{@{}c@{}}Identificador \\ del test\end{tabular}} & \multicolumn{1}{c|}{\textbf{T-F-4}} \\ \hline
+		\textbf{Título}   & \begin{tabular}[c]{@{}l@{}} Detección y detención de ataques DoS por inundación UDP.\end{tabular} \\ \hline
+
+\rowcolor[HTML]{EFEFEF}
+\textbf{Objetivo} & \begin{tabular}[c]{@{}l@{}}Verificar la detección y detención de ataques DoS por\\ inundación UDP al servidor.\end{tabular} \\ \hline
+					
+\textbf{\begin{tabular}[c]{@{}c@{}}Aplicaciones a\\ instalar en el\\ controlador\\ ONOS\end{tabular}} & \begin{tabular}[c]{@{}l@{}}Openflow Provider Suite  (\texttt{org.onosproject.openflow}).\\ Aplicación de detección de anomalías. \\Aplicación de filtrado del tráfico. \end{tabular} \\ \hline 
+\rowcolor[HTML]{EFEFEF}
+\textbf{Pasos previos} & Pasos 1 a 4 del procedimiento de T-F-2. \\ \hline
+						
+\textbf{Procedimiento} & \begin{tabular}[c]{@{}l@{}}\textbf{1.} Ejecutar en un \textit{bot} un ataque DoS por inundación UDP\\ hacia el puerto 80 del servidor.\\\hline\textbf{2.} Lanzar desde el mismo \textit{bot} atacante una consulta HTTP\\ GET hacia el \textit{host} víctima.\\\hline \textbf{3.} Después de 20 segundos, cortar el ataque.\\ \hline \textbf{4.} Después de 20 segundos, lanzar nuevamente el ataque.\\ \end{tabular} \\ \hline
+\rowcolor[HTML]{EFEFEF}
+\textbf{\begin{tabular}[c]{@{}c@{}}Resultado \\ esperado\end{tabular}} & \begin{tabular}[c]{@{}l@{}}El controlador ONOS detecta el ataque por medio del control\\ de las estadísticas de tráfico y genera un bloqueo de los\\ paquetes UDP provenientes del \textit{host} atacante con destino\\ hacia un puerto específico del \textit{host} víctima (se puede ver en la\\ interfaz web de ONOS). Este bloqueo no impide las\\ consultas GET desde el mencionado atacante hacia la\\ correspondiente víctima, debido a que éstas se encuentran\\ sobre TCP. Luego de 20 segundos de haberse cortado el\\ ataque, la regla OpenFlow de \textit{drop} no debe ser eliminada del\\ OVS, ya que se necesitan 30 segundos para ello (ver \textit{logs} del\\ controlador). \end{tabular} \\ \hline
+\textbf{\begin{tabular}[c]{@{}c@{}}Resultado \\ obtenido\end{tabular}} & \multicolumn{1}{c|}{\textbf{{\color[HTML]{036400} APROBADO}}} \\ \hline 		 				 
+										 
+						
+						
+	\end{tabular}
+	\caption{Test T-F-4.}
+	\label{tab:test_F_4}
+\end{table}
+
+
+\begin{table}[th]
+	\centering
+	\begin{tabular}{|c|l|}
+		\hline
+		\rowcolor[HTML]{EFEFEF}
+		\textbf{\begin{tabular}[c]{@{}c@{}}Identificador \\ del test\end{tabular}} & \multicolumn{1}{c|}{\textbf{T-F-5}} \\ \hline
+		\textbf{Título}   & \begin{tabular}[c]{@{}l@{}} Detección y detención de ataques Smurf lanzados desde un\\ \textit{bot}.\end{tabular} \\ \hline
+
+\rowcolor[HTML]{EFEFEF}
+\textbf{Objetivo} & \begin{tabular}[c]{@{}l@{}}Verificar la detección y detención de ataques Smurf al\\ servidor.\end{tabular} \\ \hline
+					
+\textbf{\begin{tabular}[c]{@{}c@{}}Aplicaciones a\\ instalar en el\\ controlador\\ ONOS\end{tabular}} & \begin{tabular}[c]{@{}l@{}}Openflow Provider Suite  (\texttt{org.onosproject.openflow}).\\ Aplicación de detección de anomalías. \\Aplicación de filtrado del tráfico. \end{tabular} \\ \hline 
+\rowcolor[HTML]{EFEFEF}
+\textbf{Pasos previos} & Pasos 1 a 4 del procedimiento de T-F-2. \\ \hline
+						
+\textbf{Procedimiento} & \begin{tabular}[c]{@{}l@{}}\textbf{1.} Ejecutar en un \textit{bot} un ataque DoS del tipo Smurf hacia el\\ servidor. (\texttt{hping3 -{}-icmp -{}-flood -d 36 -{}-spoof} \\  \texttt{<ip\_servidor>~<ip\_broadcast>}).\\\hline\textbf{2.} Lanzar desde el mismo \textit{bot} atacante un ping hacia el \textit{host}\\ víctima.\\\hline \textbf{3.} Observar en la GUI web de ONOS el recorrido del tráfico\\ generado por el \textit{host} atacante.\\ \hline \textbf{4.} Observar en los \textit{logs} de ONOS en cuál dispositivo Open\\ vSwitch queda finalmente instalada la regla OpenFlow de\\ \textit{drop} y en cuáles se eliminan.\\ \end{tabular} \\ \hline
+\rowcolor[HTML]{EFEFEF}
+\textbf{\begin{tabular}[c]{@{}c@{}}Resultado \\ esperado\end{tabular}} & \begin{tabular}[c]{@{}l@{}}El controlador ONOS detecta el ataque por medio del control\\ de las estadísticas de tráfico y genera un bloqueo de los\\ paquetes ICMP de tipo 8 provenientes del \textit{host} víctima con\\ destino a la dirección de \textit{broadcast} de la red. En la interfaz web\\ del controlador se debe observar que el tráfico malicioso es\\ cortado por el dispositivo de borde más cercano al \textit{host}\\ atacante. A su vez, este último debe poder realizar el ping con\\ normalidad hacia el servidor, como todos los demás usuarios\\ legítimos y \textit{bots} (solamente se bloquean los paquetes ICMP\\ que actúan como combustible para el ataque Smurf). Por otra\\ parte, la regla de \textit{drop}, instalada en todos los conmutadores,\\ debe quedar solamente, después de 30 segundos, en el OVS\\ de acceso mencionado anteriormente debido a la inactividad\\ de la misma en los demás dispositivos. 
+\end{tabular} \\ \hline
+\textbf{\begin{tabular}[c]{@{}c@{}}Resultado \\ obtenido\end{tabular}} & \multicolumn{1}{c|}{\textbf{{\color[HTML]{036400} APROBADO}}} \\ \hline 		 				 
+										 
+												 
+						
+						
+	\end{tabular}
+	\caption{Test T-F-5.}
+	\label{tab:test_F_5}
+\end{table}
+
+
+
+
+\begin{table}[th]
+	\centering
+	\begin{tabular}{|c|l|}
+		\hline
+		\rowcolor[HTML]{EFEFEF}
+		\textbf{\begin{tabular}[c]{@{}c@{}}Identificador \\ del test\end{tabular}} & \multicolumn{1}{c|}{\textbf{T-F-6}} \\ \hline
+		\textbf{Título}   & \begin{tabular}[c]{@{}l@{}} Detección y detención de ataques DDoS  desde distintos OVS de \\acceso.\end{tabular} \\ \hline
+
+\rowcolor[HTML]{EFEFEF}
+\textbf{Objetivo} & \begin{tabular}[c]{@{}l@{}}Verificar la detección y detención de ataques DDoS, ya sea de\\ tipo Smurf, inundación TCP o inundación UDP, dirigidos al\\ servidor y lanzados desde 6 \textit{bots} ubicados en distintos OVS de\\ acceso.\end{tabular} \\ \hline
+					
+\textbf{\begin{tabular}[c]{@{}c@{}}Aplicaciones a\\ instalar en el\\ controlador\\ ONOS\end{tabular}} & \begin{tabular}[c]{@{}l@{}}Openflow Provider Suite  (\texttt{org.onosproject.openflow}).\\ Aplicación de detección de anomalías. \\Aplicación de filtrado del tráfico. \end{tabular} \\ \hline 
+\rowcolor[HTML]{EFEFEF}
+\textbf{Pasos previos} & Pasos 1 a 4 del procedimiento de T-F-2. \\ \hline
+						
+\textbf{Procedimiento} & \begin{tabular}[c]{@{}l@{}}\textbf{1.} Ejecutar en 6 \textit{bots} ubicados en distintos OVS de acceso un\\ ataque DDoS, ya sea de tipo Smurf, inundación TCP o\\ inundación UDP hacia el servidor. \\\hline\textbf{2.} Lanzar desde los mismos \textit{bots} atacantes mensajes ICMP o\\ consultas HTTP GET dependiendo del tipo de ataque realizado.\\ (Ver Tablas \ref{tab:test_F_3}, \ref{tab:test_F_4} y \ref{tab:test_F_5}).\\ \end{tabular} \\ \hline
+\rowcolor[HTML]{EFEFEF}
+\textbf{\begin{tabular}[c]{@{}c@{}}Resultado \\ esperado\end{tabular}} & \begin{tabular}[c]{@{}l@{}}El comportamiento del controlador es similar a lo descrito en\\ los \textit{Tests} T-F-3, T-F-4 y T-F-5, dependiendo del tipo de ataque, ya\\ que lo detecta por medio del control de las estadísticas de\\ tráfico y genera un bloqueo de los paquetes provenientes de los\\ \textit{hosts} atacantes con destino hacia el \textit{host} víctima (visible desde la\\ interfaz web de ONOS). Todas las demás condiciones en cuanto\\ a las consultas HTTP GET y los mensajes ICMP se mantienen\\ constantes. La única diferencia reside en la cantidad de \\dispositivos en donde permanecerán activas las reglas\\ OpenFlow, cuyo contenido es el mismo que en los \textit{tests}\\ anteriores. Además, la aplicación de detección de anomalías\\ debe determinar de manera correcta cuáles son los conmutadores\\ de borde directamente conectados a los atacantes, en caso de\\ inundaciones UDP o TCP.
+\end{tabular} \\ \hline
+\textbf{\begin{tabular}[c]{@{}c@{}}Resultado \\ obtenido\end{tabular}} & \multicolumn{1}{c|}{\textbf{{\color[HTML]{036400} APROBADO}}} \\ \hline 						 
+						
+						
+	\end{tabular}
+	\caption{Test T-F-6.}
+	\label{tab:test_F_6}
+\end{table}
+
+
+
+\begin{table}[th]
+	\centering
+	\begin{tabular}{|c|l|}
+		\hline
+		\rowcolor[HTML]{EFEFEF}
+		\textbf{\begin{tabular}[c]{@{}c@{}}Identificador \\ del test\end{tabular}} & \multicolumn{1}{c|}{\textbf{T-F-7}} \\ \hline
+		\textbf{Título}   & \begin{tabular}[c]{@{}l@{}} Detección y detención de ataques DDoS  desde un mismo OVS\\ de acceso.\end{tabular} \\ \hline
+
+\rowcolor[HTML]{EFEFEF}
+\textbf{Objetivo} & \begin{tabular}[c]{@{}l@{}}Verificar la detección y detención de ataques DDoS, ya sea de\\ tipo Smurf, inundación TCP o inundación UDP, dirigidos al\\ servidor y lanzados desde 2 \textit{bots} ubicados detrás del mismo\\ OVS de acceso.\end{tabular} \\ \hline
+					
+\textbf{\begin{tabular}[c]{@{}c@{}}Aplicaciones a\\ instalar en el\\ controlador\\ ONOS\end{tabular}} & \begin{tabular}[c]{@{}l@{}}Openflow Provider Suite  (\texttt{org.onosproject.openflow}).\\ Aplicación de detección de anomalías. \\Aplicación de filtrado del tráfico. \end{tabular} \\ \hline 
+\rowcolor[HTML]{EFEFEF}
+\textbf{Pasos previos} & Pasos 1 a 4 del procedimiento de T-F-2. \\ \hline
+						
+\textbf{Procedimiento} & \begin{tabular}[c]{@{}l@{}}\textbf{1.} Ejecutar en 2 \textit{bots} ubicados detrás del mismo OVS de acceso\\ un ataque DDoS, ya sea de tipo Smurf, inundación TCP o\\ inundación UDP hacia el servidor. \\\hline\textbf{2.} Lanzar desde los mismos \textit{bots} atacantes mensajes ICMP o\\ consultas HTTP GET dependiendo del tipo de ataque realizado.\\ (Ver Tablas \ref{tab:test_F_3}, \ref{tab:test_F_4} y \ref{tab:test_F_5}).\\ \end{tabular} \\ \hline
+\rowcolor[HTML]{EFEFEF}
+\textbf{\begin{tabular}[c]{@{}c@{}}Resultado \\ esperado\end{tabular}} & \begin{tabular}[c]{@{}l@{}}El comportamiento del controlador es idéntico a lo descrito en\\ la Tabla \ref{tab:test_F_6}.
+\end{tabular} \\ \hline
+\textbf{\begin{tabular}[c]{@{}c@{}}Resultado \\ obtenido\end{tabular}} & \multicolumn{1}{c|}{\textbf{{\color[HTML]{036400} APROBADO}}} \\ \hline 						 
+						
+												 
+						
+						
+	\end{tabular}
+	\caption{Test T-F-7.}
+	\label{tab:test_F_7}
+\end{table}
+
+
+
+
+
+\begin{table}[th]
+	\centering
+	\begin{tabular}{|c|l|}
+		\hline
+		\rowcolor[HTML]{EFEFEF}
+		\textbf{\begin{tabular}[c]{@{}c@{}}Identificador \\ del test\end{tabular}} & \multicolumn{1}{c|}{\textbf{T-F-8}} \\ \hline
+		\textbf{Título}   & \begin{tabular}[c]{@{}l@{}} Detección y detención de ataques DDoS  hacia un cliente \\ cualquiera del ISP.\end{tabular} \\ \hline
+
+\rowcolor[HTML]{EFEFEF}
+\textbf{Objetivo} & \begin{tabular}[c]{@{}l@{}}Verificar la detección y detención de ataques DDoS, ya sea de\\ tipo Smurf, inundación TCP o inundación UDP, dirigidos a\\ cualquier cliente del ISP y lanzados desde 6 \textit{bots} ubicados o no\\ en distintos OVS de acceso.\end{tabular} \\ \hline
+					
+\textbf{\begin{tabular}[c]{@{}c@{}}Aplicaciones a\\ instalar en el\\ controlador\\ ONOS\end{tabular}} & \begin{tabular}[c]{@{}l@{}}Openflow Provider Suite  (\texttt{org.onosproject.openflow}).\\ Aplicación de detección de anomalías. \\Aplicación de filtrado del tráfico. \end{tabular} \\ \hline 
+\rowcolor[HTML]{EFEFEF}
+\textbf{Pasos previos} & Pasos 1 a 4 del procedimiento de T-F-2. \\ \hline
+						
+\textbf{Procedimiento} & \begin{tabular}[c]{@{}l@{}}\textbf{1.} Ejecutar en 6 \textit{bots} un ataque DDoS, ya sea de tipo Smurf,\\ inundación TCP o inundación UDP hacia cualquier cliente\\ del ISP. \\\hline\textbf{2.} Lanzar desde los mismos \textit{bots} atacantes mensajes ICMP o\\ consultas HTTP GET dependiendo del tipo de ataque realizado.\\ (Ver Tablas \ref{tab:test_F_3}, \ref{tab:test_F_4} y \ref{tab:test_F_5}).\\ \end{tabular} \\ \hline
+\rowcolor[HTML]{EFEFEF}
+\textbf{\begin{tabular}[c]{@{}c@{}}Resultado \\ esperado\end{tabular}} & \begin{tabular}[c]{@{}l@{}} 
+	El comportamiento del controlador es idéntico a lo descrito en\\ la Tabla \ref{tab:test_F_6}. 
+\end{tabular} \\ \hline
+\textbf{\begin{tabular}[c]{@{}c@{}}Resultado \\ obtenido\end{tabular}} & \multicolumn{1}{c|}{\textbf{{\color[HTML]{036400} APROBADO}}} \\ \hline 						 
+												 
+						
+						
+	\end{tabular}
+	\caption{Test T-F-8.}
+	\label{tab:test_F_8}
+\end{table}
+
+
+
+
+\begin{table}[th]
+	\centering
+	\begin{tabular}{|c|l|}
+		\hline
+		\rowcolor[HTML]{EFEFEF}
+		\textbf{\begin{tabular}[c]{@{}c@{}}Identificador  \\ del test\end{tabular}} & \multicolumn{1}{c|}{\textbf{T-G-1}} \\ \hline
+		\textbf{Título}   & \begin{tabular}[c]{@{}l@{}} Control de funcionalidades de la interfaz gráfica de usuario y de\\ la API.\end{tabular} \\ \hline		
+	\rowcolor[HTML]{EFEFEF}
+\textbf{Objetivo} & \begin{tabular}[c]{@{}l@{}}Verificar que el subsistema del Capítulo \ref{Chapter6} cumpla con los\\ requerimientos de la Sección \ref{sec:reqs_gui}.\end{tabular} \\ \hline
+					
+\textbf{\begin{tabular}[c]{@{}c@{}}Aplicaciones a\\ instalar en el\\ controlador\\ ONOS\end{tabular}} & \begin{tabular}[c]{@{}l@{}}Openflow Provider Suite  (\texttt{org.onosproject.openflow}).\\ Aplicación de detección de anomalías. \\Aplicación de filtrado del tráfico. \end{tabular} \\ \hline 
+\rowcolor[HTML]{EFEFEF}
+\textbf{Pasos previos} & Pasos 1 y 2 del procedimiento de T-F-2. \\ \hline
+						
+\textbf{Procedimiento} & \begin{tabular}[c]{@{}l@{}} \textbf{1.} Enviar por la GUI las 4 direcciones IP de los IDSs hacia el\\ controlador.\\ \hline \textbf{2.} Paso 3 del procedimiento de T-F-2.\\ \hline \textbf{3.} Enviar las etiquetas de los dispositivos al controlador a través\\ de dicha GUI.\\ \hline \textbf{4.} Enviar los parámetros del comportamiento esperado de la\\ red, obtenidos en la Sección \ref{sec:traffic_legitim} por medio de la interfaz gráfica\\ de usuario.\\ \hline \textbf{5.} Paso 4 del procedimiento de T-F-2.\\ \hline \textbf{6.} A los 20 segundos de haber efectuado el paso 5 del \\procedimiento ejecutar en un \textit{bot} un ataque DoS del tipo \textit{TCP}\\ \textit{SYN flood} hacia el puerto 80 del servidor.\\ \hline \textbf{7.} A los 20 segundos de haber realizado el ataque detenerlo.\\ \hline \textbf{8.} A los 40 segundos reanudar de vuelta el ataque pero con 3\\ bots de distintos OVS de la subcapa de acceso.\\ \hline \textbf{9.} A los 20 segundos de haber realizado el ataque detenerlo.\\ \end{tabular} \\ \hline
+\rowcolor[HTML]{EFEFEF}
+\textbf{\begin{tabular}[c]{@{}c@{}}Resultado \\ esperado\end{tabular}} & \begin{tabular}[c]{@{}l@{}} 
+Al efectuar el primer ítem, en la GUI deben figurar los nuevos\\ detectores agregados. Además, luego del tercer y cuarto paso,\\ la interfaz gráfica de usuario debe exponer los datos agregados\\ en el controlador.
+Por otra parte, en los últimos ítems, los\\ distintos ataques deben mostrar sus correspondientes alertas en\\ la interfaz gráfica de usuario. A su vez, las reglas de \textit{drop} que se\\ visualizan en la GUI deben actualizarse dinámicamente, ya que\\ son temporales. Es decir, a los 30 segundos de realizado el paso\\ 7 del procedimiento la regla que mitiga el ataque \textit{TCP SYN flood}\\ debe eliminarse. Además, en dicha GUI se debe poder observar\\ el dispositivo de acceso en donde la mencionada aplicación de\\ detección de anomalías localizó el tráfico sospechoso. Por\\ último, ambos gráficos de la interfaz gráfica de usuario, al\\ momento de la detección de los ataques y antes de que se\\ instalen las reglas OpenFlow, deben presentar un valor alto en\\ los valores que allí se visualizan. 
+
+\end{tabular} \\ \hline
+\textbf{\begin{tabular}[c]{@{}c@{}}Resultado \\ obtenido\end{tabular}} & \multicolumn{1}{c|}{\textbf{{\color[HTML]{036400} APROBADO}}} \\ \hline
+	\end{tabular}
+	\caption{Test T-G-1.}
+	\label{tab:test_G_1}
+\end{table}
+
+
+\begin{table}[th]
+	\centering
+	\begin{tabular}{|c|l|}
+		\hline
+		\rowcolor[HTML]{EFEFEF}
+		\textbf{\begin{tabular}[c]{@{}c@{}}Identificador  \\ del test\end{tabular}} & \multicolumn{1}{c|}{\textbf{T-G-2}} \\ \hline
+		\textbf{Título}   & \begin{tabular}[c]{@{}l@{}} Configuración de distintos comportamientos esperados de la\\ red.\end{tabular} \\ \hline		
+    \rowcolor[HTML]{EFEFEF}
+    \textbf{Objetivo} & \begin{tabular}[c]{@{}l@{}}Verificar que la aplicación de detección de anomalías detecte\\ como sospechoso o no a un determinado comportamiento de la\\ red en función de los parámetros pasados a través de la GUI.\end{tabular} \\ \hline
+    \textbf{\begin{tabular}[c]{@{}c@{}}Aplicaciones a\\ instalar en el\\ controlador\\ ONOS\end{tabular}} & \begin{tabular}[c]{@{}l@{}}Openflow Provider Suite  (\texttt{org.onosproject.openflow}).\\ Aplicación de detección de anomalías. \end{tabular} \\ \hline 
+    \rowcolor[HTML]{EFEFEF}
+    \textbf{Pasos previos} & Paso 1 del procedimiento de T-E-2. \\ \hline
+    \textbf{Procedimiento} & \begin{tabular}[c]{@{}l@{}} \textbf{1.} Enviar las etiquetas de los dispositivos al controlador a través\\ de dicha GUI.\\ \hline \textbf{2.} Enviar los parámetros del comportamiento esperado de la\\ red, obtenidos en la Sección \ref{sec:traffic_legitim}, por medio de la interfaz gráfica\\ de usuario.\\ \hline \textbf{3.} Generar el escenario de la mencionada Sección \ref{sec:traffic_legitim}.\\ \hline \textbf{4.} A los 7 minutos modificar los parámetros del comportamiento\\ esperado por un valor en la cantidad de paquetes igual a 10\\ paquetes por minuto en cada OVS de distribución.\\ \hline \textbf{5.} Realizar el paso 3.\\ \end{tabular} \\ \hline
+    \rowcolor[HTML]{EFEFEF}
+    \textbf{\begin{tabular}[c]{@{}c@{}}Resultado \\ esperado\end{tabular}} & \begin{tabular}[c]{@{}l@{}} 
+                                                                               Al generar el escenario de la Sección \ref{sec:traffic_legitim}, con los parámetros del\\ ítem 2 la aplicación no detecta ninguna anomalía. Sin embargo,\\ lo debe hacer cuando bajo el mismo patrón de generación de\\ tráfico legítimo dichos parámetros se modifican. 
+\end{tabular} \\ \hline
+\textbf{\begin{tabular}[c]{@{}c@{}}Resultado \\ obtenido\end{tabular}} & \multicolumn{1}{c|}{\textbf{{\color[HTML]{036400} APROBADO}}} \\ \hline
+	\end{tabular}
+	\caption{Test T-G-2.}
+	\label{tab:test_G_2}
+\end{table}

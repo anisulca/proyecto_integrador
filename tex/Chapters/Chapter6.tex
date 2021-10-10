@@ -1,0 +1,253 @@
+% Chapter Template
+% cSpell:words parencite onfwhitepaper includegraphics resizebox sdncomponents
+% linewidth comparqui redireccionar enrutamiento subfigure toposdn Nicira toposinsdn
+\chapter{Interfaz gráfica de usuario} % Main chapter title 
+
+\label{Chapter6} % Change X to a consecutive number; for referencing this chapter elsewhere, use \ref{ChapterX}
+
+En este capítulo se hará una breve explicación de la API y de la aplicación que
+posibilitan al administrador del sistema una configuración y un uso sencillos e
+intuitivos.
+
+En primer lugar, se detallarán los requerimientos. Luego, se hará una breve
+descripción del proceso de diseño y de implementación de este subsistema que
+utiliza la interfaz NORTHBOUND del controlador. A su vez, tendrá su lugar la
+explicación de las herramientas utilizadas para el desarrollo de la interfaz
+gráfica de usuario.
+
+%-----------------------------bitext comileArquitectura del protocolo--------------------
+%	SECTION 1
+%----------------------------------------------------------------------------------------
+\section{Requerimientos} \label{sec:reqs_gui}
+
+Los requerimientos funcionales de la aplicación y de la API son los siguientes:
+
+\paragraph{RF12.} La aplicación y la API deben permitirle al usuario
+introducirle a las aplicaciones de filtrado del tráfico y de detección de
+anomalías %\ref{sec:Chapter4} y \ref{sec:Chapter5}
+las direcciones IP de los distintos IDSs.
+
+\paragraph{RF13.} En cuanto a la aplicación de detección de anomalías, la
+aplicación y la API deben posibilitarle al usuario la introducción de las
+etiquetas de los dispositivos de la red (acceso, distribución, núcleo, servicio
+y frontera) para el correcto funcionamiento de la misma.
+\paragraph{RF14.} El usuario debe poder ingresar a la aplicación de detección de
+anomalías los parámetros del modelo de comportamiento esperado de su red, los
+cuales son los siguientes por cada dispositivo OVS de distribución:
+
+\begin{itemize}
+\item{Cantidad de paquetes entrantes al OVS desde los enlaces conectados
+    directamente a los dispositivos de la subcapa de acceso.}
+\item{Cantidad de bytes entrantes al OVS desde los enlaces conectados
+    directamente a los dispositivos de la subcapa de acceso.}
+\end{itemize}
+
+\paragraph{RF15.} La aplicación y la API deben permitirle al usuario la
+visualización de los identificadores de los conmutadores de borde cuyo tráfico
+entrante presente comportamiento sospechoso.
+\paragraph{RF16.} La aplicación y la API deben mostrarle al usuario información actualizada, en formato gráfico, de la evolución en el tiempo de los
+valores que se originan como resultado de (\ref{eq:Xcount}) y (\ref{eq:Scount}).
+\paragraph{RF17.} El usuario debe poder ver, a través de la aplicación y de la
+API, un gráfico con la evolución en el tiempo de los valores del tráfico global entrante a la red y observado cada 10 segundos, etiquetado con la letra \textbf{\(N\)} en
+(\ref{eq:Xcount}) y (\ref{eq:Scount}).
+\paragraph{RF18.} La aplicación y la API deben lograr que el usuario pueda visualizar información sobre las alertas recibidas de los distintos IDSs. Dicha información debe estucturarse de la manera presentada a continuación:
+\begin{itemize}
+	\item{Tipo de ataque. (Smurf o inundación).}
+	\item{Mensaje de la alerta.}
+	\item{Dirección IP de origen del paquete que provocó el evento.}
+	\item{Dirección IP de destino del paquete que provocó el evento.}
+	\item{IDS que generó la alerta.}
+	\item{\verb|sid| de la regla que provocó la alerta.}
+	\item{Fecha y hora de la generación del evento.}
+	\item{Si el ataque se encuentra solucionado o no.}
+	\item{Dispositivo de red en donde se encuentra la solución a la alerta.}
+\end{itemize}
+
+\paragraph{RF19.} El usuario debe poder ver, a través de la aplicación, las reglas de \textit{drop} activas en los distintos OVS. La información a mostrar de las distintas reglas se estructura de la manera expuesta a continuación:
+\begin{itemize}
+\item {Identificación del dispositivo en donde está instalada la regla.}
+\item {\textit{Timeout} de la regla.}
+\item {Información del protocolo utilizado por el \textit{Traffic Selector}.}
+\item {Dirección IP de origen indicada por la regla.}
+\item {Dirección IP de destino indicada por la regla.}
+\item {El número del puerto de destino indicado por la regla, si el protocolo es TCP o UDP.}
+\item {El tipo ICMP indicado por la regla, en caso de que el protocolo sea el correspondiente.}
+\end{itemize}
+
+\section {Diseño e implementación de la API}
+
+A la hora de diseñar la API, se debieron tener en cuenta cuáles métodos eran
+necesarios para lograr los distintos requerimientos. Para ello se construyó la
+Tabla \ref{tab:api_methods}.
+\\
+\\
+
+\begin{longtable}[c]{|c|
+		>{\columncolor[HTML]{3166FF}}l |l|}
+		\hline
+		
+		\cellcolor[HTML]{EFEFEF}\textbf{Requerimiento} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Método}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Descripción}} \\ \hline
+		\endfirsthead
+		%
+		\multicolumn{3}{c}%
+		{{\bfseries Table \thetable\ continued from previous page}} \\
+		\endhead
+		%
+		\cellcolor[HTML]{FFFFFF}                                & {\color[HTML]{FFFFFF} 1 - GET}                                & \cellcolor[HTML]{FFFFFF}Obtener direcciones IP de los distintos \textit{hosts}. \\ \cline{2-3} 
+		\cellcolor[HTML]{FFFFFF}                                & {\color[HTML]{FFFFFF} 2 - GET}                                & Obtener direcciones IP de los IDSs.                                    \\ \cline{2-3} 
+		\cellcolor[HTML]{FFFFFF}                                & \cellcolor[HTML]{32CB00}{\color[HTML]{FFFFFF} 3 - POST}       & Cargar dirección IP de un IDS.                                        \\ \cline{2-3} 
+		\multirow{-4}{*}{\cellcolor[HTML]{FFFFFF}\textbf{RF12}} & \cellcolor[HTML]{FE0000}{\color[HTML]{FFFFFF} 4 - DELETE}     & Eliminar dirección IP de un IDS.                                      \\ \hline
+		                                                        & {\color[HTML]{FFFFFF} 5 - GET}                                & Obtener descripciones de los \textit{switches}.                                 \\ \cline{2-3} 
+		\multirow{-2}{*}{\textbf{RF13}}                         & \cellcolor[HTML]{32CB00}{\color[HTML]{FFFFFF} 6 - POST}       & Configurar etiquetas.                                                      \\ \hline
+		                                                        & {\color[HTML]{FFFFFF} 7 - GET}                                & Obtener \textit{switches} de distribución.                                     \\ \cline{2-3} 
+		                                                        & {\color[HTML]{FFFFFF} 8 - GET}                                & Obtener valores del comportamiento esperado.                           \\ \cline{2-3} 
+		\multirow{-3}{*}{\textbf{RF14}}                         & \cellcolor[HTML]{32CB00}{\color[HTML]{FFFFFF} 9 - POST}       & Cargar valores del comportamiento esperado.                            \\ \hline
+		\textbf{RF15}                                           & {\color[HTML]{FFFFFF} 10 - GET}                               & Obtener dispositivos de borde sospechosos.                             \\ \hline
+		\textbf{RF16}                                           & {\color[HTML]{FFFFFF} 11 - GET}                               & Obtener historial de valores de chi cuadrado.                          \\ \hline
+		\textbf{RF17}                                           & {\color[HTML]{FFFFFF} 12 - GET}                               & Obtener valores del tráfico observado.                                \\ \hline
+		\textbf{RF18}                                           & {\color[HTML]{FFFFFF} 13 - GET}                               & Obtener historial de alertas.                                          \\ \hline
+		\textbf{RF19}                                           & {\color[HTML]{FFFFFF} 14 - GET}                               & Obtener reglas OpenFlow de \textit{drop}.                                       \\ \hline
+		\caption{Métodos de la API.}
+		\label{tab:api_methods}\\
+	\end{longtable}
+
+
+	De todos los métodos que figuran en la Tabla \ref{tab:api_methods}, una gran parte puede obtenerse desde la API que ofrece por defecto el controlador ONOS, tal como se observa en la Tabla \ref{tab:api_onos}.\\ 
+
+
+
+	\begin{longtable}[c]{|c|
+		>{\columncolor[HTML]{3166FF}}l |}
+		\hline
+		\cellcolor[HTML]{EFEFEF}\textbf{Método} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{\begin{tabular}[c]{@{}c@{}}API de ONOS\end{tabular}}} \\ \hline
+		\endfirsthead
+		%
+		\multicolumn{2}{c}%
+		{{\bfseries Table \thetable\ continued from previous page}} \\
+		\endhead
+		%
+		1                                        & {\color[HTML]{FFFFFF} GET /hosts}                                                     \\ \hline
+		5                                        & {\color[HTML]{FFFFFF} GET /devices}                                                   \\ \hline
+		6                                        & \cellcolor[HTML]{32CB00}{\color[HTML]{FFFFFF} POST /network/configuration}            \\ \hline
+		7                                        & {\color[HTML]{FFFFFF} GET /devices}                                                   \\ \hline
+		10                                       & {\color[HTML]{FFFFFF} GET /devices}                                                   \\ \hline
+		14                                       & {\color[HTML]{FFFFFF} GET /flows}                                                     \\ \hline
+		\caption{Métodos de la API de ONOS.}
+		\label{tab:api_onos}\\
+	\end{longtable}
+
+	Agregando a la Tabla \ref{tab:api_onos}, los métodos 7 y 10 utilizan la misma consulta a la API de ONOS. Su diferencia radica en el procesamiento posterior para obtener los diferentes \textit{switches} de red. Dicho procesamiento se basa en consultar las distintas etiquetas, interesando para la obtención de los dispositivos de distribución aquella denominada \textit{distribution}, siendo  \textit{inspect} para los sospechosos.   
+
+	Por otra parte, se debieron implementar aquellos métodos no cubiertos por defecto por el controlador. Es por ello que se presenta la Tabla \ref{tab:api_tesis} con lo efectuado en el presente proyecto en materia de APIs.
+
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
+\begin{table}[]
+	\centering
+	\begin{tabular}{|c|
+			>{\columncolor[HTML]{3166FF}}l |}
+			\hline
+			\cellcolor[HTML]{EFEFEF}{\color[HTML]{000000} \textbf{Método}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}{\color[HTML]{000000} \textbf{API generada}}} \\ \hline
+			2                                                               & {\color[HTML]{FFFFFF} GET /ids/ips}                                                       \\ \hline
+			3                                                               & \cellcolor[HTML]{32CB00}{\color[HTML]{FFFFFF} POST /ids/ip}                               \\ \hline
+			4                                                               & \cellcolor[HTML]{FE0000}{\color[HTML]{FFFFFF} DELETE /ids/ip}                              \\ \hline
+			8                                                               & {\color[HTML]{FFFFFF} GET /statistic/download}                                            \\ \hline
+			9                                                               & \cellcolor[HTML]{32CB00}{\color[HTML]{FFFFFF} POST /statistic/upload}                     \\ \hline
+			11                                                              & {\color[HTML]{FFFFFF} GET /statistic/chi/values}                                          \\ \hline
+			12                                                              & {\color[HTML]{FFFFFF} GET /statistic/chi/values}                                          \\ \hline
+			13                                                              & {\color[HTML]{FFFFFF} GET /fm/alarms}                                                     \\ \hline
+		\end{tabular}
+		\caption{Métodos de la API implementados.}
+		\label{tab:api_tesis}
+	\end{table}
+
+
+
+	Agregando información a la mencionada Tabla \ref{tab:api_tesis}, cabe destacar
+  que los métodos 2, 3 y 4 pertenecen a la aplicación de filtrado del tráfico,
+  la cual debió incluir una leve modificación para permitir que los IDSs de la
+  topología de la red se puedan autenticar a través del envío de mensajes
+  iniciales por medio de sus \textit{sockets} conectados al controlador. En
+  dicho proceso, los detectores envían sus direcciones IP a ONOS, el cual los
+  acepta o no si desde la GUI se cargaron previamente dichas direcciones por
+  medio del método 3.
+
+	Por otro lado, los métodos 8, 9, 11 y 12 corresponden a la aplicación de detección de anomalías, de donde es posible obtener los valores estadísticos que se solicitan.
+
+	Y por último, el método 13 exigió la utilización, en la aplicación de filtrado del tráfico, de dos servicios que ofrece ONOS: \texttt{AlarmService} y \texttt{AlarmProviderService}. Ambos se utilizan para interactuar con el manejador de alarmas de los dispositivos. En este caso, lo único que se requiere es mantener un historial de aquellas alarmas o alertas provistas por los IDSs, las cuales presentan reglas de \textit{drop}, instaladas en los dispositivos de red, que las atienden y solucionan. Además, se hace necesario agregar o eliminar dichas alertas, lo cual se efectúa de manera sencilla por medio de estos servicios. A su vez, éstos ofrecen una API, de la cual se utilizará el método \textit{GET /alarms} para obtenerlas.
+
+
+
+\section {Diseño e implementación de la interfaz gráfica de usuario}
+
+Para el desarrollo de la interfaz web de usuario se hizo necesario el
+aprendizaje de determinados lenguajes, librerías y herramientas.
+
+Una de esas herramientas que se utilizó es el \textit{microframework} web Flask \parencite{flask}, el cual se encuentra escrito en Python e incluye un servidor HTTP. Este \textit{framework} permite el desarrollo y despliegue de aplicaciones web bajo un estilo de arquitectura de software Modelo-Vista-Controlador. La vista en este caso sería la página HTML, la cual fue confeccionada con la ayuda de Bootstrap.
+Además, el mencionado servidor actúa de cliente con respecto a las APIs de ONOS.
+
+Bootstrap \parencite{bootstrap} se trata de un conjunto de herramientas \textit{open source} utilizadas para el desarrollo \textit{front-end} de sitios web con los lenguajes HTML, CSS y Javascript. Con ayuda de sus \textit{templates} es posible construir diseños amigables, estéticos y de rápido prototipado.
+
+A su vez, con el objetivo de insertar datos y textos determinados y dinámicos dentro de un documento HTML desde la aplicación de Flask, se debió recurrir a un lenguaje de \textit{templates} escrito en Python denominado Jinja2 \parencite{jinja}. Por otra parte, para generar los gráficos se usó la librería Pygal \parencite{pygal}, que los efectúa a partir de la creación de imágenes con formato vectorial SVG.
+
+
+Habiendo definido las principales herramientas utilizadas, se comenzará a mostrar la implementación de los distintos requerimientos. En primer lugar, la interfaz web cuenta con dos vistas, una de configuración y otra de control.
+
+En la primer vista las direcciones IP de los IDSs pueden cargarse y eliminarse, tal como se observa en la Figura \ref{fig:post_ids}. Además, las etiquetas de los dispositivos pueden modificarse a valores elegidos por el usuario o a aquellos por defecto que se encuentran configurados en un archivo. Por último, pueden ingresarse los valores del modelo de comportamiento esperado en cuanto a la cantidad de paquetes y de bytes que ingresan por ciertos enlaces a los dispositivos de distribución (Ver Figura \ref{fig:set_comportamiento_esperado}).
+
+\begin{figure}[H]
+	\centering 
+	\includegraphics[width=\textwidth]{ids}
+	\caption{Carga y eliminación de la IP de los IDSs.}
+	\label{fig:post_ids}
+\end{figure}
+
+\begin{figure}[H]
+	\centering 
+	\includegraphics[width=\textwidth]{valoresesperados}
+	\caption{Carga del comportamiento esperado de la red.}
+	\label{fig:set_comportamiento_esperado}
+\end{figure}
+
+En la segunda vista se pueden observar las alertas de los ataques y las reglas
+OpenFlow utilizadas para detenerlos, tal como se observa en las Figuras
+\ref{fig:alertas} y \ref{fig:reglas_drop}. A su vez, se encuentra una tabla con
+los dispositivos de borde con tráfico sospechoso y el gráfico que muestra la
+evolución de los valores de chi cuadrado en el tiempo (ver Figura
+\ref{fig:Chi_cuadrado_graph}). Por último, existe otro gráfico que deja
+visualizar la forma en que varía el tráfico observado cada 10 segundos en la red
+a lo largo del tiempo. Este gráfico se muestra en la Figura
+\ref{fig:trafico_obs_10}.
+
+\begin{figure}[H]
+	\centering 
+	\includegraphics[width=\textwidth]{alerta}
+	\caption{Alertas de ataques.}
+	\label{fig:alertas}
+\end{figure}
+
+
+\begin{figure}[H]
+	\centering 
+	\includegraphics[width=\textwidth]{reglaOpenflowDrop}
+	\caption{Reglas OpenFlow de \textit{drop} en el sistema.}
+	\label{fig:reglas_drop}
+\end{figure}
+
+
+\begin{figure}[H]
+	\centering 
+	\includegraphics[width=\textwidth]{chicuadrado}
+	\caption{Gráfico de la evolución de los valores de chi cuadrado en el tiempo.}
+	\label{fig:Chi_cuadrado_graph}
+\end{figure}
+
+\begin{figure}[H]
+	\centering 
+	\includegraphics[width=\textwidth]{trafico}
+	\caption{Gráfico de la evolución del tráfico observado en la red a través del tiempo.}
+	\label{fig:trafico_obs_10}
+\end{figure}
+
+

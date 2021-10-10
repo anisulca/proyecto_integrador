@@ -1,0 +1,128 @@
+% Appendix Template
+
+\chapter{Tutorial} % Main appendix title
+
+\label{AppendixD} % Change X to a consecutive letter; for referencing this appendix elsewhere, use \ref{AppendixX}
+
+En este apéndice se detallarán los pasos a seguir a modo de tutorial para poder utilizar las soluciones desarrolladas. Cuenta de 4 partes y se lo probó en una máquina con un sistema operativo Ubuntu 18.04. La primera se basa en la generación de las imágenes de Docker y en ejecutar la correspondiente de ONOS. La segunda en la instalación de ContainerNet para poder así levantar la topología. La tercera tiene como finalidad poner a correr las aplicaciones en el controlador y levantar la topología de prueba y la interfaz gráfica de usuario. Por último, la cuarta implica el conexionado de los distintos IDSs con el controlador, la configuración de las etiquetas en los distintos dispositivos de red y la generación del tráfico legítimo y de los ataques. Para lograr todo esto es indispensable clonar el repositorio correspondiente con el siguiente comando:
+
+\begin{lstlisting}[language=,]
+git clone https://gitlab.com/sulca/ddosdn.git
+\end{lstlisting}
+
+
+En caso de no tener instalado Docker ni Docker-Compose, seguir los pasos que figuran en \parencite{pasos_instalar_docker} y \parencite{pasos_instalar_docker_compose}, respectivamente.
+
+Otro requisito previo es disponer del software Open vSwitch. Para ello, se debe seguir alguno de los procedimientos de instalación que figuran en \parencite{pasos_instalar_OVS}.
+
+
+
+\section {Controlador ONOS y otras imágenes de Docker}
+
+Para empezar, se tienen que ejecutar los comandos que figuran en el Código FUente \ref{lst:comando_repo_onos} para emplear una versión estable del controlador ONOS:\\
+
+\begin{lstlisting} [label=lst:comando_repo_onos, language=, caption= Comandos para poseer una versión estable del controlador., captionpos=b]
+    >> cd ~
+    >> git clone https://github.com/opennetworkinglab/onos.git
+    >> git checkout onos-1.13
+\end{lstlisting}
+
+A su vez, se deben insertar y configurar ciertas variables de entorno para el controlador, agregando al archivo \textasciitilde{}/.bashrc las líneas del Bloque \ref{lst:lineasbashrc}.\\
+
+\begin{lstlisting} [label=lst:lineasbashrc, language=,caption= Configuración de variables de entorno., captionpos=b]
+    export ONOS_ROOT=~/onos
+    source $ONOS_ROOT/tools/dev/bash_profile
+\end{lstlisting}
+
+A continuación, hay que situarse sobre el directorio raíz del repositorio con nombre \textit{ddosdn} e ingresar los comandos del Código FUente \ref{lst:comandos_onos} con el fin de ejecutar y levantar dicho controlador. \\
+
+\begin{lstlisting} [label=lst:comandos_onos, language=, caption= Comandos para poner en funcionamiento a ONOS., captionpos=b]
+    >> cd ./src/Docker/
+    >> sudo docker-compose up onos
+\end{lstlisting}
+
+
+
+Para ingresar a la CLI del controlador se utiliza el comando
+de conexión \texttt{ssh karaf@192.168.60.2 -p 8101} (contraseña: \textit{karaf}), mientras que para observar la interfaz web de ONOS, en un navegador se debe colocar la URL:
+\url{http://192.168.60.2:8181/onos/ui/index.html}. Si en cambio se utiliza la dirección \url{http://192.168.60.2:8181/onos/v1/docs/} (nombre de usuario: \textit{karaf}, contraseña: \textit{karaf}), se tiene acceso a la documentación de las APIs que posee dicho controlador.
+
+
+Luego de esto, se deben generar las imágenes de Docker correspondientes para poder instanciar la topología de prueba. Para ello, manteniendo el mismo directorio se deben ejecutar los comandos del Código FUente \ref{lst:comandos_imagenes_docker}.\\
+
+\begin{lstlisting} [label=lst:comandos_imagenes_docker, caption= Comandos para generar las imágenes de Docker., captionpos=b]
+    >> sudo docker-compose build snort
+    >> sudo docker-compose build apache
+    >> sudo docker-compose build bind
+    >> sudo docker-compose build siege
+    >> sudo docker-compose build bot
+    >> sudo docker-compose build gui
+\end{lstlisting}
+
+
+\section {Instalación de ContainerNet}
+
+Para la instalación de ContainerNet se deben ejecutar los comandos que figuran en el Bloque \ref{lst:containerNet}.\\
+
+\begin{lstlisting} [label=lst:containerNet, language=, caption= Comandos de instalación de ContainerNet., captionpos=b]
+    >> git clone https://github.com/containernet/containernet.git
+    >> sudo apt update
+    >> sudo apt install python-pip 
+    >> sudo apt install python-dev 
+    >> sudo apt install python-setuptools 
+    >> sudo apt install iptables 
+    >> sudo apt install build-essential 
+    >> pip install --user pytest 
+    >> pip install --user docker 
+    >> pip install --user python-iptables 
+    >> cd containernet/util/
+    >> sudo bash ./install.sh
+    >> cd .. 
+    >> sudo make develop 
+    >> sudo mn -c
+\end{lstlisting}
+
+
+\section {Aplicaciones, topología e interfaz gráfica de usuario}
+
+Para poder instalar las aplicaciones en el controlador, primero hay que compilarlas. Para ello se requiere solucionar ciertas dependencias de Java e instalar Maven. En el Código FUente \ref{lst:maven} aparecen los comandos para corregir el primer problema.\\
+
+
+\begin{lstlisting} [label=lst:maven, language=, caption= Comandos para poder compilar las aplicaciones de Java para Onos., captionpos=b]
+    >> sudo apt-get install software-properties-common -y 
+    >> sudo add-apt-repository ppa:webupd8team/java -y 
+    >> sudo apt-get update 
+    >> echo "oracle-java8-installer shared/accepted-oracle-license-v1-1 select true" | sudo debconf-set-selections
+    >> sudo apt-get install oracle-java8-installer oracle-java8-set-default -y
+\end{lstlisting}
+
+
+
+
+Paso siguiente se debe instalar Maven (versión 3 o superior) con el comando \texttt{sudo apt install maven}.
+
+
+Habiendo efectuado los pasos anteriores, ahora se tienen que compilar e instalar las aplicaciones, además del instanciado de la topología de prueba. Para ello, en el directorio \textit{./ddosdn/src/ScriptsSH/Topologia/} se debe ejecutar el comando \texttt{bash ./topo3.sh 0}. Luego de que el controlador reconozca todos los \textit{hosts} de dicha topología, ejecutar el mismo comando pero con el parámetro igual a 3 en vez de 0. Con ello, se configura el tiempo en que ONOS determina como caído a un enlace cualquiera de la red, con el fin de evitar derrumbes rápidos de éstos frente a determinados ataques.
+
+Luego, se debe levantar la interfaz gráfica de usuario. Para ello, se tiene que introducir el comando \texttt{sudo docker-compose up gui} en el directorio relativo a la raíz del repositorio
+ \textit{./src/Docker/}. Por último, en el navegador, para acceder a la GUI, se debe ingresar la URL \url{http://localhost:5000/}.
+
+\section {Etiquetas, IDSs, tráfico legítimo y ataques}
+
+Una vez en funcionamiento la interfaz gráfica de usuario explicada en el Capítulo \ref{Chapter6}, en la vista de configuración se debe hacer clic sobre el botón \textit{Setear modo por defecto} para la inserción de las etiquetas correspondientes.
+
+Posteriormente, se tienen que activar los procesos de Snort en los distintos
+IDSs y efectuar el conexionado vía \textit{sockets} de dichos detectores al controlador.
+Esto se efectúa a través de los comandos que figuran en el Código FUente \ref{lst:conexion_socket}. \\
+
+
+\begin{lstlisting} [label=lst:conexion_socket, language=,caption= Conexión de los IDSs al controlador., captionpos=b]
+    >> cd ./src/ScriptsSH/Topologia/
+    >> sudo bash ./scriptNodosReTrasnsmisores.sh 4
+\end{lstlisting}
+
+Luego, para generar tráfico legítimo por parte de los diferentes \textit{hosts}, ejecutar el comando \texttt{sudo python master\_etapas\_simulacion.py -d 192.168.10.5} en el directorio \textit{./src/Python/Simulacion/}.
+
+Por último, para producir los ataques DDoS por inundación TCP o UDP, se debe utilizar el \textit{script} de Python \textit{master\_hping3.py} que se encuentra en \textit{./src/Python/GenAttack/}. Dicho archivo presenta una ayuda que se puede acceder a través del agregado del parámetro \textit{-h} al comando correspondiente. Allí figuran todas las posibles opciones a utilizar. Un ejemplo podría ser un ataque TCP DDoS SYN flood que se logra al ejecutar \texttt{sudo python master\_hping3.py -t 1 -c 4}.
+
+En cambio, para los ataques DDoS de tipo Smurf, en el mismo directorio usar el \textit{script} master\_smurf.py. 

@@ -1,0 +1,20 @@
+% Appendix Template
+
+\chapter{Algunas de las características del kernel de Linux} % Main appendix title
+
+\label{AppendixB} % Change X to a consecutive letter; for referencing this appendix elsewhere, use \ref{AppendixX}
+
+
+\paragraph{Linux namespaces.} 
+De acuerdo a \parencite{linux_namespaces}, esta característica del \textit{kernel} de Linux permite  virtualizar y aislar recursos del sistema entre procesos independientes. Esto es muy útil cuando se trata de \textit{containers}, debido a que si no existieran los \textit{namespaces}, por ejemplo, un proceso corriendo en un \textit{container} A podría desmontar el sistema de archivos de un \textit{container} B, ya que dichos recursos no estarían aislados. Existen diferentes tipos de \textit{namespaces}, dependiendo de lo que buscan virtualizar, como son por ejemplo los \textit{Linux network namespaces}, que  aíslan y virtualizan \textit{stacks} y recursos de red, como por ejemplo, las interfaces de red.
+
+
+\paragraph{Virtual Ethernet devices (veth).}
+Teniendo en cuenta a \parencite{veth}, los dispositivos Ethernet virtuales pueden actuar como túneles entre \textit{network namespaces}, permitiendo la  comunicación entre estos, a partir de los dos extremos virtuales del dispositivo Ethernet. Uno de dichos extremos se conecta a una interfaz de red de un \textit{namespace} y  el otro extremo a alguna del otro \textit{namespace} correspondiente, formándose así un enlace de comunicación virtual.
+
+
+\paragraph{Linux control groups (cgroups).}
+De acuerdo a \parencite{cgroups}, son otra característica del \textit{kernel} de Linux, utilizada para la gestión de los recursos. Permite organizar, en una estructura jerárquica de grupos, a procesos cuyo uso de ciertos recursos como, por ejemplo, memoria, CPU, etc., necesita ser limitado, restringido, contabilizado y monitoreado.
+
+\paragraph{Linux bridges.}
+Teniendo en cuenta a \parencite{linux_bridge_1} y \parencite{linux_bridge_2}, se trata de un componente del \textit{kernel} de Linux que se comporta como un conmutador virtual de red (dispositivo de capa 2). Permite unir segmentos de una red y se le pueden conectar tantos dispositivos virtuales como reales a sus puertos. No presenta capacidad OpenFlow. 

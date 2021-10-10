@@ -1,0 +1,698 @@
+% Chapter Template
+% cSpell:words parencite onfwhitepaper includegraphics resizebox sdncomponents
+% linewidth comparqui redireccionar enrutamiento subfigure toposdn Nicira toposinsdn
+\chapter{Marco teórico} % Main chapter title 
+
+\label{Chapter2} % for referencing this chapter elsewhere, use \ref{ChapterX}
+En el presente capítulo, en primer lugar, se explicará un concepto fundamental
+sobre el que se basó el proyecto: las redes definidas por software. Estas
+representan una transformación, tanto técnica como económica, de las redes tal y
+como las conocemos hoy en día. Las ventajas son tales que empresas como Google,
+Facebook, China Unicom, AT\&T, Deutsche Telekom, entre otras, intentan migrar
+sus redes hacia este nuevo paradigma.
+
+En segundo lugar, los ataques de denegación de servicio serán el objetivo a
+describir, ya que representan una amenaza a solucionar tanto en las redes
+actuales como en las futuras. Aprovechando las ventajas de la administración de
+las redes definidas por software, este proyecto intenta abordar esta
+problemática desde un nuevo enfoque.
+
+Luego, se expone una sección con el propósito de destacar las características de
+los sistemas de detección de intrusiones, elementos fundamentales para la
+detección y mitigación de los ataques de denegación de servicio. Estos forman
+parte de la solución brindada a lo largo de este trabajo.
+
+Por último, la principal contribución del presente proyecto es la implementación de
+un mecanismo de detección DDoS combinando el uso de los mencionados sistemas de
+detección de intrusiones con las redes definidas por software. La
+infraestructura apropiada para poder validar correctamente el producto y darle
+una mayor relevancia debe ser aquella que maneje una enorme cantidad de
+tráfico, presente múltiples subredes y puntos de acceso, posea posibilidades de
+escalar en un futuro y mantenga una jerarquía entre los dispositivos de red que
+la componen. Un buen escenario, considerando también las características de
+algunas de las empresas mencionadas anteriormente, son los proveedores de
+servicios de Internet, por lo que se destina una sección al final de este
+capítulo en donde se explican su arquitectura y sus componentes.
+
+
+%---------bitext comileArquitectura del protocolo----------------------------------------
+%	SECTION 1
+%----------------------------------------------------------------------------------------
+\section{Redes definidas por software} \label{sec:sdn}
+
+El mundo SDN entra en el concepto de la \textbf{desagregación}, que consiste
+simplemente en el desacoplamiento de dos componentes normalmente integrados, con
+el objetivo de crear opciones y flexibilidad. Si los usuarios pueden mezclar y
+combinar diferentes tipos y versiones de dichos componentes, entonces pueden
+construir un sistema que sea un ajuste exclusivo para su propósito específico.
+
+\subsection{Definición} 
+
+La \textit{Open Networking Foundation} (ONF) \parencite{onf} es una sociedad sin
+fines de lucro que impulsa la transformación de la infraestructura de la red y
+de los modelos de negocios, dedicándose al desarrollo, estandarización y
+comercialización de \textit{Software Defined Networking} (SDN). Ellos nos
+brindan la primera definición, en donde SDN es una arquitectura dinámica y
+adaptable, muy útil para satisfacer las necesidades variables en ancho de banda
+de las aplicaciones actuales por medio de la desagregación de las funciones de
+control de las de reenvío de la red. Por un lado, el control de dicha red puede
+volverse programable y centralizado y, por el otro, las funciones de reenvío se
+efectúan a través de la infraestructura subyacente \parencite{def_citrix}.
+
+El hecho es que las redes de cualquier tamaño necesitan ser controladas. En una
+organización pequeña, con tener una sola persona talentosa que pueda diseñar,
+construir, administrar y mantener los servidores, \textit{firewalls} y
+enrutadores es suficiente. Sin embargo, esto no es sostenible ni aceptable en
+redes más grandes. Y es aquí donde SDN cumple un papel muy importante.
+
+\subsection{Arquitectura SDN} \label{sec:arch_SDN}
+Antes de entrar en detalles sobre la arquitectura SDN, es necesario especificar
+el papel del plano de control y del plano de datos, tanto para las redes
+tradicionales como para las que se encuentran dentro del campo SDN.
+
+Si nos situamos en un dispositivo de red, a través de los enlaces (cable, fibra
+o medios inalámbricos) éste recibe datagramas que debe procesar y reenviar. El
+proceso de reenvío de paquetes mueve los datagramas desde una interfaz de
+entrada hacia una de salida apropiada según la información contenida en un
+estructura de datos conocida como \textit{Forwarding Information Base} (FIB) que
+posee el dispositivo de red en cuestión. Dicha función de reenvío forma parte
+del \textbf {plano de datos} \parencite{arch_tradicional}.
+
+Como se mencionó anteriormente, en los dispositivos de red se necesita
+información para realizar el proceso de reenvío en forma adecuada. Para obtener
+dicha información (por ejemplo, entradas de la tabla FIB), se construye una
+vista de la topología de la red y, en base a eso, se arman las tablas de
+enrutamiento conocidas como \textit {Routing Information Base} (RIB), a partir
+de las cuales se calculan las mejores rutas de acuerdo a determinados criterios
+de selección. Lo mencionado es tarea del \textbf {plano de control}. Además
+comprende funciones de configuración (configuración de interfaces, configuración
+de protocolos, etc.) y el monitoreo del sistema \parencite{arch_tradicional}.
+
+Entrando más en detalle, una tabla RIB presenta entradas que corresponden a
+todos los posibles caminos aprendidos por los protocolos administradores de la
+topología de la red desde un origen hacia un destino particular. De acuerdo a
+estas entradas, una tabla FIB del plano de datos se confecciona a partir de la
+elección de uno de todos los caminos posibles, en base a los mencionados
+criterios.
+
+Si ahora tenemos en cuenta a las redes tradicionales, sus dispositivos de red
+incluyen a ambos planos, el de control y el de datos, e implementan funciones de
+los mismos por medio de aplicaciones que son propietarias del fabricante del
+equipo. De esta forma, se está en presencia de una de las desventajas
+principales de dichas redes: la configuración distribuida y dependiente del mencionado
+fabricante del equipo. Lo primero se debe a que como el plano de control se
+encuentra en todos los dispositivos de red, los cambios en las configuraciones
+deben realizarse equipo por equipo.
+
+En este contexto surgen las redes definidas por software, caracterizadas
+principalmente por:
+
+\begin{itemize}
+\item \textbf{Separación física del plano de datos del plano de control.} Esto
+  garantiza que la infraestructura física de conmutación y de reenvío de paquetes
+  se pueda construir a partir de equipos estándar, de menor costo y sin la
+  configuración dependiente del fabricante. Estos dispositivos son conocidos como
+  conmutadores de caja blanca \parencite{sdn_approach}.
+\item \textbf{Gestión central.} El plano de control pasa a localizarse en un
+  único ente centralizado programable, conocido como controlador SDN. A través de
+  esta gestión central, todos los dispositivos de la red se controlan desde un
+  único punto y, de esta forma, se logra acabar con la desventaja de las redes
+  tradicionales acerca de la configuración distribuida. En una arquitectura SDN,
+  desde el controlador se mantiene una visión global de la topología y se
+  simplifica la comunicación entre las aplicaciones, servicios y dispositivos de
+  red \parencite{sdn_oreilly}. Esto permite a los administradores monitorear,
+  configurar, asegurar y optimizar los recursos de dicha red de acuerdo a
+  necesidades específicas. Cabe destacar además que esta gestión central
+  programable favorece la consistencia en las políticas de la red y el
+  mantenimiento de las aplicaciones.
+\end{itemize}
+
+A su vez, entre los dispositivos SDN y el mencionado controlador, existe una interfaz de
+programación que separa ambos planos y recibe el nombre de
+\textit{Control-Data-Plane Interface (CDPI)}.
+
+Entrando más en detalle, la ONF define una arquitectura de alto nivel para SDN,
+con tres capas principales como se ve en la Figura \ref{fig:layers}:
+
+\begin{itemize}
+\item Capa de datos.
+\item Capa de control.
+\item Capa de aplicación.
+\end{itemize}
+
+\begin{figure}[H]
+	\centering 
+	% \resizebox{.85\textwidth}{!}{\includegraphics{Figures/sdn-arch.png}}%
+  \includegraphics[scale=0.6]{sdn_layers}
+	\caption[Arquitectura SDN.]{Arquitectura SDN \parencite{onf}.}
+	\label{fig:layers}
+\end{figure}
+
+
+\subsubsection*{Capa de datos}
+La capa de datos forma parte del plano de datos e incluye a dispositivos de red
+conocidos como dispositivos SDN. Algunos de estos dispositivos consisten en
+conmutadores SDN, virtuales o físicos. A diferencia de aquellos utilizados en
+las redes tradicionales, presentan una mayor programabilidad en su
+funcionamiento, lo que deriva en un hardware más genérico.
+
+Los conmutadores SDN poseen en su estructura interna una interfaz de
+comunicación con el controlador, el cual administra las tablas de flujo de
+dicho dispositivo, explicadas posteriormente en la Sección \ref{sec:opflow},
+y a partir de las cuales se manejan los flujos de datos y las funciones de
+procesamiento de los paquetes.
+
+Los conmutadores SDN virtuales son programas de software que simulan el
+comportamiento y la estructura interna de un \textit{switch} SDN. Existen distintos
+productos en el mercado, como por ejemplo, Open vSwitch (OVS), Indigo, entre
+otros. Su principal diferencia con los dispositivos físicos es que el
+procesamiento de paquetes se realiza vía software \parencite{sdn_approach}.
+
+Por otra parte, se encuentran los conmutadores SDN físicos, que permiten
+trabajar a mayor velocidad pero su costo es mayor. Huawei, Cisco, HP, IBM,
+entre otros, son empresas que proveen estos dispositivos, los cuales poseen
+la implementación correspondiente en hardware para el procesamiento de paquetes.
+
+
+\subsubsection*{Capa de control} \label{sec:control_layer}
+
+La capa de control forma parte del plano de control y se sitúa físicamente en el
+controlador SDN, proporcionando servicios de red y actuando como organizadora y
+mediadora. Como se observa en la Figura \ref{fig:layers}, la capa de control
+está conectada a dos interfaces.
+
+La interfaz \textit{SOUTHBOUND} brinda comunicación con los dispositivos de red
+de la capa de datos. El controlador proporciona primitivas a los dispositivos,
+generalmente para que éstos informen el estado de la red e importen reglas de
+reenvío sobre cómo tratar los paquetes entrantes \parencite{sdn_approach}.
+
+La interfaz \textit{NORTHBOUND} facilita la interacción con las aplicaciones que
+se encuentran en la capa superior. El controlador expone funciones y operaciones
+de la red a través de interfaces de programación de aplicaciones (APIs)
+bidireccionales \parencite{sdn_oreilly}.
+
+En caso de que exista un gran dominio de red administrativa, existirán varios
+controladores y se conectarán a través de una interfaz este-oeste. Esto es
+necesario ya que los mismos tienen que compartir información de la red y
+coordinar sus procesos de toma de decisiones.
+
+\subsubsection*{Openflow}\label{sec:opflow}
+
+En primer lugar, el controlador no puede hacer nada sin un medio que permita dar
+instrucciones a los dispositivos de red. Justamente, para desagregar las
+operaciones de reenvío de paquetes de las de control de manera adecuada, se debe
+mantener la comunicación entre ellas. Así surge una capa de abstracción que
+permite a la capa de datos mantener el procesamiento de paquetes y la
+comunicación con la capa de control centralizada. Es aquí en donde OpenFlow
+puede desempeñarse, permitiendo la separación deseada \parencite{sdn_approach}.
+
+OpenFlow es un conjunto de protocolos y una API. Contiene el protocolo de
+comunicaciones entre el plano de datos y el plano de control SDN, posee parte
+del comportamiento del plano de datos y forma parte de las interfaces
+\textit{SOUTHBOUND}. Además, OpenFlow es no propietario, permite programar el
+plano de datos de los conmutadores SDN y su funcionamiento está basado en tres
+componentes fundamentales como se observa en la Figura \ref{fig:openflow_1}:
+
+\begin{itemize}
+\item Controlador SDN.
+\item Dispositivos de red SDN con capacidad OpenFlow.
+\item Tablas de flujo de los conmutadores SDN con capacidad OpenFlow.
+\end{itemize}
+
+
+\begin{figure}[H]
+	\centering 
+	% \resizebox{.85\textwidth}{!}{\includegraphics{Figures/sdn-arch.png}}%
+	\includegraphics[scale=1.0]{openflow}
+	\caption[Componentes fundamentales de una arquitectura SDN con OpenFlow]{Componentes fundamentales de una arquitectura SDN con OpenFlow
+    \parencite{sdn_approach}.}
+	\label{fig:openflow_1}
+\end{figure}
+
+
+Teniendo en cuenta esos tres componentes, OpenFlow se caracteriza por permitir,
+entre otras cosas, lo siguiente
+\parencite{sdn_oreilly}\parencite{sdn_simplified}:
+
+\begin{itemize}
+  \item Establecer una sesión de control entre el controlador SDN y el
+    conmutador SDN.
+  \item Definir una estructura de mensaje para intercambiar modificaciones
+    de flujo y recopilar estadísticas.
+  \item Definir una estructura de mensajes \textit{PACKET\_IN} y
+    \textit{PACKET\_OUT}. El primero se utiliza para que los conmutadores SDN
+    le envíen información de los paquetes al controlador para que éste actúe
+    como manejador de excepciones. Por otra parte, el segundo se utiliza para
+    que el mencionado controlador le envíe a los \textit{switches} SDN paquetes
+    que se necesitan enviar por el plano de datos \parencite{sdn_oreilly}.
+  \item Definir la estructura fundamental de un conmutador SDN (puertos y
+    tablas). 
+  \item La configuración y gestión en la asignación de puertos de un
+    conmutador físico a un controlador particular.
+\end{itemize}
+
+Para lograr esos comportamientos, el dispositivo de red SDN con capacidad
+OpenFlow cuenta con un enlace por medio del cual se conecta al controlador. Este
+último es quien le configura el comportamiento a partir del intercambio de
+mensajes que se envían utilizando TLS sobre TCP \parencite{sdn_oreilly} 
+\parencite{sdn_approach}. Obviamente, el que inicia la comunicación es el
+dispositivo de red SDN, que conoce la dirección IP del
+controlador.
+
+Como se dijo anteriormente, por medio de OpenFlow el controlador puede modificar
+el comportamiento de un conmutador SDN. Esto se logra alterando las tablas de
+flujo de dicho conmutador, las cuales poseen los siguientes campos principales
+en sus entradas \parencite{opf151}, tal y como se observa en la Figura
+\ref{fig:openflow_2}:
+
+\begin{itemize}
+  \item Cabecera del paquete que define el flujo de paquetes. (\textit{Match}).
+  \item Acción o instrucción de cómo se deben procesar los paquetes de un
+    determinado flujo. (Descartar flujo de paquetes, modificar campos del flujo
+    de paquetes, encapsular y enviar al controlador el flujo de paquetes o
+    enviar por un puerto o puertos específicos los paquetes del correspondiente
+    flujo).
+  \item Estadísticas sobre la cantidad de paquetes y de bytes de un flujo.
+    Estadísticas sobre el tiempo de inactividad de dicho flujo.
+\end{itemize}
+
+\begin{figure}[H]
+	\centering 
+	% \resizebox{.85\textwidth}{!}{\includegraphics{Figures/sdn-arch.png}}%
+	\includegraphics[scale=0.7]{newnorm}
+	\caption[Tablas de flujo de un dispositivo OpenFlow]{Tablas de flujo de un dispositivo OpenFlow
+    \parencite{new_norm_for_networks}.}
+	\label{fig:openflow_2}
+\end{figure}
+
+Finalmente, el conmutador hará la acción correspondiente con los paquetes que le
+ingresen de la red, de acuerdo a las coincidencias de éstos con las entradas de
+la tabla de flujo, teniendo en cuenta también las prioridades de dichas
+entradas.
+
+\subsubsection*{Capa de aplicación}
+La capa de aplicación forma parte del plano de control y no se encuentra en el
+controlador SDN. Está constituida por aplicaciones que son responsables de
+gestionar, configurar, decidir y monitorear las características de una red SDN
+como, por ejemplo, las entradas de las tablas de flujo que están programadas en
+los dispositivos de red. Estas aplicaciones, utilizando la interfaz
+\textit{NORTHBOUND}, no solamente influyen en la capa de datos, sino también en
+la de control \parencite{sdn_simplified}. Por medio de APIs expuestas por el
+controlador, dichas aplicaciones pueden, por ejemplo, acceder a los datos del
+estado de la red para reaccionar a cambios de la topología, para lograr un
+equilibrio de carga \parencite{load_bal}, para seleccionar las mejores rutas de
+los flujos o para aplicaciones de comunicación como la priorización de VoIP
+\parencite{voip}. También pueden redireccionar el tráfico con el fin de
+inspeccionarlo en el caso de aplicaciones de seguridad \parencite{autoscaling}.
+
+\subsubsection*{Seguridad de la Red} \label{sec:segnetsdn}
+Los requerimientos de las aplicaciones de redes tradicionales requieren el
+despliegue de una política de seguridad por toda la red y de una configuración
+complicada e individual en los \textit{firewalls} \parencite{distr_firewall} y/u
+otros dispositivos \parencite{detect_chi}. SDN ofrece una plataforma adecuada
+para centralizar, combinar y verificar políticas y configuraciones, a fin de
+garantizar una buena implementación de la protección y de la prevención de
+problemas de seguridad de manera proactiva en la red. Esto significa que una
+empresa puede ampliar sus capacidades de defensa bloqueando ataques específicos
+y haciendo cambios para adaptarse a las nuevas amenazas.
+
+El controlador SDN puede impulsar las actualizaciones de la política de
+seguridad global de forma centralizada a través de la red, y un dispositivo
+puede filtrar paquetes y redirigir el tráfico sospechoso a otros dispositivos de
+seguridad para su posterior análisis.
+
+\subsubsection*{Ventajas y desventajas de SDN con respecto a las redes tradicionales}
+De acuerdo a \parencite{RFC7149}, \parencite{sdn_universidad} y
+\parencite{sdn_approach}, una de las ventajas de SDN con respecto a las redes
+tradicionales comprende la configuración centralizada e independiente de los
+fabricantes de los equipos de red, lo que permite una mayor consistencia en las
+políticas de red y un favorecimiento a la escalabilidad, agilidad, flexibilidad
+y posibilidad de innovación, ya que en menor tiempo las empresas pueden
+desplegar o modificar servicios, aplicaciones e infraestructura de sus redes. 
+
+
+Otra de las ventajas consiste en la disminución de ciertos costos. Por un lado,
+una reducción del costo de capital (CAPEX) ya que el objetivo de SDN es utilizar
+estándares abiertos. Las empresas pueden usar fácilmente opciones de múltiples
+proveedores y no estar limitadas a un solo vendedor. Por el otro, una disminución
+del costo de operación (OPEX), ya que el esfuerzo y el tiempo necesarios para
+realizar tareas de modificación y/o mantenimiento se reduce. Además si las
+configuraciones de red se pueden hacer de manera automatizada mejora la
+trazabilidad de las operaciones.
+
+Teniendo en cuenta las mismas fuentes de información, entre las
+desventajas se encuentran la escalabilidad de la red limitada a la capacidad del
+controlador y las inconsistencias que sufren las soluciones actuales en algunas de
+sus características y funciones, por tratarse de un paradigma nuevo. Con respecto 
+a la seguridad existe la posibilidad de dejar fuera de servicio a la red si se 
+efectúa un ataque al controlador (lógica centralizada), si se intenta suplantar 
+la identidad del mismo o si se trata de interrumpir la comunicación entre éste y 
+los dispositivos SDN.
+
+
+\section {Denegación de servicio}	
+
+En pocas palabras, en \parencite{ddos_amir} y \parencite{ddos_kumar} se hace
+referencia a la situación en la que el usuario normal no puede acceder a un
+servicio debido a intentos malintencionados que impiden el acceso al mismo. Para
+el caso de una red, el impedimento podría venir dado por la disminución del
+ancho de banda o por el consumo de los recursos que sustentan el servicio.
+
+\subsection {DoS (Denegación de servicio)}
+
+Todo el tráfico creado maliciosamente proviene de una sola fuente, la cual
+inunda la red con un tráfico abrumador para evitar o disminuir transacciones
+legítimas \parencite{ddos_mirkovic}. El atacante puede (aleatoriamente) cambiar
+la dirección IP de origen en un intento de ocultarse pero, en este tipo de
+ataques, solo hay un remitente que elabora el tráfico que luego se dirige
+directamente al objetivo sin que se utilice ningún \textit{host} intermedio. Por
+ende, dichos ataques ya no son muy comunes debido a que son fáciles de detectar,
+atribuir y mitigar \parencite{ddos_hh}.
+
+\subsection {DDoS (Denegación de servicio distribuido)}
+
+Consiste en la versión amplificada del anterior. En este tipo de ataque, varios
+\textit{hosts} (a veces cientos de miles) se centran en un solo objetivo. Cada
+computadora con acceso a Internet puede comportarse como un atacante, momento en
+el que pasan a ser conocidas como \textit{bots} (\textit{zombies}) y el conjunto
+de ellos forman la denominada \textit{botnet} \parencite{ddos_amir}.
+
+En un ataque DDoS, el atacante infecta una red de computadoras (\textit{botnet})
+con algún tipo de \textit{malware} que le permite manejarlas de manera remota
+\parencite{ddos_kumar}. Cuando llegue la ocasión, el atacante envía la orden al
+\textit{botnet}, donde cada uno de los \textit{bots} integrantes lanzan un
+ataque hacia el \textit{host} víctima (ver Figura \ref{fig:ddos_flood}). De esta
+forma, el verdadero atacante mantiene su identidad oculta.
+
+Los ataques de denegación de servicio distribuido pueden intentar limitar el
+ancho de banda de los enlaces de la red o consumir los recursos del
+\textit{host} víctima. A continuación, se explicarán en las siguientes
+subsecciones los ataques que afectan al ancho de banda, los cuales se
+clasifican, de acuerdo a \parencite{ddos_amir} y \parencite{ddos_hh}, en ataques
+por inundación (\textit{flood}) y en ataques por reflexión y amplificación.
+\\
+
+\begin{figure}[H]
+	\centering 
+	% \resizebox{.85\textwidth}{!}{\includegraphics{Figures/sdn-arch.png}}%
+	\includegraphics[scale=0.7]{ddos_flood}
+	\caption[Ataque DDoS]{Ataque DDoS \parencite{ddos_amir}.}
+	\label{fig:ddos_flood}
+\end{figure}
+
+
+\subsubsection*{Inundación}
+
+El ataque de inundación (\textit{flooding}) está diseñado para hacer que una red
+o servicio no se encuentre disponible para usuarios legítimos debido a su
+colapso por las grandes cantidades de tráfico que recibe proveniente de
+distintos \textit{hosts} tales como computadores de oficina, portátiles,
+servidores o dispositivos IoT. Un solo \textit{host} puede generar decenas de
+megabits por segundo de tráfico malicioso y, mientras más \textit{hosts} generen
+este tipo de tráfico, mayor será la efectividad del ataque \parencite{ddos_hh}.
+
+Una vez que la \textit{botnet} está establecida, el atacante puede dirigir el
+atentado enviando instrucciones a cada \textit{bot} vía control remoto. Tal como
+se observa en la Figura \ref{fig:ddos_flood}, cuando la mencionada
+\textit{botnet} fija la dirección IP de una víctima, cada \textit{bot}
+responderá enviando solicitudes al objetivo, lo que posiblemente causará que el
+servidor o la red desborden su capacidad, resultando en una denegación de
+servicio al tráfico normal. En vista de que cada \textit{bot} es un dispositivo
+de Internet genuino, puede ser difícil determinar una fuente concreta del
+tráfico malicioso \parencite{ddos_flloogind}.
+
+De acuerdo a \parencite{ddos_hh}, el primero de estos ataques por inundación fue
+el denominado \verb|ping flood|, en donde se enviaron tantos paquetes de eco
+ICMP (\verb|ping|) a un \textit{host} como fue posible. Luego fueron
+reemplazados por la inundación de paquetes TCP explicados en la Sección
+\ref{sec:flood} que, debido a la necesidad de tres paquetes para iniciar una
+conexión, pueden generar más tráfico y, a su vez, permiten lograr un mayor
+consumo de los recursos de las víctimas. Posteriormente, estos últimos ataques
+fueron reemplazadas por inundaciones de paquetes UDP ya que, al ser un protocolo
+sin estado de la conexión, permite que se falsifique la dirección IP de origen,
+dificultando el rastreo y el bloqueo de dichas inundaciones.
+
+
+\subsubsection*{Reflexión y amplificación}
+
+Esta categoría de ataques de amplificación o reflexión, también llamados DRDoS
+(\textit{Distributed Reflection Denial of Service}), utilizan fallas de
+protocolo y otras vulnerabilidades para amplificar las cantidades de datos
+transmitidos contra un sistema objetivo. Dichos ataques utilizan dispositivos
+conocidos como amplificadores o reflectores, los cuales pueden ser máquinas
+legítimas o dispositivos intermedios y, en comparación con las redes de
+\textit{bots}, generalmente no están infectados y no están controlados
+\parencite{drdos_kumar}.
+
+El primer principio sobre el que se basa este tipo de ataques es la reflexión,
+la cual se produce cuando un atacante falsifica la dirección IP de origen de los
+paquetes, no con una dirección aleatoria sino simulando ser la víctima
+\parencite{ddos_amir}, y enviando los mencionados paquetes a \textit{hosts} que
+no pueden distinguir las solicitudes legítimas de las falsificadas (en especial
+si se utiliza UDP o ICMP, al ser protocolos que no mantienen el estado de la
+conexión). Por lo tanto, responden directamente a la víctima como se observa en
+la Figura \ref{fig:ddos_reflexion}.
+
+El segundo principio es la amplificación. Su concepto es hacer que el
+\textit{host} intermedio, el cual no es consciente de ser un amplificador,
+desencadene una respuesta con un mayor tamaño que la petición inicial. Esto
+multiplica de manera efectiva el flujo de tráfico del atacante
+\parencite{ddos_andre}. El impacto en estos \textit{hosts} de amplificación es
+mínimo, no obstante el tráfico dirigido al objetivo podría ser mucho más
+perjudicial.
+
+Ejemplificando, uno de los ataques de reflexión y amplificación es Smurf,
+descrito en la Sección \ref{sec:smurf}, que utiliza una dirección falsificada
+y el direccionamiento de difusión para amplificar un flujo de paquetes. El
+sistema de amplificación objetivo es una red que permite la comunicación con la
+dirección de difusión (\textit{broadcast}) y posee un número relativamente alto
+de \textit{hosts} activos \parencite{art_exploit}.
+
+Otro de los ataques más frecuentemente utilizados es el ataque de amplificación
+DNS, en el cual los atacantes usan servidores DNS de acceso público enviando
+solicitudes de búsqueda, con el objetivo de inundar un sistema de destino con
+tráfico de respuesta DNS. La solicitud demanda tanta información como sea
+posible para maximizar el efecto de la amplificación \parencite{CISA}.
+
+
+\begin{figure}[H]
+	\centering 
+	% \resizebox{.85\textwidth}{!}{\includegraphics{Figures/sdn-arch.png}}%
+	\includegraphics[scale=0.7]{ddos_refle}
+	\caption[Ataque DDoS por reflexión y amplificación]{Ataque DDoS por reflexión y amplificación \parencite{ddos_amir}.}
+	\label{fig:ddos_reflexion}
+\end{figure}
+
+
+\section{Detección de intrusos}
+
+La detección de intrusos es el arte de detectar actividad no autorizada
+\parencite{ddos_hh}, como son los intentos exitosos o no de conexiones, inicios
+de sesión y accesos a recursos no autorizados.
+
+\subsection{Detección de intrusos basada en firmas}
+\label{subsec:deteccion_firmas}
+ 
+La detección de intrusos basada en firmas implica buscar un patrón de
+comportamiento malicioso en el tráfico de la red como, por ejemplo, una
+secuencia de paquetes, una cantidad específica de paquetes de cierto tipo o una
+serie de bytes determinados al analizar el encabezado de un paquete o la carga
+útil del mismo \parencite{ids_snort}. Si la actividad coincide con alguna de las
+firmas de la base de datos de un sistema de detección de intrusiones, éste emite
+una alarma indicando una actividad sospechosa.
+
+Las mencionadas firmas de estos sistemas se construyen en base a las reglas
+definidas en el lenguaje que cada uno proporciona. Estas reglas se encuentran en
+bases de datos y se actualizan de manera progresiva. A su vez los sistemas de
+detección de intrusiones, al examinar la información del encabezado del paquete,
+buscan coincidencias en las direcciones, protocolos, opciones, parámetros del
+fragmento, etc. Por otro lado, miran dentro de la carga útil del paquete, en
+búsqueda de URLs específicas o mal formadas \parencite{ids_signatures}.
+
+La gran desventaja es que estos sistemas solo detectan ataques conocidos. Un
+ataque desconocido, al no coincidir con ninguna entrada en la base de datos, es
+totalmente ignorado. Para agregar una entrada es necesario comenzar con la
+comprensión del comportamiento del ataque de red para desarrollar la firma
+correspondiente. Además, estas firmas también son propensas a falsos positivos,
+ya que generalmente se basan en expresiones regulares y concordancia de cadenas
+\parencite{ddos_foster}.
+
+
+\subsection {Detección de intrusos basada en anomalías}
+
+La técnica de detección de anomalías se centra en el concepto de un
+comportamiento esperado de la red en lugar de buscar patrones en una base de
+datos que se tiene que actualizar de manera progresiva. Este comportamiento de red
+aceptado, es aprendido y/o determinado por los administradores de dicha red.
+Cualquier comportamiento que se encuentre fuera del modelo predefinido o
+aceptado (por ejemplo, una conexión inesperada a un \textit{host}, puerto)
+genera eventos por detección de anomalías \parencite{ddos_foster}. Este sistema,
+mientras más tiempo se encuentre operativo, más aprenderá de la red, además de
+que posee el potencial de descubrir amenazas desconocidas.
+
+Sin embargo, las desventajas de estos motores es el resultado de la detección.
+Muchas veces las alarmas manifiestan más falsos positivos que la detección
+basada en firmas. Además, si solamente se destina el sistema para la detección
+de amenazas conocidas, la cantidad de recursos necesarios es elevada en
+comparación con el sistema de la sección \ref{subsec:deteccion_firmas}
+\parencite{ids_vs}.
+
+
+\subsection{IDS (Sistema de detección de intrusiones)}
+
+Los sistemas de detección de intrusiones (IDS, por sus siglas en inglés) son
+programas de detección de actividades maliciosas y accesos no autorizados en un
+computador o una red, generalmente utilizando una combinación de métodos basados
+en el comportamiento y/o las firmas para detectar amenazas desconocidas como
+conocidas, respectivamente \parencite{ids_snort}. Estos sistemas suelen tener
+sensores virtuales, es decir, elementos capaces de capturar, procesar, descifrar
+y descomponer paquetes de un segmento de red en tiempo real
+\parencite{ids_snort}. Dichos elementos son conocidos como \textit{sniffers} de
+red y, en base a ellos, el motor del IDS puede obtener datos externos sobre el
+tráfico de la red y detectar la presencia o no de ataques. No obstante, estos
+IDSs por sí solos no pueden cortar los mencionados ataques. Es por eso que
+generalmente se los integra con un \textit{firewall}. Este último consiste en un
+elemento de red que controla el cruce de paquetes a través de los límites de una
+red en función de una política de seguridad específica
+\parencite{fwll_springer}.
+
+El funcionamiento de los sistemas IDS se basa en la generación de alertas cuando
+el tráfico de red inspeccionado coincide con firmas de ataques conocidos o
+comportamientos sospechosos (paquetes malformados, escaneos de puertos, etc.)
+que se encuentran en la base de datos del correspondiente IDS. También, este
+sistema no sólo analiza qué tipo de tráfico es, sino que también revisa el
+contenido y su comportamiento.
+
+Por último, la clasificación de los sistemas de detección de intrusiones es la
+siguiente:
+\begin{itemize}
+\item \textbf{HIDS} (\textit{Host} IDS): el HIDS solo protege el sistema
+  \textit{host} en el que reside, detectando modificaciones o rastros producto de
+  las actividades de los intrusos en el equipo atacado cuando éstos intentan
+  adueñarse del mismo \parencite{ids_toolkit}.
+\item \textbf {NIDS} (\textit{Network} IDS): se trata de un tipo de IDS que
+  detecta ataques que se efectúan a todo el segmento de la red. Su
+  funcionamiento se detalla en la subsección siguiente y es el que se utilizará
+  en el presente proyecto integrador.
+\end{itemize}
+
+\subsubsection* {Sistema de detección de intrusiones en una red} \label{sec:NIDS}
+
+Si nuestro sistema en riesgo se trata de una red, la detección consiste
+simplemente en tratar de detectar los signos de un intruso o de alguien con
+malas intenciones en la red antes de que se produzcan daños, ya sea por la
+pérdida de datos o por la denegación de un servicio.
+
+Un NIDS trabaja con los datos que circulan a través de un segmento de red y el
+tipo de sensor utilizado en este sistema puede ser un \textit{sniffer} de red
+\parencite{ids_toolkit}\parencite{ids_snort}. A partir de dicho sensor se
+analizan todos los paquetes, buscando en ellos patrones sospechosos. Los NIDS no
+sólo vigilan el tráfico entrante, sino también el saliente y el tráfico local,
+ya que algunos ataques podrían iniciarse desde el propio sistema protegido
+\parencite{ids_snort}.
+
+
+\paragraph {NIDS/Firewall.}
+
+Como se mencionó anteriormente, en los sistemas tradicionales un NIDS no puede
+cortar un ataque. Por ende suele estar acompañado de un \textit{firewall}.
+Entonces, la combinación de componentes de software o de hardware de NIDS y de
+\textit{firewall} se utilizan para evitar los accesos no autorizados, en donde
+el NIDS actúa como sensor y el firewall como actuador. (Ver Figura
+\ref{fig:firewall_NIDS}).
+
+\begin{figure}[!]
+	\centering 
+	% \resizebox{.85\textwidth}{!}{\includegraphics{Figures/sdn-arch.png}}%
+	\includegraphics[scale=0.7]{nids}
+	\caption[Combinación de NIDS con \textit{firewall}]{Combinación de NIDS con \textit{firewall} \parencite{ids_snort}.}
+	\label{fig:firewall_NIDS}
+\end{figure}
+
+\paragraph{Ubicación de NIDS en una red.}
+
+Acorde a \parencite{ubicacion_nids}, los modos de ubicación de los dispositivos
+NIDS en una red son:
+
+\begin{itemize}
+\item \textbf{Delante del firewall:} genera una gran cantidad de \textit{logs},
+  muchos de ellos innecesarios debido a que algunos ataques no sobrepasan a
+  dicho \textit{firewall}, por lo que no resultan efectivos.
+\item \textbf{Detrás del firewall:} es la ubicación más común. Genera menor
+  cantidad de \textit{logs} ya que monitorea y detecta ataques que atraviesan al
+  correspondiente \textit{firewall}. A su vez, el emplazamiento del NIDS puede
+  conectarse a un \textit{hub}, actuando como \textit{bridge}, o al
+  puerto replicador de un \textit{switch}.
+
+\item \textbf {Combinación de casos anteriores:} utiliza dos máquinas ya que se
+  requiere la implementación de los dos ítems explicados anteriormente. Permite
+  ejercer un mayor control pero usa el doble de la cantidad de hardware. (Ver Figura
+\ref{fig:firewall_NIDS}).
+\item \textbf {Máquina única firewall/NIDS:} utiliza una sola máquina que cumple
+  con las funciones del firewall y del NIDS.
+\item \textbf {Otras ubicaciones:} usada para ofrecer distintos grados de
+  seguridad, como es el caso de IDSs monitoreando el tráfico de distintos
+  segmentos de red.
+\end{itemize}
+
+\section {Proveedor de Servicios de Internet} \label{sec:isp}
+
+En \parencite{isp_sun} se define a un ISP como aquel sistema que proporciona
+servicios de Internet a suscriptores comerciales y residenciales (usuarios).
+Además, es el encargado de conectar a los proveedores de servicios básicos como
+correo electrónico, alojamiento web y noticias con los usuarios finales. Por
+otra parte, los ISP ofrecen sus propios servicios de valor agregado como, por
+ejemplo, la seguridad.
+
+\subsection{Infraestructura básica}
+
+En \parencite{isp_sun} y \parencite{isp_cisco} una infraestructura ISP consta de
+las siguientes partes:
+
+\begin{itemize}
+\item \textbf{Capa central o capa núcleo.} Es la red troncal de conmutación de
+  alta velocidad de la red. Un enrutador central debe poder admitir múltiples
+  interfaces de alta velocidad.
+\item \textbf{Capa de distribución de la red.} Es el punto de delimitación entre
+  la capa central y la de acceso.
+\item \textbf {Capa de acceso.} Consiste de dos partes: 
+\begin{itemize} 
+\item \textbf{Subcapa de servicio.} Es aquella que proporciona acceso a los
+  servicios. Es comúnmente donde se encuentran los servidores, como el servidor
+  web, el servidor de correo electrónico, el servidor proxy y los
+  \textit{firewalls}.
+\item \textbf{Subcapa de acceso.} Las funciones principales de la capa de acceso
+  son conectar varias redes de área local (LAN) de usuarios finales a la capa de
+  distribución. Ésta capa se caracteriza por un entorno de ancho de banda
+  compartido.
+\end{itemize}
+\item \textbf{Capa de frontera.} Es aquella que permite la comunicación entre
+  distintos proveedores de servicio.
+\end{itemize}
+
+\subsection{Tipos de enrutadores}
+Los tipos de enrutadores en la infraestructura de un ISP, tal y como muestra la
+Figura \ref{fig:ISP}, son los siguientes \parencite{isp_cisco}:
+
+\begin{itemize}
+\item \textbf{Enrutadores principales (Nucléo):} se ubican en la capa central y presentan
+  múltiples interfaces de alta velocidad.
+\item \textbf {Enrutadores de distribución:} se encuentran en la capa de
+  distribución y presentan una mayor densidad de puertos y una menor velocidad
+  que los enrutadores anteriores.
+\item \textbf {Enrutadores de acceso:} se ubican en la subcapa de acceso. Presentan 
+una mayor densidad de puertos, una menor velocidad y brindan acceso a Internet a los
+usuarios finales.
+\item \textbf {Enrutadores de frontera:} se encuentran en la capa de frontera y
+  presentan conexiones hacia otros proveedores de servicio.
+\item \textbf {Enrutadores de servicios:} se ubican en la subcapa de servicio y le 
+brindan acceso a Internet a los servidores y a los distintos servicios.
+\end{itemize}
+
+
+\begin{figure}[H]
+	\centering 
+	\includegraphics[scale=0.7]{ips}
+	\caption[Topología de un ISP tradicional sin capa de frontera]{Topología de un ISP tradicional sin capa de frontera \parencite{isp_cisco}.}
+	\label{fig:ISP}
+\end{figure}

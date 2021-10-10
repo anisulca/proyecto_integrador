@@ -1,0 +1,164 @@
+% Chapter Template
+% cSpell:words parencite onfwhitepaper includegraphics resizebox sdncomponents
+% linewidth comparqui redireccionar enrutamiento subfigure toposdn Nicira toposinsdn
+\chapter{Introducción} % Main chapter title 
+
+\label{Chapter1} % Change X to a consecutive number; for referencing this chapter elsewhere, use \ref{ChapterX}
+
+Existe una tendencia a que los servicios informáticos provistos sean cada vez más elásticos, bajo demanda, accesibles y económicos, con el fin de que se adapten de manera más rápida a los cambios en el mercado y a los tiempos y recursos de los clientes y usuarios. Por ello, surgen nuevos conceptos en cuanto al ofrecimiento de servicios IT empresariales para cumplir con los principios anteriores. Las redes definidas por software constituyen un claro ejemplo. 
+
+\textbf{\textit{Software Defined Networking} (SDN)} consiste en un reciente paradigma y candidato de la nueva generación de la arquitectura de Internet. Es por ello que compañías como Google ya lo han adoptado en sus centros de datos internos. Propuesto para solucionar la complicada administración de los dispositivos que conforman las distintas redes, tales como conmutadores y enrutadores, busca ir de la mano con la computación en la nube en cuanto al ofrecimiento de los mencionados servicios de tecnología de la información para las distintas empresas \parencite{provicion_it}.
+
+SDN brinda ventajas respecto a las redes tradicionales que pueden aprovecharse para solucionar problemas de las mismas, como por ejemplo, los \textbf{ataques de denegación de servicio (DoS)} y sus versiones distribuidas (\textbf{DDoS}), los cuales afectan a la disponibilidad de la mencionada computación en la nube o, por ejemplo, a la de los clientes de un \textbf{proveedor de servicios de Internet (ISP)}. Este último representa un caso de uso muy aplicable en Argentina. A su vez, los mencionados ataques producen que usuarios legítimos no puedan
+utilizar correctamente los servicios, por la saturación del ancho de banda de
+los enlaces y/o por la sobrecarga de los recursos del sistema y/o de la
+red \parencite{autoscaling}.
+
+
+El treceavo reporte anual \textit{Worldwide Infrastructure Security Report}, de
+la proveedora de seguridad \textit{Arbor Networks}, menciona que el 87 por
+ciento de los servicios provistos han experimentado amenazas y ataques DDoS
+\parencite{sec_report}. Las soluciones para la defensa hacia estos ataques DDoS
+existentes utilizan ciertos componentes de hardware y de software en la red para
+detectarlos o mitigarlos. Sin embargo, en el nuevo paradigma de SDN, a
+causa de la dinámica natural de las redes, dichas soluciones no se podrán
+mantener a largo plazo. El desafío de este proyecto está centrado en explotar
+las características de las redes definidas por software para la defensa en
+cuanto a los ataques descritos anteriormente. 
+
+A lo largo del presente trabajo, se podrá observar cómo desde un ISP con una red SDN se logra generar una solución escalable, práctica y con una visión global de la topología que permite detectar y mitigar ataques DoS y/o DDoS efectuados a cualquier \textit{host} cliente de dicho ISP. Una de las ventajas que se obtiene a partir de la solución mostrada consiste en el aprovechamiento de la acción conjunta de todos los componentes de un sistema SDN para detener los mencionados ataques.
+
+Por último, en el transcurso de esta sección se introducirán aspectos generales y significativos del proyecto, como por ejemplo, la motivación, los objetivos, la organización del texto y el estado actual de las soluciones y tecnologías directamente relacionadas.
+
+
+%-----------------------------bitext comileArquitectura del protocolo--------------------
+%	SECTION 1
+%----------------------------------------------------------------------------------------
+\section{Motivación} 
+
+Las motivaciones del proyecto fueron las siguientes:
+
+\begin {itemize}
+\item El estudio acabado de la problemática de los ataques DoS y DDoS, que
+  representan una importante amenaza a la alta disponibilidad en las redes actuales.
+\item La aplicación de las ventajas que proporcionan las redes definidas por software en
+  el área de detección y mitigación de los ataques DoS y DDoS.
+\item La aplicación de los conocimientos adquiridos durante la cursada de la carrera de
+  Ingeniería en Computación.
+\item La posibilidad de realizar futuras publicaciones científicas en base al
+  proyecto desarrollado.
+\item La posibilidad de aplicación de lo efectuado en proveedores de servicios
+  de Internet en algún futuro cercano.
+\end{itemize}
+
+
+\section {Objetivos}
+El objetivo general de este proyecto es aprovechar las ventajas de las redes
+definidas por software (SDN) en el campo de la ciberseguridad, más concretamente
+en la detección y mitigación de ataques de denegación de servicio. Para esto
+será necesario introducirse en el campo de la seguridad en las redes, analizando
+con detalle los diferentes tipos de ataques de denegación de servicio y cómo
+afectan éstos a las aplicaciones de negocio y a las redes. Para extender estos
+conceptos a arquitecturas SDN, será indispensable estudiar los principios de éstas y los protocolos que involucran, haciendo foco en el protocolo Openflow
+\parencite{opf151}.
+
+Entrando más en detalle, los objetivos particulares son los siguientes:
+\begin{itemize}
+\item Adquirir un amplio conocimiento en el ámbito de SDN y las tecnologías que
+  integran dicho paradigma.
+\item Adquirir un amplio conocimiento en el ámbito de los ataques DoS y DDoS,
+  incluyendo comportamientos, herramientas de generación de los mismos y
+  herramientas de recolección de las métricas.
+\item Generar un ambiente de emulación que admita la creación de distintas redes SDN y la generación de ataques fácilmente reconfigurables y escalables.
+\item Recolectar las métricas necesarias para medir la efectividad de los
+  ataques, así como también la mitigación de los mismos.
+\item Desarrollar aplicaciones en un controlador SDN que permitan la detección y
+  mitigación de determinados ataques.
+\item Diseñar un esquema de red SDN con varios detectores IDS (\textit{Intrusion
+  Detection System}) como vehículo de prueba de las aplicaciones desarrolladas en
+  el controlador.
+\end{itemize}
+
+
+\section {Estructura del texto}
+El presente trabajo se encuentra constituido por los siguientes capítulos o secciones:
+\begin{enumerate}
+\item \textbf {Introducción:} en esta sección se presentan los aspectos más generales y significativos del proyecto. Se incluyen las motivaciones, los objetivos del mismo, la organización de la estructura del texto y, por último, un resumen del estado actual de las tecnologías directamente relacionadas con este trabajo.
+
+\item \textbf {Marco teórico:} para poder entender el presente proyecto es
+  necesario adquirir conocimientos sobre determinados conceptos que se explican en
+  este capítulo.
+\item \textbf {Análisis de las tecnologías y planificación:} los conceptos
+  desarrollados en la sección anterior deben implementarse mediante determinadas
+  tecnologías y herramientas, las cuales se explican y analizan en este
+  capítulo. Además, se detallan aspectos importantes de la Ingeniería de
+  Software aplicada a la gestión y administración del proyecto.
+\item \textbf {Aplicación de detección de anomalías:} en esta sección se describe
+  el diseño y la implementación de la aplicación encargada de detectar tráfico
+  de red sospechoso en base a un comportamiento estadístico esperado de dicha
+  red.
+\item \textbf {Aplicación de filtrado del tráfico:} en este capítulo se detalla el diseño y la implementación de la aplicación cuya función es la de mitigar los ataques que sufre la mencionada red.
+\item \textbf {Interfaz gráfica de usuario:} en esta sección se explica el
+  diseño y la implementación tanto de la API como de la aplicación, que
+  posibilitan al administrador del sistema una configuración y un uso sencillos.
+\item \textbf {Diseño e implementación del entorno de emulación:} para que las aplicaciones diseñadas puedan desenvolverse y evaluarse, bajo este título se detalla el entorno de trabajo utilizado.
+\item \textbf {Resultados:} en este capítulo se evalúan los resultados obtenidos
+  y se verifica el cumplimiento de los requerimientos definidos a lo largo de este
+  proyecto. Además, se describen los distintos casos de \textit{tests} llevados a cabo.
+\item \textbf {Conclusiones:} las conclusiones del proyecto integrador, sus limitaciones
+  y los posibles trabajos futuros que pueden desencadenarse a partir del mismo se
+  describen en esta sección.
+\item \textbf {Apéndices:} en estos capítulos se le presenta al lector un claro
+  tutorial de cómo desplegar y utilizar el entorno de trabajo y las aplicaciones
+  desarrolladas con el fin de cumplir con los objetivos del proyecto. Además se
+  amplían algunos conceptos vistos durante el transcurso del presente trabajo.
+  
+\end{enumerate}
+
+
+\section{Estado del arte} \label{sec:state_art}
+Se presentan a continuación algunas de las soluciones e implementaciones
+existentes más importantes, relacionadas con nuestro proyecto, con el fin de
+efectuar un marco de comparación adecuado.
+
+\subsection*{Evaluación de técnicas de detección de ataques DDoS en una
+arquitectura SDN con controlador Floodlight}
+En \parencite{estado_arte_1} se utilizan las características de la arquitectura
+SDN y del controlador Floodlight para detectar y mitigar ataques DDoS por
+inundación que utilizan el \textit{flag} SYN de TCP. Se estudian  algoritmos de
+detección de anomalías, buscando ventajas y desventajas de cada uno. Estos
+algoritmos son la matriz de correlación, la prueba de bondad de ajuste con
+Chi-Cuadrado y la entropía de Shannon. 
+
+Este proyecto \parencite{estado_arte_1} propone soluciones que presentan una
+escalabilidad limitada debido a que la tarea de recolección de información del
+tráfico de la red, el procesamiento de paquetes del plano de datos en busca de
+ciertos patrones y el almacenamiento de los estados de las conexiones entre los
+clientes y el servidor las efectúa el controlador SDN. El diseño de esta
+arquitectura ejerce una gran presión sobre los recursos del controlador y
+provoca un claro incremento en la latencia de la red. Por otro lado, la
+topología con la que se prueba los algoritmos es reducida y las reglas de
+eliminación de tráfico malicioso se aplican a todo el tráfico proveniente de un
+\textit{host} atacante. Esto perjudica a los procesos de un \textit{bot} que no
+participan del ataque y que podrían estar siendo usados por un usuario legítimo.
+
+
+\subsection*{Detección de ataques DDoS en arquitecturas basadas en SDN}
+En \parencite{estado_arte_2} se propone detectar ataques de denegación de servicio en las redes SDN con arquitecturas especiales, utilizando el algoritmo estadístico basado en la entropía de Shannon y la recolección de direcciones IP de destino de los paquetes. Si bien este método resulta eficiente, puede presentar una gran cantidad de falsos positivos, ya que la detección solamente se basa en la cantidad de paquetes dirigidos hacia una misma dirección destino.
+
+\subsection*{Un sistema de detección de ataques DoS/DDoS usando el enfoque estadístico de Chi-Cuadrado}
+En \parencite{estado_arte_3} se propone un sistema distribuido de detección de ataques de denegación de servicios para redes tradicionales que utiliza también un enfoque estadístico. Este enfoque es conocido como la distribución de probabilidad de Chi-Cuadrado, la cual será utilizada en este proyecto y se describe en la Sección \ref{sec:Chapter4}.
+
+\subsection*{Mitigación de ataques DoS utilizando técnicas basadas en anomalías y reglas en redes definidas por software}
+En \parencite{estado_arte_4}, se propone detectar y mitigar ataques de denegación de servicio en las redes definidas por software a partir de dos tipos de sistemas de detección de intrusiones (IDS), realizando comparaciones entre ellos como conclusión del trabajo. No se realiza ningún análisis estadístico y la topología de red es simple. A su vez, todo el tráfico en el plano de datos es analizado por estos IDSs, lo cual limita la escalabilidad de esta solución.
+
+
+\subsection*{Sistema de detección de intrusiones basado en Machine Learning para redes definidas por software.}
+En \parencite{estado_arte_5}, bajo una red definida por software se busca
+detectar y mitigar ataques con la ayuda de un sistema de detección de
+intrusiones basado en firmas y una red neuronal que utiliza el algoritmo
+\textit{backpropagation} para detectar anomalías en el tráfico y ataques no
+reconocidos por el IDS. Si bien esta solución es novedosa, posee los
+inconvenientes de que todo el tráfico del plano de datos es observado por dicho
+IDS y que la capacidad de cómputo depende de la cantidad de \textit{hosts}
+presentes en la red SDN, por lo que la escalabilidad es difícil y/o limitada.

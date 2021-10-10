@@ -1,0 +1,649 @@
+% Chapter Template
+% cSpell:words parencite onfwhitepaper includegraphics resizebox sdncomponents
+% linewidth comparqui redireccionar enrutamiento subfigure toposdn Nicira toposinsdn
+\chapter{Análisis de las tecnologías y planificación} % Main chapter title 
+
+\label{Chapter3} % for referencing this chapter elsewhere, use \ref{ChapterX}
+
+En el presente capítulo se enumeran las tecnologías y las herramientas
+utilizadas en este proyecto para que, en base a los conceptos descritos en el
+marco teórico, se pueda implementar, desplegar y validar una solución a la
+problemática que resuelve este trabajo.
+
+Por otra parte, se destina un fragmento del capítulo para añadir detalles acerca de
+la aplicación de las buenas prácticas de la Ingeniería de Software en la
+planificación, gestión y administración del mencionado proyecto.
+
+%--------------------bitext comileArquitectura del protocolo--__------------------------
+%	SECTION 1
+%---------------------------------------------------------------_-----------------------
+\section{Herramientas principales} \label{sec:hprincipales}
+
+Para llevar a cabo la solución de detección y mitigación de ataques DoS y DDoS,
+se debieron buscar herramientas que se encuentren en el mercado, teniendo en
+cuenta que éstas fueran de carácter \textit{open source} y que permitan ahorrar tiempo de
+desarrollo. A continuación se describirán en las presentes subsecciones aquellas
+utilizadas en este proyecto.
+
+\subsection {Controlador SDN}
+Al comienzo del proyecto se realizó la búsqueda y selección de un controlador
+SDN de naturaleza \textit{open source}, con el fin de introducirle directamente
+aplicaciones para lograr soluciones rápidas y efectivas que cumplan con los
+objetivos del proyecto. Existen varios controladores SDN disponibles en el
+mercado, siendo algunos de ellos Ryu, el cual está íntegramente desarrollado en
+Python; OpenDaylight (ODL), que es un proyecto perteneciente a \textit {The
+  Linux Fundation} y \textit{Open Network Operating System} (ONOS), que
+pertenece a \textit{Open Networking Foundation}. Estos dos últimos comparten la
+característica de estar desarrollados en Java y, en contraste con Ryu y demás
+controladores \textit{open source} como NOX, OpenContrail, Floodlight, Beacon,
+POX, OpenMuL, entre otros, presentan una mayor viabilidad comercial visible, una
+mejor documentación y sus funcionalidades se renuevan constantemente. Siguiendo
+con la justificación de la elección, para este proyecto se escogió el
+controlador SDN ONOS debido a:
+
+\begin{itemize}
+\item {Una mejor documentación. Esta es mucho más clara y simple que la de ODL,
+    ya que se brindan ejemplos de aplicaciones, tutoriales, entre otras ayudas,
+    que facilitan el proceso de aprendizaje. }
+\item {Un mejor y mayor acceso a información y a la resolución de dudas debido al
+    contacto con personas que trabajaron en proyectos que utilizaban dicho
+    controlador. }
+\item {ONF promociona, además de las redes definidas por software, a este controlador \parencite{wp_onos}. Además, 
+    empresas tales como Google, China Unicom, AT\&T, Verizon, Cisco, Intel,
+    Samsung, Huawei, Telefónica, etc., participan en esta fundación.}
+\item {Su arquitectura de núcleo distribuido permite lograr una mayor
+    escalabilidad, rendimiento y disponibilidad \parencite{tech_onos} (Ver
+    Figura \ref{fig:distributed_core_onos}). }
+\item {Está pensado para ser utilizado en los ISP \parencite{wp_onos}.}
+\item {Soporta redes y capas ópticas, lo cual es muy útil teniendo en cuenta el
+    presente y el futuro de los proveedores de servicios de Internet
+    \parencite{wp_onos}. }
+\end {itemize}
+
+\begin{figure}[h]
+	\centering 
+	% \resizebox{.85\textwidth}{!}{\includegraphics{Figures/sdn-arch.png}}%
+	\includegraphics[width=0.8\textwidth]{onos_distributed}
+	\caption[Arquitectura distribuida del controlador ONOS]{Arquitectura distribuida del controlador ONOS \parencite{onos_arch}.}
+	\label{fig:distributed_core_onos}
+\end{figure}
+
+Entrando más en detalle, ONOS es un controlador SDN de código abierto disponible
+en \parencite{git_onos}. Su arquitectura se muestra en la
+Figura \ref{fig:arquitectura_onos} y presenta las siguientes capas
+\parencite{onos_wiki}:
+
+\begin{enumerate}
+\item {\textbf{\textit{NorthBound} (Consumidor) API:} es la interfaz que el
+    controlador ONOS le expone a las aplicaciones de la capa de aplicación.}
+\item {\textbf{Núcleo:} es donde se encuentran las funcionalidades principales del
+    controlador, por ejemplo, la detección del cambio de estado de los enlaces,
+    el descubrimiento de los dispositivos, entre otros servicios de red. Algunas
+    aplicaciones del presente trabajo van a localizarse en esta capa.}
+\item {\textbf{\textit{SouthBound} (Proveedor) API:} forma parte de la capa
+    superior de la interfaz \textit{SouthBound} del controlador. Comunica a los
+    proveedores con el núcleo de ONOS.}
+\item {\textbf{Proveedores:} forma parte de la interfaz SouthBound del
+    controlador. Se comunica con la red vía librerías de protocolos específicos.
+    Por otra parte, utiliza la interfaz \textit{SouthBound} API para vincularse
+    con el núcleo de ONOS, proporcionando al mismo descripciones y abstracciones
+    de los dispositivos de red o de los eventos del plano de datos. }
+\item {\textbf{Protocolos:} forma parte de la capa inferior de la interfaz
+    SouthBound del controlador y contiene la implementación de los protocolos de
+    control y administración que ONOS necesita para poder comunicarse con los
+    dispositivos de red SDN. Ejemplos de estos protocolos son: OpenFlow,
+    NETCONF, etc.}
+\end {enumerate}
+
+
+\begin{figure}[h]
+	\centering 
+	% \resizebox{.85\textwidth}{!}{\includegraphics{Figures/sdn-arch.png}}%
+	\includegraphics[width=0.8\textwidth]{onos_stack}
+	\caption[Arquitectura de ONOS]{Arquitectura de ONOS \parencite{onos_wiki}.}
+	\label{fig:arquitectura_onos}
+\end{figure}
+
+En este proyecto se utiliza la versión del controlador ONOS 1.13.2.
+
+\subsection{Emulación de redes SDN}
+
+Además de un controlador SDN, se necesitó la ayuda de una herramienta que
+permita emular una topología de red con dispositivos SDN que posean capacidad
+OpenFlow, debido a los costos o al tiempo que demandaría desarrollar uno de
+estos dispositivos si se construyera un escenario físico.
+
+Para generar dicha emulación se utilizó ContainerNet. Se trata de un proyecto de
+software de código abierto \parencite{cnet_git} que brinda un entorno de
+emulación rápido, flexible, potente y liviano para redes SDN. Se encuentra
+basado en un proyecto padre conocido como Mininet.
+
+Mininet es una aplicación desarrollada por la Universidad de
+Stanford, también de código abierto, que emula redes SDN. Para ello ofrece una
+API escrita en Python, la cual permite crear conmutadores OpenFlow virtuales
+usando Open vSwitch, \textit{hosts} con \textit{Linux network namespaces} y
+enlaces emulados mediante \textit{virtual Ethernet devices} (ver Apéndice
+\ref{AppendixB} para mayor información sobre estos dos últimos aspectos de
+Linux) \parencite {mininet_wiki}.
+
+Por su parte ContainerNet añade, entre otras cosas, la funcionalidad de permitir
+utilizar contenedores de Docker para emular los \textit{hosts} de la topología.
+
+A continuación se describirán las dos principales tecnologías en las que
+ContainerNet basa su funcionamiento:
+
+\paragraph{Open vSwitch (OVS).} Se trata de un software de código abierto bajo
+licencia Apache 2.0 que consiste en un conmutador virtual multicapa con
+capacidad OpenFlow. OVS utiliza módulos del \textit{kernel} de Linux para la 
+conmutación de paquetes y, a
+diferencia con los \textit{Linux brigdes} (ver Apéndice \ref{AppendixB}), puede
+ejecutarse en espacio de usuario permitiendo la configuración de las
+tablas de reenvío por medio del protocolo OpenFlow o el protocolo OVSDB, brindando así 
+mayor flexibilidad y
+portabilidad \parencite{ovs_switch} \parencite{rfc7047}.
+
+
+\paragraph{Docker.} Es un proyecto muy utilizado por las empresas en la
+actualidad porque permite la implementación, la distribución y el despliegue de
+aplicaciones dentro de contenedores. Estos últimos son unidades estándar de
+software que incluyen y mantienen la plataforma de la aplicación con sus
+dependencias \parencite{dif_docker_vm}, facilitando la portabilidad. Los
+contenedores comparten el sistema operativo del \textit{host}, como se observa
+en la Figura \ref{fig:docker}, y se ejecutan como procesos separados en el
+espacio de usuario. En otras palabras, realizan una virtualización a nivel de
+sistema operativo, a diferencia de las máquinas virtuales, en donde el hardware
+también se virtualiza. De este modo, los primeros son más livianos que estas
+últimas y generan menos sobrecarga en los respectivos despliegues. Por su parte,
+en Linux, Docker utiliza características del kernel para generar y administrar
+sus contenedores, como son los \textit{namespaces}, que permiten la aislación de
+recursos, y los \textit{cgroups}, utilizados para la gestión de dichos recursos
+(ver Apéndice \ref{AppendixB} para más información) \parencite{wisc_docker}.
+
+\begin{figure}[!]
+	\centering 
+	% \resizebox{.85\textwidth}{!}{\includegraphics{Figures/sdn-arch.png}}%
+	\includegraphics[scale=0.45]{docker}
+	\caption[Diferencias entre máquina virtuales y contenedores de Docker]{Diferencias entre máquina virtuales y contenedores de Docker
+    \parencite{dif_docker_vm}.}
+	\label{fig:docker}
+\end{figure}
+
+
+\subsection{Detección de Intrusos} \label{sec:herramienta_snort}
+
+Una opción de un sistema que permita detectar los ataques DoS o DDoS podría ser
+el análisis de todo el tráfico que circula por la red por parte del controlador
+y, en base a ello, tomar las decisiones correspondientes al ataque.  Esto
+conlleva a dos desventajas que hace a esta solución inviable:
+
+\paragraph{Solución no escalable.} A medida que la red crece, el aumento del tráfico implica
+un procesamiento mayor por parte del controlador, apartando a las demás
+funciones del mismo. Además, las mejoras tecnológicas en los controladores son
+onerosas. 
+\paragraph{Posibilidad de ataque al controlador.} Como todo el tráfico se
+analizaría en dicho controlador, se generaría un rápido agotamiento de los
+recursos del mismo cuando se esté en presencia de un ataque DoS o DDoS a la red
+o a algún \textit{host} por la gran cantidad de tráfico. De esta forma se
+provocaría su colapso y, posiblemente, deje fuera de servicio a toda la red.
+
+Una solución alternativa sería analizar el tráfico con sensores
+(IDSs) y, en caso de detección de comportamientos sospechosos en la red, enviar
+% la alerta correspondiente al controlador (Ver Figura \ref{fig:snort}). Para
+la alerta correspondiente al controlador. Para
+llevar a cabo esto, es necesario buscar y elegir el sistema de detección de
+intrusos más adecuado que exista en el mercado. Entre los NIDS \textit{open source} más
+populares se encuentra Snort.
+
+\subsubsection*{Snort}
+Es uno de los sistemas más utilizados y permite múltiples configuraciones,
+siendo una de ellas la de funcionar como \textit{sniffer} para monitorear el
+tráfico de la red \parencite{sniffer}. Es un sistema de detección basado en
+firmas y, en contraste con su par \textbf{Suricata}, posee una abundante
+documentación disponible. A diferencia de \textbf{Zeek}, Snort presenta una
+instalación y un uso sencillos y goza de un gran soporte producto de su extensa
+comunidad. Esto permite obtener reglas implementadas para detectar distintos
+tipos de ataques. En resumen, debido a la estabilidad, soporte y robustez se
+escogió a \textbf{Snort} como IDS en este proyecto.
+
+Entrando en más detalle, este sistema de detección de intrusos presenta tres
+modos de funcionamiento: como NIDS basado en firmas, como \textit{sniffer} de la
+red y/o como registrador de paquetes \parencite{snort_manual}. En el presente
+proyecto se lo emplea en el primer modo. En éste realiza una inspección del
+enlace de la red, buscando intrusiones en base a las firmas preestablecidas y
+actuando en función de éstas, generando alertas o registros de eventos
+(\textit{logs}), ignorando paquetes, etc. Además, Snort tiene su propio lenguaje
+para crear las firmas, el cual se detalla en el Apéndice \ref{AppendixC}.
+
+Con respecto a la arquitectura interna de Snort, el mismo se caracteriza por
+presentar el flujo de datos de la Figura \ref{fig:arch_snort}. En éste, acorde a
+\parencite{ids_w_snort} y \parencite{pos_sec_sis} se observan las siguientes
+etapas:
+
+\begin{itemize}
+\item \textbf{Captura de paquetes:} en esta etapa el \textit{sniffer} de red
+  analiza el tráfico constantemente y transmite los mencionados paquetes hacia
+  el decodificador.
+\item \textbf{Decodificador de paquetes:} determina los protocolos que se usan
+  en los paquetes que envía la etapa anterior. Paso siguiente, forma una trama
+  en donde no sólo incluye el contenido del paquete, sino también su tamaño y
+  los protocolos que utiliza. Por último, la trama se envía al preprocesador.
+\item \textbf{Preprocesador:} le da forma a lo que recibe del decodificador
+  (como por ejemplo, ordenando los paquetes, desfragmentándolos, decodificando
+  \textit{URLs}, etc.) y lo envía al motor de detección. Esto lo realiza con el
+  fin de entregar a la siguiente etapa información cuyo procesamiento sea más
+  sencillo y rápido.
+\item \textbf{Motor de detección:} genera la alerta en caso de que la
+  información proveniente de la etapa anterior coincida con alguna de las firmas
+  de ataque, creadas por este motor en base al análisis de las reglas definidas
+  por el administrador del IDS.
+\item \textbf{Complemento (\textit{Plug-in}) de salida:} es el encargado de
+  recolectar y enviar las alertas hacia una salida determinada, como por ejemplo,
+  impresión por consola, escritura en archivos (\textit{logs}) o envíos a entes
+  remotos a través de \textit{sockets}. En este proyecto se utilizará \textit{sockets}
+  como complemento de salida.
+
+\end {itemize}
+
+\begin{figure}[!]
+	\centering 
+	\includegraphics[width=0.8\textwidth]{arch_snort}
+	\caption{Arquitectura de Snort.}
+	\label{fig:arch_snort}
+\end{figure}
+
+
+\subsection{Generación de tráfico legítimo}
+Con el objetivo de evaluar el desempeño de las aplicaciones, se debió generar
+tráfico legítimo. Dentro de las herramientas utilizadas para ello se encuentran CURL y
+Siege.
+
+\textbf{CURL} es un software \textit{open source} orientado a la transferencia de
+archivos que permite hacer consultas HTTP GET, POST, etc. a un servidor
+web. %\parencite{curl}.
+
+\textbf{Siege} se trata de un \textit{benchmarking} multihilo que permite a
+desarrolladores testear sus aplicaciones web empleando carga HTTP o HTTPS. Su
+funcionamiento consiste en realizar consultas GET a los servidores, siendo
+configurables la cantidad de consultas, el tiempo entre consultas, la cantidad
+de \textit{sockets} concurrentes, etc. Monitorea el tiempo de respuesta por
+parte del servidor, la disponibilidad del mismo, el porcentaje de transacciones
+completadas con éxito en un determinado intervalo de tiempo, entre otras
+variables. % \parencite{siege}.
+
+
+\subsection{Generación de tráfico malicioso}
+Para poder analizar y comprobar el correcto funcionamiento de las aplicaciones
+desarrolladas, se debieron generar ataques DoS y DDoS de tipo \textit{flood} y
+de tipo reflexión y amplificación. En las siguientes subsecciones se explicarán
+aquellos ataques que se llevaron a cabo y la herramienta correspondiente para
+producirlos.
+
+\subsubsection * {Flood} \label{sec:flood}
+
+De acuerdo a las estadísticas sobre ataques DDoS correspondientes al último
+cuatrimestre del año 2018, brindadas por SecureList de Kaspersky
+Lab \parencite{ref_kalpesky}, evidencia que la inundación SYN, conocida como
+SYN-flood, es uno de los ataques más comunes y predominantes, seguido
+por la inundación UDP y más atrás la de TCP, tal como se observa en la Figura
+\ref{fig:statistics}.
+
+\begin{figure}[!]
+	\centering 
+	\includegraphics[width=0.55\textwidth]{ddos_type}
+	\caption[Distribución de los ataques DDoS por tipo en el último trimestre de
+    2018]{Distribución de los ataques DDoS por tipo en el último trimestre de
+    2018 \parencite{ref_kalpesky}.}
+	\label{fig:statistics}
+\end{figure}
+
+Teniendo en cuenta los ataques DDoS por inundación más predominantes del último
+cuatrimestre del año 2018 mencionados anteriormente, es decir, SYN-Flood, UDP
+flood y TCP-Flood, se obliga a escoger los siguientes ataques a realizar con el
+fin de probar las aplicaciones desarrolladas:
+
+\begin{itemize}
+\item \textbf{Ataque TCP SYN-Flood.} Un cliente intercambia tres mensajes (SYN, SYN-ACK,
+  ACK) para iniciar una conexión TCP con un servidor, como se observa en la
+  Figura \ref{fig:tcp_hs}. En un ataque TCP SYN, el atacante envía una sucesión
+  de solicitudes SYN al sistema o \textit{host} objetivo sin confirmar la
+  recepción de los mensajes SYN-ACK enviados por parte del servidor, dando como
+  resultado conexiones TCP incompletas, tal como se ve en la Figura
+  \ref{fig:tcp_syn}. Todo esto se efectúa con el objetivo de consumir suficientes
+   recursos de
+  la red y del servidor para que este último no logre responder al tráfico
+  legítimo, ya que dicho servidor pierde tiempo de procesamiento y puede o no,
+  dependiendo su configuración, reservar recursos innecesarios en esas
+  peticiones ilegítimas.
+\item \textbf{Ataques TCP PUSH-ACK \textit{flood}, TCP FIN \textit{flood}, 
+TCP RST \textit{flood}.} En este tipo de ataques
+  el servidor víctima recibe paquetes ACK, FIN o RST falsos que no pertenecen
+  a ninguna de las sesiones en la lista de transmisiones de dicho servidor. El
+  \textit{host} bajo ataque desperdicia sus recursos (RAM, procesador,
+  etc.) tratando de definir a qué conexión pertenecen los paquetes, afectando su
+  capacidad de respuesta y de procesamiento y su disponibilidad. Por otra parte, si
+  se coloca un uno en el bit que representa al \textit{flag} PUSH, se fuerza al
+  servidor a procesar la información del paquete recibido, ya que apenas
+  llega se envía directamente a capa de aplicación sin esperar ningún otro tipo
+  de paquete en el buffer de recepción TCP \parencite{push_urg}, tal como se observa
+  en la Figura \ref{fig:tcp_prf}. Esta solicitud requiere que el mencionado servidor
+  haga más trabajo. En resumen, ataques
+  de inundación con estos bits activados (PUSH, ACK, FIN y RST) generan un agotamiento, tanto en la
+  capacidad de procesamiento y de respuesta del servidor como en el ancho de banda de los
+  enlaces de la red.
+\item \textbf{Ataque UDP \textit{flood}.} Un atacante envía grandes cantidades
+  de tráfico compuesto por paquetes UDP hacia un \textit{host} objetivo, con el fin de
+  agotar el ancho de banda de los enlaces y la capacidad de procesamiento y de
+  respuesta del mencionado \textit{host}.
+\end {itemize}
+
+\begin{figure}[H]
+	\centering 
+  \begin{subfigure}[b]{0.4\textwidth}
+    \centering
+    \includegraphics[scale=0.4]{tcp_hs}
+    \caption{Negociación TCP en tres pasos}
+    \label{fig:tcp_hs}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.4\textwidth}
+    \centering
+    \includegraphics[scale=0.4]{tcp_syn}
+    \caption{Ataque TCP SYN-Flood}
+    \label{fig:tcp_syn}
+  \end{subfigure}
+  \caption{Comparación del uso de las \textit{flags} TCP}
+  \label{fig:tcp_hs_syn}
+\end{figure}
+
+\begin{figure}[H]
+	\centering 
+	\includegraphics[scale=0.4]{tcp_prf}
+	\caption{Ataque TCP PSH-ACK, FIN, RST}
+	\label{fig:tcp_prf}
+\end{figure}
+
+%\\
+
+\subsubsection * {Reflexión y amplificación} \label{sec:smurf}
+
+Dentro de esta categoría se encuentra el ataque Smurf, el cual se trata de un
+ataque de denegación de servicio distribuido de capa tres que se utiliza para
+agotar el ancho de banda de los enlaces de una red \parencite {ddos_amir}. 
+Este ataque utiliza la suplantación de identidad y el
+direccionamiento de difusión para amplificar un flujo de paquetes. Es decir,
+ el atacante
+envía paquetes ICMP relativamente pequeños y con una dirección de origen
+falsificada hacia una dirección de difusión (\textit{broadcast}) como destino. 
+Por lo tanto, retransmitirá estos paquetes a todos los \textit{hosts} presentes 
+en dicha red de difusión, que luego 
+saturarán de respuesta eco ICMP a la máquina de la víctima \parencite{art_exploit},
+ como se observa en la Figura \ref{fig:smurf}.
+
+\begin{figure}[H]
+	\centering 
+	\includegraphics[width=0.7\textwidth]{smurf}
+	\caption{Comportamiento del ataque Smurf.}
+	\label{fig:smurf}
+\end{figure}
+
+\subsubsection * {Hping3}
+
+Para generar los ataques mencionados en las subsecciones anteriores, se utilizó
+la herramienta Hping3 \parencite{hping3}\parencite{hping3_man}. Se trata de una aplicación disponible
+para Linux que permite modificar los paquetes enviados a través de TCP/IP. Es
+utilizado para testear la eficacia y eficiencia de los \textit{firewalls} al
+generar, a través de distintos protocolos, diferentes tipos de ataques
+informáticos.
+
+Luego, para los ataques DDoS se hizo necesario comandar
+la ejecución simultánea, mediante múltiples instancias de ejecución, de los
+comandos que permiten generar dichos ataques a través de diferentes \textit{bots}.
+(Ver comandos utilizados en la sección Apéndice \ref{AppendixA}).
+
+
+\section{Aplicación de la Ingeniería de Software} \label{sec:hIngSW}
+
+Durante el transcurso de la carrera se logró apreciar el papel importante y
+fundamental que conllevan las buenas prácticas de la Ingeniería de Software. Es por ello que en las siguientes subsecciones se describirán brevemente:
+
+\begin{itemize}
+\item{El proceso de desarrollo de software empleado.}
+\item{Las herramientas que fueron utilizadas a la hora de organizar y gestionar el proyecto.}
+\item{Los riesgos tenidos en cuenta al comienzo del presente trabajo y sus respectivas importancias.}
+\end{itemize} 
+
+
+\subsection  {Metodología de trabajo}
+
+En este proyecto se han utilizado metodologías ágiles con ayuda  de herramientas mencionadas al final del capítulo. A su vez, dentro de todos los procesos de desarrollo de software que ofrece esta área de la ingeniería, se ha utilizado el iterativo incremental, gracias a sus ventajas en cuanto a la posibilidad y el favorecimiento de la separación de un proyecto complejo en etapas o iteraciones. Dichas etapas fueron planeadas en base a los objetivos descritos en el Capítulo \ref{Chapter1}, tal y como se muestra a continuación:
+
+\begin{itemize}
+\item {\textbf{Iteración 1:} diseño e implementación de una topología de red administrada por un controlador SDN, constituida por dos \textit{hosts} y un conmutador OVS. Esta iteración se debe efectuar con el fin de familiarizarse con las herramientas a emplear en el trabajo.}
+\item {\textbf{Iteración 2:} topología de red de la etapa anterior con la inclusión de sistemas de detección de intrusiones imprimiendo alertas en sus respectivas consolas frente al tráfico ICMP que atraviesa al \textit{switch} SDN correspondiente. Esta etapa posee como objetivo el aprender a configurar y utilizar Snort.}
+\item {\textbf{Iteración 3:} topología administrada por ONOS que incluye \textit{hosts} con posibilidades de generar ataques y/o tráfico legítimo, además de los dispositivos de las etapas anteriores. Parte fundamental de esta iteración es la adquisición de conocimientos para la elaboración de los distintos ataques.}
+\item {\textbf{Iteración 4:} diseño e implementación de una topología de red, representativa de las infraestructuras existentes, y que permita validar la solución desarrollada a lo largo del proyecto. Un posible caso podría ser la de algún ISP.}
+\item {\textbf{Iteración 5:} integración de una aplicación en el controlador que detecte presencia de posibles ataques por medio de la recolección de métricas desde el plano de datos.}
+\item {\textbf{Iteración 6:} integración de una aplicación en ONOS que permita filtrar el tráfico malicioso en el plano de datos, a partir de la información recibida de alertas enviadas por los sistemas de detección de intrusos.}
+\item {\textbf{Iteración 7:} diseño, implementación e integración al sistema
+    desarrollado, de las APIs y de la interfaz web de usuario que permitan
+    configurarlo y monitorearlo de una manera sencilla.}
+\end{itemize}
+
+
+\subsection  {Herramientas utilizadas}
+
+En el mercado existen herramientas disponibles y muy utilizadas que facilitan la aplicación de las buenas prácticas de la Ingeniería de Software y que se detallan a lo largo de esta sección. 
+
+\subsubsection *{Gestión y construcción de proyectos}
+
+De acuerdo a \parencite{apache_maven} y \parencite{java_maven}, Maven
+consiste en una herramienta \textit{open source} que permite construir y
+administrar cualquier proyecto basado en Java. Entre otras cosas, realiza la
+compilación del código, soluciona y gestiona dependencias, ejecuta pruebas y
+genera informes y/o documentación. Para lograr estas funcionalidades, utiliza un
+archivo POM, el cual contiene la configuración y descripción de las
+características del proyecto útiles para Maven.
+
+\subsubsection *{Metodologías ágiles}
+
+De acuerdo a \parencite{trello} y
+\parencite{prod_trello}, Trello es una herramienta sencilla y gratuita de
+administración y organización de proyectos en tableros y tarjetas visuales
+(metodología Kanban), de forma tal que se puede saber cuáles tareas se están
+llevando a cabo, quién del equipo tiene asignado una determinada tarea y cuál es
+el estado de un proceso. Al presente proyecto se lo dividió en historias de
+usuario y a cada una se la incluyó en una tarjeta. Dentro de cada tarjeta, a su
+vez, se crearon \textit{checklists} con las distintas tareas que integran alguna
+historia en particular.
+
+
+\subsubsection *{Modelado UML}
+
+Visual Paradigm es la herramienta utilizada en el presente proyecto para llevar a cabo los
+distintos diagramas UML necesarios en la etapa de diseño. Posee una \textit{Free
+  Community Edition} para uso no comercial, la cual fue utilizada en el presente
+trabajo.
+
+
+\subsubsection *{Control de versiones}
+
+Uno de los aspectos fundamentales de la Ingeniería de Software es el control de versiones y la administración de códigos fuente. Para ello, en este proyecto utilizamos Git, usando un modelo de ramificación en el repositorio conocido como \textit{Trunk-Based Development}. Este último consiste en una rama principal, de la cual se desprenden otras por cada versión entregable del producto o iteración. Además, frente a cada nueva funcionalidad a implementar se crean nuevas bifurcaciones que se fusionan a la principal una vez concluidas.
+
+%GitLab\parencite{gitlab} es una plataforma para planeamiento de proyectos, administración de códigos fuente, integración continua, entre otras funciones, que permite aplicar técnicas de la Ingeniería de Software muy utilizadas en este proyecto, como por ejemplo, el control de versiones, el desarrollo en distintas ramas y la creación de \textit{wikis}.
+
+
+\subsection{Riesgos}
+
+Para que el trabajo pueda desarrollarse y llevarse a cabo dentro de los tiempos establecidos, se debe confeccionar un estudio y administración de los distintos riesgos que pueden presentarse en diferentes etapas del proyecto integrador. Para ello se deben identificar y  analizar estos riesgos, para luego generar planes con el fin de poder afrontarlos. La metodología de gestión seguida consiste en una adaptación de la que se detalla en \parencite{Ing_software}.
+
+\subsubsection *{Identificación de los riesgos}
+
+De acuerdo a \parencite{Ing_software}, hay al menos seis tipos de riesgos:
+
+\begin{itemize}
+\item {\textbf{Riesgos de tecnología:} asociados a las tecnologías (hardware o software) utilizadas en el proyecto.}
+\item {\textbf{Riesgos de personal:} vinculados con los miembros del equipo de trabajo.}
+\item {\textbf{Riesgos organizacionales:} derivados del entorno organizacional en donde se genera el proyecto.}
+\item {\textbf{Riesgos de herramientas:} producidos a partir de aquellas
+    tecnologías de ingeniería de software u otras de apoyo, utilizadas para el
+    presente trabajo.}
+\item {\textbf{Riesgos de requerimientos:} asociados con los cambios de los requerimientos del cliente y del proceso de gestión de dichos cambios.}
+\item {\textbf{Riesgos de estimación:} derivados de estimaciones administrativas en cuanto a características del sistema y a recursos utilizados en la construcción del mismo.}
+\end{itemize}
+
+
+Habiendo definido cada tipo, a continuación se mostrará en la Tabla \ref{tab:id_riesgos} los distintos riesgos identificados con sus respectivas clasificaciones.
+
+
+% Please add the following required packages to your document preamble:
+% \usepackage[table,xcdraw]{xcolor}
+% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
+\begin{table}[H]
+\centering
+\begin{tabular}{|c|
+>{\columncolor[HTML]{FFFFFF}}l |c|}
+  \hline
+  \cellcolor[HTML]{EFEFEF}\textbf{Identificador} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Descripción del riesgo}} & \cellcolor[HTML]{EFEFEF}\textbf{Tipo} \\ \hline
+  {\color[HTML]{000000} \textbf{R1}} & {\color[HTML]{000000} Uno de los integrantes abandona.} & {\color[HTML]{000000} Personal} \\ \hline
+  {\color[HTML]{000000} \textbf{R2}} & {\color[HTML]{000000} El tamaño del software está subestimado.} & {\color[HTML]{000000} Estimación} \\ \hline
+  {\color[HTML]{000000} \textbf{R3}} & {\color[HTML]{000000} Cambios en los requerimientos.} & {\color[HTML]{000000} Requerimiento} \\ \hline
+  {\color[HTML]{000000} \textbf{R4}} & {\color[HTML]{000000} \begin{tabular}[c]{@{}l@{}}Las versiones del controlador y de sus\\ dependencias son incompatibles con\\ algunas de las herramientas a utilizar en\\ el proyecto.\end{tabular}} & {\color[HTML]{000000} Tecnológico} \\ \hline
+  {\color[HTML]{000000} \textbf{R5}} & {\color[HTML]{000000} \begin{tabular}[c]{@{}l@{}}La versión del OVS es incompatible con \\ algunas de las herramientas y tecnologías\\ a emplear en el trabajo.\end{tabular}} & {\color[HTML]{000000} Tecnológico} \\ \hline
+  {\color[HTML]{000000} \textbf{R6}} & {\color[HTML]{000000} \begin{tabular}[c]{@{}l@{}}Snort, por dificultades, no puede \\ configurarse adecuadamente.\end{tabular}} & \cellcolor[HTML]{FFFFFF}{\color[HTML]{000000} Tecnológico} \\ \hline
+  {\color[HTML]{000000} \textbf{R7}} & {\color[HTML]{000000} \begin{tabular}[c]{@{}l@{}}Las herramientas para generar los \\ ataques presentan problemas en su\\ funcionamiento. (Incompatibilidad, falta\\ de documentación, etc.).\end{tabular}} & \cellcolor[HTML]{FFFFFF}{\color[HTML]{000000} Tecnológico} \\ \hline
+\end{tabular}
+\caption{Identificación de riesgos.}
+\label{tab:id_riesgos}
+\end{table}
+
+
+\subsubsection *{Análisis de riesgos}
+
+Para generar la tabla del análisis de los riesgos, se deben determinar las
+probabilidades de ocurrencia de los mismos y los efectos que producen, con el
+fin de distinguir cuáles son los más importantes. Para ello se definen las
+tablas \ref{tab:probabilidad_riesgo} y \ref{tab:seriedad_riesgo}.
+
+\begin{table}[htbp]
+	\centering
+	\begin{tabular}{|c|c|}
+		\hline
+		\rowcolor[HTML]{EFEFEF} 
+		\textbf{Identificador de probabilidad} & \textbf{Probabilidad de ocurrencia}      \\ \hline
+		\rowcolor[HTML]{FFFFFF} 
+		{\color[HTML]{000000} Muy baja}            & {\color[HTML]{000000} 0\% - 25\%}    \\ \hline
+		\rowcolor[HTML]{FFFFFF} 
+		{\color[HTML]{000000} Baja}           & {\color[HTML]{000000} 25\% - 50\%}    \\ \hline
+    \rowcolor[HTML]{FFFFFF} 
+    {\color[HTML]{000000} Alta}           & {\color[HTML]{000000} 50\% - 75\%}    \\ \hline
+    \rowcolor[HTML]{FFFFFF} 
+		{\color[HTML]{000000} Muy alta}            & {\color[HTML]{000000} 75\% - 100\%} \\ \hline
+	\end{tabular}
+	\caption{Probabilidades de ocurrencia de los riesgos.}
+	\label{tab:probabilidad_riesgo}
+\end{table}
+
+
+
+\begin{table}[htbp]
+	\centering
+	\begin{tabular}{|c|c|}
+		\hline
+		\rowcolor[HTML]{EFEFEF} 
+    \textbf{Identificador del efecto} & \textbf{Demora estimada}      \\ \hline
+		\rowcolor[HTML]{FFFFFF} 
+    {\color[HTML]{000000} Despreciable}            & {\color[HTML]{000000} Menos de 8 horas de trabajo}    \\ \hline
+    \rowcolor[HTML]{FFFFFF} 
+  {\color[HTML]{000000} Moderado}            & {\color[HTML]{000000} Entre 8 y 24 horas de trabajo}    \\ \hline
+		\rowcolor[HTML]{FFFFFF} 
+		{\color[HTML]{000000} Grave}           & {\color[HTML]{000000} Demoras superiores a 24 horas}    \\ \hline
+		\rowcolor[HTML]{FFFFFF} 
+		{\color[HTML]{000000} Crítico}            & {\color[HTML]{000000} Se pone en juego la continuidad del proyecto} \\ \hline
+	\end{tabular}
+	\caption{Efectos de los riesgos.}
+	\label{tab:seriedad_riesgo}
+\end{table}
+
+
+
+Luego, en la Tabla \ref{tab:matriz_criterio_riesgos} se observa la combinación entre la probabilidad de ocurrencia y el efecto producido por el riesgo. Esto origina el grado de importancia y seriedad del mismo, el cual mientras más grande sea, más perjudicial es para el proyecto.
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|
+			>{\columncolor[HTML]{EFEFEF}}c |
+			>{\columncolor[HTML]{FFFFFF}}c |
+			>{\columncolor[HTML]{FFFFFF}}c |
+			>{\columncolor[HTML]{FFFFFF}}c |
+			>{\columncolor[HTML]{FFFFFF}}c |}
+			\hline
+			\textbf{\backslashbox {Proba-\\bilidad\\ de ocu-\\rrencia}{Efecto\\ del\\ riesgo}}                                & \cellcolor[HTML]{EFEFEF}\textbf{Despreciable} & \cellcolor[HTML]{EFEFEF}\textbf{Moderado} & \cellcolor[HTML]{EFEFEF}\textbf{Grave} & \cellcolor[HTML]{EFEFEF}\textbf{Crítico} \\ \hline
+			{\color[HTML]{000000} \textbf{Muy Baja}} & {\color[HTML]{000000} Severidad 1}            & Severidad 2                               & Severidad 3                            & Severidad 4                               \\ \hline
+			{\color[HTML]{000000} \textbf{Baja}}     & {\color[HTML]{000000} Severidad 2}            & Severidad 4                               & Severidad 6                            & Severidad 8                               \\ \hline
+			{\color[HTML]{000000} \textbf{Alta}}     & {\color[HTML]{000000} Severidad 3}            & Severidad 6                               & Severidad 9                            & Severidad 12                              \\ \hline
+			\textbf{Muy alta}                        & Severidad 4                                   & Severidad 8                               & Severidad 12                           & Severidad 16                              \\ \hline
+		\end{tabular}
+		\caption{Importancia de los riesgos en función de los efectos y las probabilidades de ocurrencia.}
+		\label{tab:matriz_criterio_riesgos}
+	\end{table}
+
+
+Por último, detallamos en la tabla \ref{tab:analisis_riesgos} el análisis completo de cada uno de los riesgos identificados en la sección anterior. Como puede observarse, \textbf{R2} y \textbf{R3} son los de mayor repercusión en el proyecto.
+
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|c|c|c|c|}
+		\hline
+		\rowcolor[HTML]{EFEFEF} 
+		\textbf{\begin{tabular}[c]{@{}c@{}}Identificador \\ del riesgo\end{tabular}} & \textbf{\begin{tabular}[c]{@{}c@{}}Probabilidad \\ de ocurrencia\end{tabular}} & \textbf{Efecto} & \textbf{\begin{tabular}[c]{@{}c@{}}Grado de\\ importancia\end{tabular}} \\ \hline
+		\rowcolor[HTML]{FFFFFF} 
+		{\color[HTML]{000000} \textbf{R1}}               & {\color[HTML]{000000} Muy baja} & {\color[HTML]{000000} Crítico}     & \cellcolor[HTML]{FFFE65}{\color[HTML]{000000} 4} \\ \hline
+		\rowcolor[HTML]{FFFFFF} 
+		{\color[HTML]{000000} \textbf{R2}}               & {\color[HTML]{000000} Alta}     & {\color[HTML]{000000} Grave}        & \cellcolor[HTML]{FE2E2E}{\color[HTML]{FFFFFF} 9} \\ \hline
+		\rowcolor[HTML]{FFFFFF} 
+		{\color[HTML]{000000} \textbf{R3}}               & {\color[HTML]{000000} Alta}     & {\color[HTML]{000000} Grave}        & \cellcolor[HTML]{FE2E2E}{\color[HTML]{FFFFFF} 9} \\ \hline
+		\rowcolor[HTML]{FFFFFF} 
+		{\color[HTML]{000000} \textbf{R4}}               & {\color[HTML]{000000} Baja}     & {\color[HTML]{000000} Despreciable} & \cellcolor[HTML]{89FF76}{\color[HTML]{000000} 2} \\ \hline
+		\rowcolor[HTML]{FFFFFF} 
+		{\color[HTML]{000000} \textbf{R5}}               & {\color[HTML]{000000} Baja}     & {\color[HTML]{000000} Despreciable} & \cellcolor[HTML]{89FF76}{\color[HTML]{000000} 2} \\ \hline
+		\rowcolor[HTML]{FFFFFF} 
+		{\color[HTML]{000000} \textbf{R6}}               & {\color[HTML]{000000} Alta}     & {\color[HTML]{000000} Moderado}     & \cellcolor[HTML]{FFB745}{\color[HTML]{000000} 6} \\ \hline
+		\rowcolor[HTML]{FFFFFF} 
+		{\color[HTML]{000000} \textbf{R7}}               & {\color[HTML]{000000} Alta}     & {\color[HTML]{000000} Moderado}     & \cellcolor[HTML]{FFB745}{\color[HTML]{000000} 6} \\ \hline
+	\end{tabular}
+	\caption{Análisis de los riesgos.}
+	\label{tab:analisis_riesgos}
+\end{table}
+
+
+
+\subsubsection *{Estrategias de gestión de riesgos}
+
+Por último y siguiendo los pasos que se detallan en \parencite{Ing_software}, se generó la Tabla \ref{tab:estrategias_riesgos} con el fin de solucionar los riesgos identificados y analizados en secciones anteriores.
+
+
+\begin{table}[H]
+	\centering
+	\begin{tabular}{|c|l|l|}
+		\hline
+		\rowcolor[HTML]{EFEFEF} 
+		\textbf{\begin{tabular}[c]{@{}c@{}}Identificador\\ del riesgo\end{tabular}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{Consecuencia}} & \multicolumn{1}{c|}{\cellcolor[HTML]{EFEFEF}\textbf{\begin{tabular}[c]{@{}c@{}}Estrategias de solución\\ (prevención, minimización\\ y contingencia)\end{tabular}}} \\ \hline
+		\rowcolor[HTML]{FFFFFF} 
+		{\color[HTML]{000000} \textbf{R1}}               & {\color[HTML]{000000} \begin{tabular}[c]{@{}l@{}}Los tiempos de desarrollo   \\ del proyecto se duplican\\ en el mejor de los casos.\end{tabular}} & {\color[HTML]{000000} \begin{tabular}[c]{@{}l@{}}Mantener una constante y\\ buena comunicación con el \\ equipo.\\ Acortar los requerimientos \\del proyecto.\end{tabular}} \\ \hline
+		\rowcolor[HTML]{FFFFFF} 
+		{\color[HTML]{000000} \textbf{R2}}               & {\color[HTML]{000000} \begin{tabular}[c]{@{}l@{}}Los tiempos de desarrollo   \\ del proyecto se extienden.\end{tabular}} & {\color[HTML]{000000} \begin{tabular}[c]{@{}l@{}}Estimar los tiempos de \\ desarrollo para el caso más \\ desfavorable.\end{tabular}} \\ \hline
+		\rowcolor[HTML]{FFFFFF} 
+		{\color[HTML]{000000} \textbf{R3}}               & {\color[HTML]{000000} \begin{tabular}[c]{@{}l@{}}Desperdicio de tiempos      \\ de desarrollo y extensión \\ de fecha de entrega del \\ proyecto.\end{tabular}} & {\color[HTML]{000000} \begin{tabular}[c]{@{}l@{}}Negociación, control y \\ revisión de los \\ requerimientos en etapas\\ iniciales del proyecto.\end{tabular}} \\ \hline
+		\rowcolor[HTML]{FFFFFF} 
+		{\color[HTML]{000000} \textbf{R4}}               & {\color[HTML]{000000} \begin{tabular}[c]{@{}l@{}}Problemas para cumplir      \\ con los requerimientos \\ funcionales de las\\ aplicaciones.\end{tabular}} & {\color[HTML]{000000} \begin{tabular}[c]{@{}l@{}}Utilizar versiones estables.\\ Actualizar versiones del\\ controlador y/o de sus\\ dependencias.\\ Registrar y documentar las\\ versiones utilizadas que no\\ generan problemas.\end{tabular}} \\ \hline
+		\rowcolor[HTML]{FFFFFF} 
+		{\color[HTML]{000000} \textbf{R5}}               & {\color[HTML]{000000} \begin{tabular}[c]{@{}l@{}}Problemas para cumplir      \\ con los requerimientos del\\ entorno de trabajo.\end{tabular}} & {\color[HTML]{000000} \begin{tabular}[c]{@{}l@{}}Utilizar versiones estables.\\ Actualizar la versión del\\ OVS.\\ Registrar y documentar las\\ versiones utilizadas que no\\ generan problemas.\\ Emplear, en caso necesario, \\ otros productos como, por \\ ejemplo, Indigo Virtual \\ Switch.\end{tabular}} \\ \hline
+		\rowcolor[HTML]{FFFFFF} 
+		{\color[HTML]{000000} \textbf{R6}}               & {\color[HTML]{000000} \begin{tabular}[c]{@{}l@{}}Problemas para detectar los \\ ataques.\end{tabular}} & {\color[HTML]{000000} \begin{tabular}[c]{@{}l@{}}Estudiar más a fondo los \\ manuales de Snort.\\ Utilizar otros sistemas de\\ detección de intrusiones\\ como, por ejemplo, Suricata.\end{tabular}} \\ \hline
+		\rowcolor[HTML]{FFFFFF} 
+		{\color[HTML]{000000} \textbf{R7}}               & {\color[HTML]{000000} \begin{tabular}[c]{@{}l@{}}Problemas para generar los  \\ ataques.\end{tabular}} & {\color[HTML]{000000} \begin{tabular}[c]{@{}l@{}}Estudiar a fondo las \\ herramientas. \\ Observar distintos tutoriales.\\ Emplear otras herramientas\\ disponibles en el mercado, \\ como las que ofrece el \\ \textit{framework} Metasploit.\end{tabular}} \\ \hline
+	\end{tabular}
+	\caption{Estrategias de solución para los distintos riesgos.}
+	\label{tab:estrategias_riesgos}
+\end{table}
+

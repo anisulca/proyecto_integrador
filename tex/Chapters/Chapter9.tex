@@ -1,0 +1,95 @@
+% Chapter Template
+% cSpell:words parencite onfwhitepaper includegraphics resizebox sdncomponents
+% linewidth comparqui redireccionar enrutamiento subfigure toposdn Nicira toposinsdn
+\chapter{Conclusiones} % Main chapter title 
+
+\label{sec:Conclusiones} % Change X to a consecutive number; for referencing this chapter elsewhere, use \ref{ChapterX}
+
+En el último capítulo del proyecto integrador se enuncian las conclusiones propias del trabajo realizado, ciertas reflexiones en cuanto al crecimiento profesional alcanzado, los posibles trabajos que se pueden desencadenar en un futuro y las limitaciones presentadas.
+
+
+\section{Conclusiones del proyecto.} \label{sec:conclusionesproyecto}
+
+En los inicios del proyecto siempre se buscó generar una solución escalable y fácilmente adaptable a la naturaleza dinámica que el mercado exige sobre las redes. Esta solución debía consitir en un mecanismo de detección y mitigación de ataques DDoS que se pueda acoplar de manera sencilla a distintas empresas, entre ellos, los proveedores de servicios de Internet. Para lograr esto se buscó entrar en el campo de las redes definidas por software, consiguiendo los siguientes resultados:
+
+\begin{itemize}
+    \item{La solución obtenida tiene en cuenta a uno de los controladores SDN con mayor visibilidad comercial.}
+    \item{La implementación se verificó a partir del uso de herramientas de
+        generación de ataques ampliamente utilizadas.}
+    \item{Los sistemas de detección de intrusos usados constan de un software
+        con un soporte provisto por una gran comunidad, por lo que se da a
+        entender su aceptación y reconocimiento. Esto permite delegar el
+        análisis profundo del tráfico sospechoso a estos sistemas por parte del
+        controlador SDN.}
+    \item{La solución es fácilmente acoplable a cualquier empresa, ya que
+        solamente tiene noción del tráfico y de la topología de la misma.}
+    \item{La escalabilidad es un punto a favor en este proyecto integrador. Más
+        allá de las ventajas que ofrece SDN en este tema, se presenta la
+        capacidad de monitorear el tráfico malicioso en el
+        plano de datos y no en el de control. Esto posibilita la libertad de
+        crecimiento de la red sin contrarrestar la disponibilidad del
+        controlador.}
+    \item{La solución estadística obtenida consume un ancho de banda mínimo, ya
+        que solamente se transmiten métricas cada diez segundos entre los
+        dispositivos de red SDN y ONOS.}
+    \item{Los sistemas de detección de intrusos no se encuentran permanentemente
+        monitoreando la red. Únicamente lo hacen en caso de que el controlador
+        detecte una posibilidad de ataque. Esto produce una disminución en el
+        número de estos equipos para una misma red.}
+    \item{La implementación que se llevó a cabo utiliza como topología de prueba la de un ISP, la cual, frente a determinados cambios, puede seguir siendo protegida por esta solución gracias a las ventajas que ofrece SDN y a las aplicaciones desarrolladas en este proyecto. Ante dichas modificaciones, solamente es necesario reconfigurar el rol de los dispositivos de red, ya sea como puntos de recolección de métricas o como \textit{firewalls}.} 
+    
+\end{itemize}
+
+
+
+\section{Conclusiones personales.} \label{sec:conclusionespersonales}
+
+Un proyecto integrador, como su nombre lo indica, busca integrar los conceptos adquiridos durante los años de la carrera. Durante la misma, se logra entender que los problemas que se nos presentan en cualquier proyecto se deben resolver de manera escalable, segura, económicamente viable y en forma competitiva. Además la solución se debe validar con argumentos y conocimientos técnicos y verificar con casos de prueba acorde a los requerimientos de dicho proyecto. En este trabajo hemos aplicado estos principios y puesto en funcionamiento los conceptos y prácticas adquiridas en las materias relacionadas con redes de computadoras, sistemas operativos, probabilidad y estadística, ingeniería de software, modelos y simulación, entre otras.
+
+Si se hace un recorrido por la vida del proyecto, se apreciará la cantidad de capas de conocimiento que fueron necesarias adquirir para poder realizar y verificar el correcto funcionamiento de las aplicaciones. A continuación se listan algunas reflexiones sobre estas etapas:
+
+\begin{itemize}
+    \item {Se logró entender este nuevo paradigma de las redes definidas por software y las ventajas que trae. A su vez, fue necesario adquirir conceptos en cuanto a los controladores SDN disponibles en el mercado y optar por uno. Al tomar la decisión, se debió investigar a fondo su arquitectura y la forma de implementar aplicaciones que logren utilizar sus servicios.}
+    \item {Se pudieron obtener los ataques DDoS más utilizados en el último tramo del año 2018. Dichos ataques fueron los que se utilizaron en el entorno de emulación para probar las aplicaciones desarrolladas.}
+    \item {En tercer lugar, la explicación sobre Snort brindada en este trabajo es un resumen de todo lo que se aprendió sobre este IDS.}
+    \item {Se logró generar los ataques y el tráfico legítimo a partir de la combinación de herramientas y conceptos sobre probabilidad y estadística, protocolos de red, etc.}
+    \item {Se consiguió obtener una propuesta superadora respecto a los trabajos que se han detallado en la Sección \ref{sec:state_art}.}
+    \item {Para el desarrollo de las aplicaciones se logró adquirir los conocimientos sobre las clases y métodos de Java que ofrece el controlador ONOS. Este proceso fue ayudado en parte por la herramienta Maven.}
+    \item {Se ha obtenido conocimiento en herramientas nuevas de Ingeniería de Software como, por ejemplo, Trello.}
+    \item {Se logró profundizar la práctica en los lenguajes de programación Java y Python.}
+    \item {Se ha podido construir un entorno de emulación con una herramienta flexible como lo es ContainerNet.}
+    \item {Utilizando Docker se han conseguido ampliar los conocimientos adquiridos durante el cursado de la carrera.}
+    \item {Se adquirió experiencia en la resolución de problemas debido a los diversos desafíos que se nos fueron presentando.}
+    \item {Se consiguió obtener un cierto aprendizaje sobre la construcción de APIs.}
+    \item{Se logró construir una interfaz gráfica web de usuario, por medio de distintas herramientas y lenguajes que fue necesario aprender.}
+\end{itemize}
+
+
+\section{Posibles trabajos futuros.}
+
+A lo largo del presente proyecto han ido surgiendo y se han propuesto trabajos futuros a realizar. Entre ellos se destacan:
+
+\begin{itemize}
+    
+\item{\textbf{Publicación científica del trabajo.} Una de los pasos siguientes que se podría realizar sería publicarlo en forma de \textit{paper}.}
+\item{\textbf{Mejoras a la aplicación de filtrado.} La posibilidad de detectar más tipos de ataques, debido a que solamente se tienen en cuenta muy pocos, es uno de los factores de mejora.}
+\item{\textbf{Mejoras a la aplicación de detección de anomalías.} La introducción de redes neuronales en esta aplicación sería uno de los próximos pasos a realizar para mejorar la detección de los comportamientos sospechosos.}
+\item{\textbf{Mejoras a la interfaz gráfica de usuario.} Entre estas mejoras, se destacan la de permitir la clasificación de los clientes en distintos grupos para ofrecerles diferentes niveles de seguridad.}
+\item{\textbf{Utilizar equipos SDN físicos.} Dado el costo de los equipos, se hizo imposible adquirir \textit{switches} SDN físicos con capacidad OpenFlow. Sin embargo, agregaría un mayor valor agregado al proyecto y un incremento en su relevancia si se lo aplicara sobre los mencionados dispositivos.}
+\item {\textbf{Mejorar las limitaciones.} Posiblemente, una de las cosas más importantes a mejorar son los problemas detalladas en la Sección \ref{sec:limitaciones}.}
+
+\end{itemize}
+
+
+\section{Limitaciones.} \label{sec:limitaciones}
+
+En esta sección se mostrarán las limitaciones que presenta y que se han encontrado en el proyecto realizado.
+
+\begin{itemize}
+\item{\textbf{Ataques de día cero.} Un ataque desconocido es ignorado por las aplicaciones y por los IDS, por lo que la red no tendría forma de mitigarlo.}
+
+\item{\textbf{Desvío de tráfico desde dispositivo OVS de acceso y no desde enlace con tráfico sospechoso.} En la aplicación de detección de anomalías el desvío del mencionado tráfico hacia los IDSs en caso de comportamientos que difieren estadísticamente del esperado se realiza a partir de todos los flujos entrantes a un dispositivo de borde. La idea inicial era, a partir de la detección del OVS de distribución comprometido y de la obtención de su enlace sospechoso que lo conecta con un dispositivo de acceso, duplicar al correspondiente IDS el tráfico de ese enlace solamente. Esto no se puede realizar debido a que los flujos se establecen a través de \textit{intents} (ver Capítulo \ref{sec:Chapter4} para mayor información). Estos son independientes de los enlaces por los que circulan los paquetes, pudiendo establecerse varias rutas para un mismo flujo. Además se definen en base a un punto de origen y uno de destino. Por lo tanto, en un enlace de la zona intermedia de la red no es factible el hecho de determinar cuáles de estos \textit{intents} se encuentran en dicho enlace.}
+
+\item{\textbf{Conmutadores de frontera.} Para disminuir en un principio la complejidad, se optó por enfocarse únicamente en el tráfico que se genera dentro del ISP y no del que proviene desde otro. Para lograr esta última funcionalidad, se podría realizar un análisis estadístico también sobre el OVS de frontera, tratándolo como si fuera uno de distribución.}
+
+\end{itemize}

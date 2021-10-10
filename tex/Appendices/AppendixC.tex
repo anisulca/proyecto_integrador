@@ -1,0 +1,72 @@
+% Appendix Template
+
+\chapter{Reglas de Snort} % Main appendix title
+
+\label{AppendixC} % Change X to a consecutive letter; for referencing this appendix elsewhere, use \ref{AppendixX}
+
+Si se observa la Figura \ref{fig:arch_snort}, una parte muy importante de ese flujo de datos interno de Snort son las reglas que utiliza el motor de detección para crear las firmas de los ataques. Este IDS permite crearlas al escribirlas en un archivo o también posibilita la elección de aquellas preconfiguradas por parte de la comunidad. La estructura de estas reglas está constituida por una cabecera \parencite{snort_manual}, tal como se observa en la Tabla \ref{tab:cabecera_snort}, y un campo de opciones.
+
+\begin{table}[htpb]
+	\centering
+    \begin{tabular}{|c|c|c|c|c|c|c|}
+	\hline
+	\cellcolor[HTML]{EFEFEF}\textbf{Acción} & \cellcolor[HTML]{EFEFEF}\textbf{Protocolo} & \cellcolor[HTML]{EFEFEF}\textbf{\begin{tabular}[c]{@{}c@{}}Red \\ origen\end{tabular}} & \cellcolor[HTML]{EFEFEF}\textbf{\begin{tabular}[c]{@{}c@{}}Puerto \\ origen\end{tabular}} & \cellcolor[HTML]{EFEFEF}\textbf{Dirección} & \cellcolor[HTML]{EFEFEF}\textbf{\begin{tabular}[c]{@{}c@{}}Red \\ destino\end{tabular}} & \cellcolor[HTML]{EFEFEF}\textbf{\begin{tabular}[c]{@{}c@{}}Puerto \\ Destino\end{tabular}} \\ \hline
+	alert            & tcp                & any                                    & any & -\textgreater{} & \$HOME\_NET & 80 \\ \hline
+    \end{tabular}
+    \caption{Cabecera de regla de Snort.}
+    \label{tab:cabecera_snort}
+\end{table}
+
+Teniendo en cuenta los campos de la cabecera, se describen a continuación algunas de las acciones (valores del campo \textbf{\textit{Acción}}) que pueden realizarse sobre el paquete que coincida con la regla en cuestión:
+
+\begin{itemize}
+\item{\textbf{alert:}} generar alerta y registrar el paquete. (Utilizada en este proyecto).
+\item{\textbf{pass:}} ignorar el paquete.
+\item{\textbf{log:}} registrar el paquete.
+\end{itemize}
+
+Por otra parte, el campo \textbf{\textit{Protocolo}} indica el protocolo de comunicación del paquete con el que se quiere coincidir y puede ser \textit{tcp}, \textit{icmp}, \textit{udp} e \textit{ip}. Este último engloba a los 3 anteriores.
+
+Luego, los campos \textbf{\textit{Red origen}} y \textbf{\textit{Red destino}} indican las direcciones IP de origen y destino, respectivamente, de las redes que constituyen los extremos de la comunicación que dio origen al paquete que se quiere hacer coincidir con la regla. En dichos campos, se puede escribir una dirección IP, un conjunto de direcciones IP o una variable que se debe definir en un archivo de configuración de Snort. Ya existen variables por defecto y son:
+
+\begin{itemize}
+\item {\textbf{ANY:}} cualquier red.
+\item {\textbf{\$EXTERNAL\_NET:}} red externa.
+\item {\textbf{\$HOME\_NET:}} red interna.
+\end{itemize}
+
+Siguiendo con los campos de la cabecera, el campo \textbf{\textit{Dirección}} puede ser ->, <- ó <>. El mismo indica el sentido de la comunicación.
+
+Por último, los campos \textbf{\textit{Puerto origen}} y \textbf{\textit{Puerto destino}} permiten especificar los puertos de la comunicación. En estos campos se puede escribir el número de puerto, un rango de puertos, \textit{any} (cualquier puerto) o el mencionado número de puerto con un signo de exclamación antepuesto, por ejemplo, !50, lo cual indica cualquiera menos el número 50.	
+
+Además de la cabecera, se encuentra un campo de opciones, las cuales van encerradas entre paréntesis y separadas por punto y coma. Aquellas utilizadas en este proyecto fueron las siguientes \parencite{snort_manual}:
+
+\begin{itemize}
+\item{\textbf{msg:}} mensaje que debe mostrar la alerta cuando se active la regla.
+\item{\textbf{flow:}} indica a qué flujo de tráfico debe aplicarse la regla. Por ejemplo, \textit{“flow: established”} expresa que se va a aplicar a tráfico propio de conexiones TCP establecidas. Otro ejemplo es \textit{“flow: stateless”}, donde se indica que dicha regla va a ser aplicada a cualquier tipo de tráfico.
+\item{\textbf{classtype:}} permite indicar la categoría de la regla, las cuales se definen en un fichero de configuración de Snort. Algunas por defecto son \textit{attempted-dos}, \textit{denial-of-service},  etc.
+\item{\textbf{sid:}} identificador de la regla de Snort.
+\item{\textbf{rev:}} número de revisión de la regla de Snort.
+\item{\textbf{priority:}} indica la prioridad de la regla de Snort.
+\item{\textbf{content:}} cadena que Snort debe buscar dentro de la parte útil de un paquete.
+\item{\textbf{fast\_pattern:}} en el presente proyecto se lo utilizó acompañado de la palabra \textit{only}. Esto genera un incremento en el rendimiento del motor de detección debido a que el contenido de la opción \textit{content} es enviado directamente a un detector de patrones rápido sin efectuar controles ni evaluaciones innecesarias acerca de algunas otras opciones. Esto es útil cuando se necesita detectar determinado contenido conocido en cualquier parte del \textit{payload} del paquete.
+\item{\textbf{threshold:}} esta opción se utiliza cuando se necesita que la regla no se active por cada evento, sino por una cantidad determinada de éstos que se producen en un cierto tiempo. Posee subcampos, los cuales son:
+\begin{itemize}
+\item{\textbf{type:}} puede ser \textit{limit}, \textit{threshold} o \textit{both}. La más utilizada es \textit{both} debido a que alerta una vez por intervalo de tiempo cuando se observa una cantidad de coincidencias con la regla igual al valor que se encuentra en el subcampo \textit{count}. 
+\item{\textbf{track:}} puede ser \textit{by\_dst} o \textit{by\_src}. Respectivamente, define si se realizará una cuenta de coincidencias por cada una de las direcciones IP de destino a las cuales se dirigen los paquetes o por cada una de las direcciones IP de origen de las cuales provengan los mismos.
+\item{\textbf{count:}} debe ser un valor distinto de cero y expresa una cantidad de coincidencias con la regla en el intervalo de tiempo definido por el subcampo \textit{seconds}.
+\item{\textbf{seconds:}} debe ser un valor distinto de cero y define el intervalo de tiempo en segundos durante los cuales un contador interno del IDS se va a poder incrementar frente a cada coincidencia con la regla. Finalizado este intervalo, dicho contador se resetea.
+\end{itemize}
+\item{\textbf{flags:}} esta opción es utilizada cuando se necesita en el paquete chequear \textit{flags} TCP en alto. Por ejemplo, \textit{“flags: F”} indica que Snort chequea si el bit TCP FIN tiene un valor igual a uno.
+\item{\textbf{itype:}} utilizado para chequear si un paquete ICMP tiene un valor de \textit{ICMP type} determinado.
+\end{itemize}
+
+Habiendo definido la sintaxis de las reglas de Snort, se mostrará en \ref{lst:rule_snort} un ejemplo de una de ellas, en la cual se expresa que se generará una alerta por cada paquete ICMP que se envíe desde cualquier red y desde cualquier puerto hacia la red destino definida como \texttt{\$HOME\_NET} y hacia cualquier puerto de destino. En dichas alertas se imprimirá el mensaje \textit{“ICMP test”}. Por otra parte, la regla tendrá un identificador de Snort igual a 1000001, un número de revisión de 1 y pertenecerá a la categoría \textit{icmp-event}.\\
+
+
+\begin{lstlisting} [label=lst:rule_snort, caption= Regla de Snort., captionpos=b]
+
+alert icmp any any -> $HOME_NET any (msg:"ICMP test"; sid:1000001; rev:1; classtype:icmp-event;)
+
+\end{lstlisting}  
+

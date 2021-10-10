@@ -1,0 +1,428 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Masters/Doctoral Thesis 
+% LaTeX Template
+% Version 2.5 (27/8/17)
+%
+% This template was downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Version 2.x major modifications by:
+% Vel (vel@latextemplates.com)
+%
+% This template is based on a template by:
+% Steve Gunn (http://users.ecs.soton.ac.uk/srg/softwaretools/document/templates/)
+% Sunil Patel (http://www.sunilpatel.co.uk/thesis-template/)
+%
+% Template license:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[
+11pt, % The default document font size, options: 10pt, 11pt, 12pt
+% oneside, Two side (alternating margins) for binding by default, uncomment to
+% switch to one side
+spanish, % ngerman for German
+singlespacing, % Single line spacing, alternatives: onehalfspacing or doublespacing
+% draft, % Uncomment to enable draft mode (no pictures, no links, overfull hboxes indicated)
+% nolistspacing, If the document is onehalfspacing or doublespacing, uncomment
+% this to set spacing in lists to single
+% liststotoc, % Uncomment to add the list of figures/tables/etc to the table of contents
+% toctotoc, % Uncomment to add the main table of contents to the table of contents
+% parskip, % Uncomment to add space between paragraphs
+% nohyperref, % Uncomment to not load the hyperref package
+headsepline, % Uncomment to get a line under the header
+% chapterinoneline,Uncomment to placeSDN the chapter title next to the number on
+% one line consistentlayout, Uncomment to change the layout of the declaration,
+% abstract and acknowledgements pages to \textit{match} the default layout
+]{MastersDoctoralThesis} % The class file specifying the document structure
+
+\usepackage[utf8]{inputenc} % Required for inputting international characters
+\usepackage[T1]{fontenc} % Output font encoding for international characters
+\usepackage{mathpazo} % Use the Palatino font by default
+
+\usepackage[backend=bibtex,bibencoding=ascii,style=numeric,natbib=true,sorting=none]{biblatex}
+% Use the bibtex backend with the authoryear citation style (which resembles APA)
+
+\addbibresource{example.bib} % The filename of the bibliography
+
+\usepackage[autostyle=true]{csquotes} % Required to generate language-dependent
+                                      % quotes in the bibliography
+\usepackage{float}
+% \usepackage{tabu}
+\usepackage{booktabs}
+% \usepackage[table,xcdraw]{xcolor}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{multirow}
+\usepackage[table,xcdraw]{xcolor}
+
+\usepackage{longtable}
+  % declare the path(s) where your graphic files are
+\graphicspath{{./Figures/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  %\DeclareGraphicsExtensions{.pdf,.jpeg,.png,.eps, .svg}
+  %\usepackage{svg}
+
+%----------------------------------------------------------------------------------------
+%	MARGIN SETTINGS
+%----------------------------------------------------------------------------------------
+
+\geometry{
+	paper  = a4paper,     % Change to letterpaper for US letter
+	outer  = 2.5cm,       % Inner margin
+	inner  = 3.8cm,       % Outer margin
+	top    = 1.5cm,       % Top margin
+	bottom = 1.5cm,       % Bottom margin
+	bindingoffset = .5cm, % Binding offset
+	%showframe, % Uncomment to show how the type block is set on the page
+}
+
+%----------------------------------------------------------------------------------------
+%	THESIS INFORMATION
+%----------------------------------------------------------------------------------------
+
+\thesistitle{Prototipo de sistema de diagnóstico de nistagmo mediante seguimiento de mirada} % Your thesis title, this is used in the title and abstract, print it
+       % elsewhere with \ttitle
+\supervisor{Ing. Nancy \textsc{Brambilla}} % Your supervisor's name, this is used in
+                                       % the title page, print it elsewhere with
+                                       % \supname
+\examiner{Ing. Josefina \textsc{Meirovich},\\Lic. Nadia \textsc{Leizica},\\ Prof. Diego \textsc{Obregón} } % Your examiner's name, this is not
+
+% currently used anywhere in the template, print it elsewhere with \examname
+% \degree{Doctor of Philosophy} Your degree name, this is used in the title page
+% and abstract, print it elsewhere with \degreename
+\authorA{Daniela \textsc{Mamaní}}
+\matriculaA{39930365}
+\emailA{\texttt{daniela.mamani@mi.unc.edu.ar}}
+\authorB{Anahí \textsc{Sulca}}
+\matriculaB{38471174}
+\emailB{\texttt{anahi.sulca@unc.edu.ar }}
+% Your name, this is used in the title page and abstract, print it elsewhere
+% with \authorname \addresses{} Your address, this is not currently used
+% anywhere in the template, print it elsewhere with \addressname
+
+% \subject{Biological Sciences} Your subject area, this is not currently used
+% anywhere in the template, print it elsewhere with \subjectname
+\keywords{Nystagmus} %palabras claves p bsuqueda
+% Keywords for your thesis, this is not currently used anywhere in the template,
+% print it elsewhere with \keywordnames
+\university{Universidad Nacional de
+  Córdoba} % Your university's name and URL, this is used in the title page and
+% abstract, print it elsewhere with \univname \department{Facultad de Ciencias
+% Exactas Físicas y Naturales} Your department's name and URL, this is used in
+% the title page and abstract, print it elsewhere with \deptname
+% \group{\href{http://researchgroup.university.com}{Research Group Name}} Your
+% research group's name and URL, this is used in the title page, print it
+% elsewhere with \groupname
+\faculty{Facultad de Ciencias Exactas Físicas y Naturales}
+% Your faculty's name and URL, this is used in the title page and abstract,
+% print it elsewhere with \facname
+
+\AtBeginDocument{
+\hypersetup{pdftitle=\ttitle} % Set the PDF's title to your title
+\hypersetup{pdfauthor=\authornameA} % Set the PDF's author to your name
+\hypersetup{pdfkeywords=\keywordnames} % Set the PDF's keywords to your keywords
+}
+
+\begin{document}
+
+\renewcommand\listtablename{\'Indice de tablas}
+
+\frontmatter % Use roman page numbering style (i, ii, iii, iv...) for the pre-content pages
+
+\pagestyle{plain} % Default to the plain heading style until the thesis style is
+                  % called for the body content
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\begin{titlepage}
+	\begin{center}
+				
+		\resizebox{1\textwidth}{!}{\includegraphics{Figures/logo_unc_fcefyn.png}}%
+				
+		\vspace*{.06\textheight}
+		{\scshape\LARGE \univname\par}\vspace{0.5cm} % University name
+		{\scshape\LARGE \facname\par}\vspace{1.5cm}
+		\textsc{\Large Proyecto Integrador}\\[0.5cm] % Thesis type
+		\textsc{\Large Ingeniería en Computación}\\[0.5cm]
+				
+		\HRule \\[0.4cm] % Horizontal line
+		{\huge \bfseries \ttitle\par}\vspace{1.0cm} % Thesis title
+		\HRule \\[1.5cm] % Horizontal line
+				 
+		\begin{minipage}[t]{0.6\textwidth}
+			\begin{flushleft} \large
+				\emph{Autores:}\\
+				\authornameA \\ % Author name - remove the \href bracket to remove the link
+				\matriculanameA \\
+				\emailnameA \\
+				\vspace{0.4cm} % Thesis title
+        %\\~\\
+				\authornameB \\ % Author name - remove the \href bracket to remove the link
+				\matriculanameB \\
+				\emailnameB
+			\end{flushleft}
+		\end{minipage}
+		\begin{minipage}[t]{0.2\textwidth}
+			\begin{flushright} \large
+				\emph{Director:} \\
+				\supname \\
+        \vspace{0.2cm} %\\~\\
+				\emph{Co-director:} \\
+				\examname
+			\end{flushright}
+		\end{minipage}\\[2cm]
+				 
+		\vfill
+				
+		% \large \textit{A thesis submitted in fulfillment of the requirements\\ for
+		% the degree of \degreename}\\[0.3cm] % University requirement text
+		% \textit{in the}\\[0.4cm]
+		% \groupname\\\deptname\\[2cm] % Research group name and department name
+				 
+		\vfill
+				
+		{\large {Octubre 2021}}\\[4cm] % Date
+		%\includegraphics{Logo} % University/department logo - uncomment to place it
+				 
+		\vfill
+	\end{center}
+\end{titlepage}
+
+%----------------------------------------------------------------------------------------
+%	DEDICATION
+%----------------------------------------------------------------------------------------
+
+\dedicatory{Para nuestras familias y por todos los años de estudio\ldots} 
+
+% %----------------------------------------------------------------------------------------
+% %	DECLARATION PAGE
+% %----------------------------------------------------------------------------------------
+
+% \begin{declaration}
+% \addchaptertocentry{\authorshipname} % Add the declaration to the table of contents
+% \noindent I, \authorname, declare that this thesis titled, \enquote{\ttitle}
+% and the work presented in it are my own. I confirm that:
+
+% \begin{itemize} 
+% \item This work was done wholly or mainly while in candidature for a research
+%   degree at this University.
+% \item Where any part of this thesis has previously been submitted for a degree
+%   or any other qualification at this University or any other institution, this
+%   has been clearly stated.
+% \item Where I have consulted the published work of others, this is always clearly attributed.
+% \item Where I have quoted from the work of others, the source is always given.
+%   With the exception of such quotations, this thesis is entirely my own work.
+% \item I have acknowledged all main sources of help.
+% \item Where the thesis is based on work done by myself jointly with others,
+%   I have made clear exactly what was done by others and what I have contributed myself.\\
+% \end{itemize}
+ 
+% \noindent Signed:\\
+% \rule[0.5em]{25em}{0.5pt} % This prints a line for the signature
+ 
+% \noindent Date:\\
+% \rule[0.5em]{25em}{0.5pt} % This prints a line to write the date
+% \end{declaration}
+
+% \cleardoublepage
+
+%----------------------------------------------------------------------------------------
+%	QUOTATION PAGE
+%----------------------------------------------------------------------------------------
+
+% \vspace*{0.2\textheight}
+
+% \noindent\enquote{\itshape Thanks to my solid academic training, today I can
+% write hundreds of words on virtually any topic without possessing a shred of
+% information, which is how I got a good job in journalism.}\bigbreak
+
+% \hfill Dave Barry
+
+%----------------------------------------------------------------------------------------
+%	ABSTRACT PAGE
+%----------------------------------------------------------------------------------------
+
+\begin{abstract}
+	%\addchaptertocentry{\abstractname} % Add the abstract to the table of contents
+		
+	Las \textbf{redes definidas por software (SDN)} consisten en un reciente
+  paradigma y candidato de la nueva generación de la arquitectura de Internet.
+  Propuesto para solucionar la complicada administración de los dispositivos que
+  conforman las distintas redes, tales como conmutadores y enrutadores, busca ir
+  de la mano con la computación en la nube en cuanto al ofrecimiento de
+  servicios de tecnología de la información para empresas.
+
+	SDN brinda ventajas respecto a las redes tradicionales que pueden aprovecharse
+  para solucionar problemas de las mismas, como por ejemplo, los \textbf{ataques
+    de denegación de servicio (DoS)} y sus versiones distribuidas
+  (\textbf{DDoS}), las cuales afectan a la disponibilidad de la mencionada
+  computación en la nube o, por ejemplo, a la de los clientes de un
+  \textbf{proveedor de servicios de Internet (ISP)}. Este último representa un
+  caso de uso muy aplicable en Argentina.
+
+	Actualmente, las soluciones brindadas en materia de seguridad utilizan
+  componentes de hardware y de software que no se ajustan, o por lo menos en la
+  forma en la cual se utilizan, a la naturaleza dinámica de las redes SDN. En el
+  presente proyecto se logra generar una solución escalable, práctica y con una
+  visión global de la topología de red que permite detectar y mitigar ataques
+  DoS y/o DDoS efectuados a cualquier \textit{host} cliente de un ISP.
+
+	Para lograr lo anterior, en primer lugar, se buscó adquirir conocimientos en
+  materia de redes definidas por software, ataques de denegación de servicio,
+  proveedores de servicios de Internet, sistemas de detección de intrusos, entre
+  otros conceptos. Luego, se seleccionaron justificadamente las herramientas
+  adecuadas para lograr poner a prueba los conocimientos adquiridos mencionados
+  anteriormente. En tercer lugar, se diseñaron e implementaron 3 aplicaciones
+  con el fin de aprovechar la acción conjunta de todos los componentes de un
+  sistema SDN para mitigar estos ataques. Luego, se debió validar y verificar el
+  correcto funcionamiento de estas aplicaciones, por lo que se generó un entorno
+  de emulación virtual con una topología característica de un ISP. Por último,
+  se enunciaron las limitaciones del proyecto integrador y los posibles trabajos
+  futuros que pueden desencadenarse a partir del mismo.
+
+\end{abstract}
+
+% \textbf{Palabras Clave:} \textit{\keywordnames}
+
+%----------------------------------------------------------------------------------------
+%	ACKNOWLEDGEMENTS
+%----------------------------------------------------------------------------------------
+ 
+\begin{acknowledgements}
+	
+	%\addchaptertocentry{\acknowledgementname} % Add the acknowledgements to the
+                                            % table of contents
+	Muchas gracias a nuestras familias por el apoyo y la ayuda incondicional que
+  nos han brindado en todos estos años de estudio. \bigskip
+			
+	
+	Muchas gracias a nuestros directores, Hugo Carrer y Natasha Tomattis por la
+  confianza, la paciencia, la supervisión y la ayuda que nos han otorgado
+  durante todo el desarrollo del proyecto. \bigskip
+			
+	
+	Muchas gracias a nuestros amigos y a todas las personas que, durante estos
+  cinco años de carrera, hemos tenido el agrado de conocer. \bigskip
+		
+	
+	Muchas gracias a Fundación Fulgor y a Fundación Tarpuy, y a todo su personal,
+  por los momentos, enseñanzas y oportunidades que nos han brindado. \bigskip
+			
+	
+	Muchas gracias a la Facultad de Ciencias Exactas, Físicas y Naturales de la
+  Universidad Nacional de Córdoba por darnos la oportunidad de realizar esta
+  hermosa carrera. \vspace*{\fill}
+		
+\end{acknowledgements}
+
+%----------------------------------------------------------------------------------------
+%	LIST OF CONTENTS/FIGURES/TABLES PAGES
+%----------------------------------------------------------------------------------------
+
+\hypersetup{
+	linkcolor=black,
+	citecolor=black,
+	urlcolor=black
+	}
+
+\tableofcontents % Prints the main table of contents
+
+\listoffigures % Prints the list of figures
+
+\listoftables % Prints the list of tables
+
+\lstlistoflistings
+
+%----------------------------------------------------------------------------------------
+%	ABBREVIATIONS
+%----------------------------------------------------------------------------------------
+
+\begin{abbreviations}{ll} % Include a list of abbreviations (a table of two columns)
+	\textbf{API} & \textbf{A}pplication \textbf{P}rogramming \textbf{I}nterface\\
+	\textbf{CLI} & \textbf{C}ommand-\textbf{l}ine \textbf{i}nterface\\
+	\textbf{CDPI} & \textbf{C}ontrol-\textbf{D}ata-\textbf{P}lane \textbf{I}nterface\\
+	\textbf{DDoS} & \textbf{D}istributed \textbf{D}enial \textbf{o}f \textbf{S}ervice\\
+	\textbf{DNS} & \textbf{D}omain \textbf{N}ame \textbf{S}ystem\\
+	\textbf{DoS} & \textbf{D}enial \textbf{o}f \textbf{S}ervice\\
+	\textbf{DRDoS} & \textbf{D}istributed \textbf{R}eflection \textbf{D}enial \textbf{o}f \textbf{S}ervice\\
+	\textbf{FIB} & \textbf{F}orwarding \textbf{I}nformation \textbf{B}ase\\
+	\textbf{GUI} & \textbf{G}raphical \textbf{U}ser \textbf{I}nterface\\
+	\textbf{HTTP} & \textbf{H}yper\textbf{t}ext \textbf{T}ransfer \textbf{P}rotocol\\
+	\textbf{ICMP} & \textbf{I}nternet \textbf{C}ontrol \textbf{M}essage \textbf{P}rotocol\\
+	\textbf{IDS} & \textbf{I}ntrusion \textbf{D}etection \textbf{S}ystem\\
+	\textbf{IoT} & \textbf{I}nternet \textbf{o}f \textbf{T}hings\\
+	\textbf{IP} & \textbf{I}nternet \textbf{P}rotocol\\
+	\textbf{ISP} & \textbf{I}nternet \textbf{S}ervice \textbf{P}rovider\\
+	\textbf{IT} & \textbf{I}nformation \textbf{T}echnology \\
+	\textbf{LAN} & \textbf{L}ocal \textbf{A}rea \textbf{N}etwork\\
+	\textbf{NIDS} & \textbf{N}etwork \textbf{I}ntrusion \textbf{D}etection \textbf{S}ystem\\
+	\textbf{ODL} & \textbf{O}pen\textbf{D}ay\textbf{l}ight\\
+	\textbf{ONF} & \textbf{O}pen \textbf{N}etworking \textbf{F}oundation\\
+	\textbf{ONOS} & \textbf{O}pen \textbf{N}etworking \textbf{O}perating \textbf{S}ystem\\
+	\textbf{OVS} & \textbf{O}pen \textbf{v}\textbf{S}witch\\
+	\textbf{POM} & \textbf{P}roject \textbf{O}bject \textbf{M}odel\\
+	\textbf{RIB} & \textbf{R}outing \textbf{I}nformation \textbf{B}ase\\
+	\textbf{SDN} & \textbf{S}oftware \textbf{D}efined \textbf{N}etworking\\
+	\textbf{SVG} & \textbf{S}calable \textbf{V}ector \textbf{G}raphics\\
+	\textbf{TCP} & \textbf{T}ransmission \textbf{C}ontrol \textbf{P}rotocol\\
+	\textbf{TLS} & \textbf{T}ransport \textbf{L}ayer \textbf{S}ecurity \\
+	\textbf{UDP} & \textbf{U}ser \textbf{D}atagram \textbf{P}rotocol\\
+	\textbf{UML} & \textbf{U}nified \textbf{M}odeling \textbf{L}anguage\\
+	\textbf{URL} & \textbf{U}niform \textbf{R}esource \textbf{L}ocator\\
+\end{abbreviations}
+
+%----------------------------------------------------------------------------------------
+%	THESIS CONTENT - CHAPTERS
+%----------------------------------------------------------------------------------------
+
+\mainmatter % Begin numeric (1,2,3...) page numbering
+
+\pagestyle{thesis} % Return the page headers back to the "thesis" style
+
+% Include the chapters of the thesis as separate files from the Chapters folder
+% Uncomment the lines as you write the chapters
+
+\include{Chapters/Chapter1}
+\include{Chapters/Chapter2}
+\include{Chapters/Chapter3}
+\include{Chapters/Chapter4}
+\include{Chapters/Chapter5} 
+\include{Chapters/Chapter6} 
+\include{Chapters/Chapter7}
+\include{Chapters/Chapter8}
+\include{Chapters/Chapter9}
+
+%----------------------------------------------------------------------------------------
+%	THESIS CONTENT - APPENDICES
+%----------------------------------------------------------------------------------------
+
+\appendix % Cue to tell LaTeX that the following "chapters" are Appendices
+
+% Include the appendices of the thesis as separate files from the Appendices folder
+% Uncomment the lines as you write the Appendices
+
+\include{Appendices/AppendixA}
+\include{Appendices/AppendixB}
+\include{Appendices/AppendixC}
+\include{Appendices/AppendixD}
+
+%----------------------------------------------------------------------------------------
+%	BIBLIOGRAPHY
+%----------------------------------------------------------------------------------------
+
+\printbibliography[heading=bibintoc]
+% 
+%----------------------------------------------------------------------------------------
+
+\end{document}  
