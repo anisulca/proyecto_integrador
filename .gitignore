@@ -69,3 +69,29 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# aqui para latex
+*.aux
+*.run.xml
+*.synctex.gz
+.vscode/*
+.idea/*
+*.bbl                                                                                                                                                                              
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.out
+*.toc
+*-blx.bib
+*.docx
+*.rtf
+*.lol
+texput.log
+PI_Aguerreberry_Tomattis.synctex.gz(busy)
+main.pdf
+# Generadas por el compilador pdflatex
+auto/
+*.bak
